@@ -1,0 +1,71 @@
+{{#section 'css'}}
+<link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css">
+{{/section}}
+
+{{#section 'js'}}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+<script>
+  $('#txtDOB').datetimepicker({
+    format: 'd/m/Y',
+    timepicker: false,
+    mask: true,
+  });
+
+  $('#frmRegister').submit(function (event) {
+    event.preventDefault();
+    validate();
+  });
+
+  function validate() {
+    const username = $('#txtUsername').val();
+    $.getJSON(`/account/is-available?user=${username}`, function (data) {
+      if (data === true) {
+        $('#frmRegister').off('submit').submit();
+      } else {
+        alert('not available');
+      }
+    })
+  }
+</script>
+{{/section}}
+
+<div class="card">
+  <div class="card-header">
+    <h4>Register</h4>
+  </div>
+  <div class="card-body">
+    <form method="POST" id="frmRegister">
+      <div class="form-group">
+        <label for="txtUsername">Username</label>
+        <input type="text" class="form-control" id="txtUsername" name="username" autofocus>
+      </div>
+      <div class="form-group">
+        <label for="txtPassword">Password</label>
+        <input type="password" class="form-control" id="txtPassword" name="password">
+      </div>
+      <div class="form-group">
+        <label for="txtConfirm">Confirm</label>
+        <input type="password" class="form-control" id="txtConfirm" name="confirm">
+      </div>
+      <div class="form-group">
+        <label for="txtName">Name</label>
+        <input type="text" class="form-control" id="txtName" name="name">
+      </div>
+      <div class="form-group">
+        <label for="txtEmail">Email</label>
+        <input type="text" class="form-control" id="txtEmail" name="email">
+      </div>
+      <div class="form-group">
+        <label for="txtDOB">DOB</label>
+        <input type="text" class="form-control" id="txtDOB" name="dob">
+      </div>
+
+      <button type="submit" class="btn btn-outline-success">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Register
+      </button>
+    </form>
+  </div>
+</div>

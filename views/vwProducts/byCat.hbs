@@ -1,0 +1,63 @@
+<div class="card">
+  <div class="card-header">
+    <h4>Products</h4>
+  </div>
+  {{#if this.empty}}
+  <div class="card-body">
+    <h4 class="card-text">Không có dữ liệu.</h4>
+  </div>
+  {{else}}
+  <div class="card-body">
+    <div class="row">
+      {{#each this.products}}
+      <div class="col-sm-4 mb-3">
+        <div class="card h-100">
+          <img src="/public/imgs/sp/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}" title="{{ProName}}"
+            class="card-img-top">
+          <div class="card-body">
+            <h6 class="card-title">{{ProName}}</h6>
+            <h4 class="card-title text-danger">{{format Price}}</h4>
+            <p class="card-text">{{TinyDes}}</p>
+          </div>
+          <div class="card-footer">
+            <a class="btn btn-outline-primary" href="/products/{{ProID}}" role="button">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              Details
+            </a>
+            <a class="btn btn-outline-success" href="javascript:;" role="button">
+              <i class="fa fa-plus" aria-hidden="true"></i>
+              Add to cart
+            </a>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item {{#unless this.can_go_prev}}disabled{{/unless}}">
+          <a class="page-link" href="?page={{prev_value}}" tabindex="-1" aria-disabled="true">
+            <i class="fa fa-backward" aria-hidden="true"></i>
+          </a>
+        </li>
+        {{#each this.page_items}}
+        {{#if this.isActive}}
+        <li class="page-item active" aria-current="page">
+          <a class="page-link" href="javascript:;">{{value}} <span class="sr-only">(current)</span></a>
+        </li>
+        {{else}}
+        <li class="page-item">
+          <a class="page-link" href="?page={{value}}">{{value}}</a>
+        </li>
+        {{/if}}
+        {{/each}}
+        <li class="page-item {{#unless this.can_go_next}}disabled{{/unless}}">
+          <a class="page-link" href="?page={{next_value}}">
+            <i class="fa fa-forward" aria-hidden="true"></i>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  {{/if}}
+</div>

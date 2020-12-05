@@ -1,0 +1,9 @@
+{
+  "pagination": {
+    "limit": 6
+  },
+  "authentication": {
+    "saltRounds": 10
+  },
+  "jwtPrivateKey": ""
+}
