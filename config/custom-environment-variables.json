@@ -1,3 +1,4 @@
 {
-  "jwtPrivateKey": "academy_jwtPrivateKey"
+  "jwtPrivateKey": "academy_jwtPrivateKey",
+  "MySQLServerPassword": "academy_serverPwd"
 }

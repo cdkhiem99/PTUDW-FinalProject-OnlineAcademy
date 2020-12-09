@@ -11,7 +11,7 @@ module.exports = function () {
           winston.format.colorize({
             all: true,
             colors: {
-              error: "redBG yellow",
+              error: "red",
               warn: "yellow",
               info: "magenta",
             },
