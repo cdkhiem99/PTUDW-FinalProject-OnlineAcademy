@@ -1,13 +1,24 @@
 const db = require('../utils/db');
-const config = require('../config/default.json');
 
 module.exports = {
-  all: _ => db.load('select * from products'),
-  single: id => db.load(`select * from products where ProID = ${id}`),
-  allByCat: catId => db.load(`select * from products where CatID = ${catId}`),
-  countByCat: async catId => {
-    const rows = await db.load(`select count(*) as total from products where CatID = ${catId}`)
-    return rows[0].total;
+  async all() {
+    const sql = 'select * from products';
+    const [rows, fields] = await db.load(sql);
+    return rows;
   },
-  pageByCat: (catId, offset) => db.load(`select * from products where CatID = ${catId} limit ${config.pagination.limit} offset ${offset}`),
+
+  async allByCat(catId) {
+    const sql = `select * from products where CatID=${catId}`;
+    const [rows, fields] = await db.load(sql);
+    return rows;
+  },
+
+  async single(id) {
+    const sql = `select * from products where ProID=${id}`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0)
+      return null;
+
+    return rows[0];
+  },
 };

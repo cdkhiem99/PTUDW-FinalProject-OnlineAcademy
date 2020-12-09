@@ -1,19 +1,16 @@
 module.exports = function (app) {
-  app.get('/err', function (req, res) {
-    throw new Error('beng beng');
-  })
-
+  // 404: Not Found
   app.use(function (req, res) {
-    res.render('404', {
-      layout: false
+    res.render("404", {
+      layout: false,
     });
-  })
+  });
 
-  //
-  // default error handler
-
+  // 500: Internal Server Error
   app.use(function (err, req, res, next) {
-    console.log(err);
-    res.send('error');
-  })
-}
+    console.error(err.stack);
+    res.render("500", {
+      layout: false,
+    });
+  });
+};

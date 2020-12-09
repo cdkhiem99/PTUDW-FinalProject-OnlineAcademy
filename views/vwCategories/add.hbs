@@ -1,21 +1,23 @@
-<div class="card">
-  <div class="card-header">
-    <h4>New Category</h4>
-  </div>
-  <div class="card-body">
-    <form method="POST" action="">
+<form method="POST" action="">
+  <div class="card">
+    <div class="card-header">
+      <h4>New Category</h4>
+    </div>
+    <div class="card-body">
       <div class="form-group">
         <label for="txtCatName">Category</label>
         <input type="text" class="form-control" id="txtCatName" name="CatName" autofocus>
       </div>
-      <a class="btn btn-outline-primary" href="/admin/categories" role="button">
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary" href="/admin/categories" role="button">
         <i class="fa fa-backward" aria-hidden="true"></i>
-        List
+        Back to List
       </a>
-      <button type="submit" class="btn btn-outline-success">
+      <button class="btn btn-success" type="submit">
         <i class="fa fa-check" aria-hidden="true"></i>
         Save
       </button>
-    </form>
+    </div>
   </div>
-</div>
+</form>

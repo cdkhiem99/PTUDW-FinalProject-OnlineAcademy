@@ -1,9 +1,9 @@
-<div class="card">
-  <div class="card-header">
-    <h4>Category</h4>
-  </div>
-  <div class="card-body">
-    <form method="POST">
+<form method="POST">
+  <div class="card">
+    <div class="card-header">
+      <h4>Category</h4>
+    </div>
+    <div class="card-body">
       <div class="form-group">
         <label for="txtCatID">#</label>
         <input type="text" class="form-control" id="txtCatID" name="CatID" readonly value="{{this.category.CatID}}">
@@ -13,18 +13,20 @@
         <input type="text" class="form-control" id="txtCatName" name="CatName" autofocus
           value="{{this.category.CatName}}">
       </div>
-      <a class="btn btn-outline-primary" href="/admin/categories" role="button">
+    </div>
+    <div class="card-footer">
+      <a class="btn btn-primary" href="/admin/categories" role="button">
         <i class="fa fa-backward" aria-hidden="true"></i>
-        List
+        Back to List
       </a>
-      <button type="submit" class="btn btn-outline-success" formaction="/admin/categories/update">
-        <i class="fa fa-check" aria-hidden="true"></i>
-        Save
-      </button>
-      <button type="submit" class="btn btn-outline-danger" formaction="/admin/categories/del">
+      <button class="btn btn-danger" type="submit" formaction="/admin/categories/del">
         <i class="fa fa-trash-o" aria-hidden="true"></i>
         Delete
       </button>
-    </form>
+      <button class="btn btn-success" type="submit" formaction="/admin/categories/patch">
+        <i class="fa fa-check" aria-hidden="true"></i>
+        Save
+      </button>
+    </div>
   </div>
-</div>
+</form>

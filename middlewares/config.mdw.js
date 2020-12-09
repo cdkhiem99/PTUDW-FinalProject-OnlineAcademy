@@ -4,7 +4,7 @@ module.exports = function () {
   // if (!config.get("jwtPrivateKey")) {
   //   throw new Error("FATAL ERROR: 'jwtPrivateKey' is not defined.");
   // }
-  if (!config.get("MySQLServerPassword")) {
-    throw new Error("FATAL ERROR: 'MySQLServerPassword' is not defined.");
-  }
+  // if (!config.get("MySQLServerPassword")) {
+  //   throw new Error("FATAL ERROR: 'MySQLServerPassword' is not defined.");
+  // }
 };
