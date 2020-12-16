@@ -1,3 +1,4 @@
+@import "shared/udlite.css";
 @import "shared/header.css";
 
 :root {
@@ -18,7 +19,6 @@ body {
   line-height: 1.4;
   font-size: 1.6rem;
   color: #3c3b37;
-  margin: 0;
 
   min-width: 60rem;
 }
@@ -34,4 +34,9 @@ body,
 .main-content {
   flex: 1 0 auto;
   overflow-x: hidden;
+}
+
+a {
+  color: #0f7c90;
+  text-decoration: none;
 }

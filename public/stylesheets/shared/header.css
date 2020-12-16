@@ -1,16 +1,16 @@
-.header--flex-middle--2Xqjv {
+.header--flex-middle {
   display: flex;
   align-items: center;
 }
 
-.header--header--3sK1h {
+.header--header {
   height: 7.2rem;
   padding: 0 1.6rem;
   position: relative;
   z-index: 1010;
 }
 
-.header--logo--bdAod {
+.header--logo {
   flex-shrink: 0;
   padding-right: 1.2rem;
 }

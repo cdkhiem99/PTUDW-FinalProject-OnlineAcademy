@@ -12,17 +12,23 @@
 <body>
   <div class="main-content-wrapper">
     <div class="udlite-header">
-      <div class="header--flex-middle--2Xqjv header--header--3sK1h udlite-text-sm">
-      <a href="/" class="header--flex-middle--2Xqjv header--logo--bdAod">
+      <div class="header--flex-middle header--header udlite-text-sm">
+      <a href="/" class="header--flex-middle .header--logo">
         <img src="/imgs/logo-coral.svg" alt="Udemy" width="110" height="32">
       </a>
 
-      </div>
+      {{!-- categories --}}
 
+      {{!-- search bar --}}
+
+      </div>
     </div>
-    <div class="main-content"></div>
+    <div class="main-content">
+      {{{body}}}
+    </div>
   </div>
 
+  {{!-- <footer></footer> --}}
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
