@@ -1,20 +1,28 @@
 {
-  "pagination": {
-    "limit": 6
-  },
-  "authentication": {
-    "saltRounds": 10
-  },
-  "jwtPrivateKey": "",
-  "MySQLServerPassword": "",
   "mysql": {
-    "host": "localhost",
-    "port": 8889,
-    "user": "root",
-    "password": "root",
-    "database": "qlbh",
+    "host": "",
+    "port": "",
+    "user": "",
+    "password": "",
+    "database": "",
     "waitForConnections": true,
     "connectionLimit": 50,
     "queueLimit": 0
+  },
+
+  "mysql_host": "",
+  "mysql_port": "",
+  "mysql_user": "",
+  "mysql_password": "",
+  "mysql_database": "",
+
+  "jwtPrivateKey": "",
+
+  "authentication": {
+    "saltRounds": 10
+  },
+
+  "paginate": {
+    "limit": 6
   }
 }

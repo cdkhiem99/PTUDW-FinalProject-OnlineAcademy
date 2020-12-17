@@ -1,4 +1,9 @@
 {
-  "jwtPrivateKey": "academy_jwtPrivateKey",
-  "MySQLServerPassword": "academy_serverPwd"
+  "mysql_host": "academy_dbHost",
+  "mysql_port": "academy_dbPort",
+  "mysql_user": "academy_dbUser",
+  "mysql_password": "academy_dbPwd",
+  "mysql_database": "academy_dbName",
+
+  "jwtPrivateKey": "academy_jwtKey"
 }
