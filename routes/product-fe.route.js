@@ -1,5 +1,6 @@
 const express = require('express');
 const productModel = require('../models/product.model');
+const { paginate } = require('../config/default.json');
 
 const router = express.Router();
 
@@ -13,9 +14,27 @@ router.get('/byCat/:id', async function (req, res, next) {
     }
   }
 
-  const list = await productModel.allByCat(catId);
+  const page = req.query.page || 1;
+  if (page < 1) page = 1;
+
+  const total = await productModel.countByCat(catId);
+  let nPages = Math.floor(total / paginate.limit);
+  if (total % paginate.limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrentPage: i === +page
+    });
+  }
+
+  const offset = (page - 1) * paginate.limit;
+  const list = await productModel.pageByCat(catId, offset);
+
   res.render('vwProducts/byCat', {
     products: list,
+    page_numbers,
     empty: list.length === 0
   });
 })

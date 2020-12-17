@@ -7,38 +7,41 @@
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <script>
+  $('#frmRegister').on('submit', function (e) {
+    e.preventDefault();
+
+    const username = $('#txtUsername').val();
+    if (username.length === 0) {
+      alert('Invalid data');
+      return;
+    }
+
+    $.getJSON(`/account/is-available?user=${username}`, function (data) {
+      if (data === true) {
+        $('#frmRegister').off('submit').submit();
+      } else {
+        alert('Not available');
+      }
+    })
+  });
+
+
   $('#txtDOB').datetimepicker({
     format: 'd/m/Y',
     timepicker: false,
     mask: true,
   });
-
-  $('#frmRegister').submit(function (event) {
-    event.preventDefault();
-    validate();
-  });
-
-  function validate() {
-    const username = $('#txtUsername').val();
-    $.getJSON(`/account/is-available?user=${username}`, function (data) {
-      if (data === true) {
-        $('#frmRegister').off('submit').submit();
-      } else {
-        alert('not available');
-      }
-    })
-  }
 </script>
 {{/section}}
 
-<div class="card">
-  <div class="card-header">
-    <h4>Register</h4>
-  </div>
-  <div class="card-body">
-    <form method="POST" id="frmRegister">
+<form id="frmRegister" method="POST" action="">
+  <div class="card">
+    <div class="card-header">
+      <h4>Register</h4>
+    </div>
+    <div class="card-body">
       <div class="form-group">
-        <label for="txtUsername">Username</label>
+        <label for="txtUsername">User</label>
         <input type="text" class="form-control" id="txtUsername" name="username" autofocus>
       </div>
       <div class="form-group">
@@ -61,11 +64,12 @@
         <label for="txtDOB">DOB</label>
         <input type="text" class="form-control" id="txtDOB" name="dob">
       </div>
-
-      <button type="submit" class="btn btn-outline-success">
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-success" type="submit">
         <i class="fa fa-check" aria-hidden="true"></i>
         Register
       </button>
-    </form>
+    </div>
   </div>
-</div>
+</form>

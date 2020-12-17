@@ -1,14 +1,26 @@
 const db = require('../utils/db');
 
 module.exports = {
-  all: _ => db.load('select * from users_clc'),
-  add: entity => db.add(entity, 'users_clc'),
+  async single(id) {
+    const sql = `select * from users where id = ${id}`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0)
+      return null;
 
-  singleByUserName: async username => {
-    const rows = await db.load(`select * from users_clc where username = '${username}'`);
-    if (rows.length > 0)
-      return rows[0];
+    return rows[0];
+  },
 
-    return null;
-  }
+  async singleByUserName(username) {
+    const sql = `select * from users where username = '${username}'`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0)
+      return null;
+
+    return rows[0];
+  },
+
+  async add(user) {
+    const [result, fields] = await db.add(user, 'users');
+    return result;
+  },
 };

@@ -1,30 +1,18 @@
-const session = require('express-session')
+const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const { mysql } = require('../config/default.json');
 
 module.exports = function (app) {
-  app.set('trust proxy', 1) // trust first proxy
+  const sessionStore = new MySQLStore(mysql);
+
+  app.set('trust proxy', 1)
   app.use(session({
-    secret: 'keyboard cat',
+    secret: 'SECRET_KEY',
     resave: false,
     saveUninitialized: true,
-    // cookie: { secure: true }
-
-    store: new MySQLStore({
-      connectionLimit: 100,
-      host: 'localhost',
-      port: 8889,
-      user: 'root',
-      password: 'root',
-      database: 'qlbh',
-      charset: 'utf8mb4_bin',
-      schema: {
-        tableName: 'sessions',
-        columnNames: {
-          session_id: 'session_id',
-          expires: 'expires',
-          data: 'data'
-        }
-      }
-    }),
-  }))
-};
+    store: sessionStore,
+    cookie: {
+      // secure: true
+    }
+  }));
+}
