@@ -1,8 +1,8 @@
-const categoryModel = require('../models/category.model');
+const categoryModel = require("../models/category.model");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {
-    if (typeof (req.session.auth) === 'undefined') {
+    if (typeof req.session.auth === "undefined") {
       req.session.auth = false;
     }
 
@@ -15,4 +15,4 @@ module.exports = function (app) {
     res.locals.lcCategories = await categoryModel.allWithDetails();
     next();
   });
-}
+};

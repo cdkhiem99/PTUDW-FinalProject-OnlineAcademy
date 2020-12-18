@@ -1,13 +1,6 @@
 const mysql = require("mysql2");
-const mysql_opts = require("../config/default.json").mysql;
-const config = require("config");
+const mysql_opts = require("../utils/mysql_opts");
 const debug = require("debug")("utils:db");
-
-mysql_opts.host = config.get("mysql_host") || "localhost";
-mysql_opts.port = config.get("mysql_port");
-mysql_opts.user = config.get("mysql_user") || "root";
-mysql_opts.password = config.get("mysql_password");
-mysql_opts.database = config.get("mysql_database");
 
 debug(mysql_opts);
 
