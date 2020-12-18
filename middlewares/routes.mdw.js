@@ -9,12 +9,6 @@ const product_fe = require("../routes/product-fe.route");
 const _demo = require("../routes/_demo.route");
 
 module.exports = function (app) {
-  app.use(express.json());
-  // app.use(
-  //   express.urlencoded({
-  //     extended: true,
-  //   })
-  // );
   app.use("/", home);
   app.use("/about", about);
 
