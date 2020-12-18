@@ -1,4 +1,3 @@
-const express = require("express");
 const home = require("../routes/home.route");
 const about = require("../routes/about.route");
 const bs4 = require("../routes/bs4.route");
