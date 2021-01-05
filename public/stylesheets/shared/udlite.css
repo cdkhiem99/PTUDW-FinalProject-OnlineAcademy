@@ -6,3 +6,44 @@
 .udlite-text-sm {
   font-size: 1.4rem;
 }
+
+.udlite-text-sm {
+  font-family: sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-weight: 400;
+  line-height: 1.4;
+  font-size: 1.4rem;
+}
+
+.udlite-btn-ghost, .udlite-btn-ghost.udlite-btn-disabled, .udlite-btn-link {
+  color: #0f7c90;
+  background-color: transparent;
+  min-width: auto;
+  padding: 0;
+}
+
+.udlite-btn-large {
+  height: 4.8rem;
+}
+
+.udlite-btn {
+  position: relative;
+  align-items: center;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  min-width: 10rem;
+  padding: 0 1.2rem;
+  justify-content: center;
+  user-select: none;
+  vertical-align: bottom;
+  white-space: nowrap;
+}
+
+.udlite-heading-md {
+  font-family: sf pro display,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.02rem;
+  font-size: 1.6rem;
+}
