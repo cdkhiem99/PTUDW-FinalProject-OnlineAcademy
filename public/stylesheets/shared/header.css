@@ -245,6 +245,7 @@ button, input {
   display: flex;
   justify-content: right;
   align-items: flex-end;
+  padding-left: 12px;
 }
 
 .sign_up {
