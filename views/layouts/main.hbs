@@ -15,17 +15,25 @@
   <div class="main-content-wrapper">
     <div class="udlite-header">
       <div class="header--flex-middle header--header udlite-text-sm">
-      <a href="/" class="header--flex-middle .header--logo">
-        <img src="/imgs/logo-coral.svg" alt="Udemy" width="110" height="32">
-      </a>
+        <a class="navbar-brand" href="/" style="font-size: large;">Online Academy</a>
 
       {{!-- categories --}}
-      <nav class="header--gap-button--3bIww popper--popper--19faV popper--poppber-hover--4YJ5J">
-        <button id="u345-popper-trigger--1" class="udlite-btn udlite-btn-large udlite-btn-ghost udlite-heading-md js-header-button 
-        header--dropdown-button-1BviY" type="button" tabindex="0" aria-expanded="false">
-          <span class="udlite-text-sm header--dropdown-button-text--2jtIM">Categories</span>
-        </button>
-      </nav>
+      <div>
+        <div class="nav-item dropdown">
+          <a data-toggle="dropdown" aria-expanded="false" class="dropdown-toggle nav-link" href="#" style="font-size: large;">Categories</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#">
+              <div class="nav-item dropdown">
+                <a data-toggle="dropdown-submenu" class="dropdown-toggle nav-link" href="#" style="font-size: large;">IT</a>
+                <div class="dropdown">
+                  <a class="dropdown-item" href="/" aria-expanded="false" style="font-size: 15px;">Lập trình Web</a>
+                  <a class="dropdown-item" href="/" aria-expanded="false" style="font-size: 15px;">Lập trình thiết bị di động</a>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
 
       {{!-- search bar --}}
       <svg xmlns="http://www.w3.org/2000/svg" style="display:none">
