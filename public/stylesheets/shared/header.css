@@ -243,9 +243,8 @@ button, input {
 /*Sign up button*/
 .sign_up_container {
   display: flex;
-  justify-content: right;
-  align-items: flex-end;
-  padding-left: 12px;
+  justify-content: flex-end;
+  padding-left: 12px 0;
 }
 
 .sign_up {
