@@ -31,6 +31,12 @@ router.post("/register", async function (req, res, next) {
 
 router.get("/is-available", async function (req, res) {
   const username = req.query.user;
+
+  //check wheter student create account have 'lecturer' key in id or not, if have, return false
+  if (username.includes('lecturer')){
+    res.json(false);
+  }
+
   const user = await studentModel.singleByUserName(username);
   if (user === null) {
     return res.json(true);
@@ -46,6 +52,7 @@ router.get("/login", function (req, res) {
 });
 
 router.post("/login", async function (req, res) {
+  console.log(req.body.username);
   const user = await studentModel.singleByUserName(req.body.username);
   if (user === null) {
     return res.render("vwAccount/login", {

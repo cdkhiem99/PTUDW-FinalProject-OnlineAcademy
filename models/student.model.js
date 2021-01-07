@@ -11,6 +11,7 @@ module.exports = {
   },
 
   async singleByUserName(id) {
+    console.log(id);
     const sql = `select * from student where id = ${id}`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0)
