@@ -11,7 +11,7 @@ const db = require('../utils/db');
 
 module.exports = {
   async all() {
-    const sql = 'select * from categories';
+    const sql = 'select * from fields';
     const [rows, fields] = await db.load(sql);
     return rows;
   },
@@ -19,7 +19,7 @@ module.exports = {
   async allWithDetails() {
     const sql = `
       select c.*, count(p.ProID) as ProductCount, 0 as IsActive
-      from categories c left join products p on c.CatID = p.CatID
+      from'fields c left join products p on c.CatID = p.CatID
       group by c.CatID, c.CatName
     `;
     const [rows, fields] = await db.load(sql);
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   async single(id) {
-    const sql = `select * from categories where CatID = ${id}`;
+    const sql = `select * from'fields where CatID = ${id}`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0)
       return null;
@@ -36,7 +36,7 @@ module.exports = {
   },
 
   async add(category) {
-    const [result, fields] = await db.add(category, 'categories');
+    const [result, fields] = await db.add(category, 'fields');
     // console.log(result);
     return result;
   },
@@ -45,7 +45,7 @@ module.exports = {
     const condition = {
       CatID: id
     };
-    const [result, fields] = await db.del(condition, 'categories');
+    const [result, fields] = await db.del(condition, 'fields');
     return result;
   },
 
@@ -55,7 +55,7 @@ module.exports = {
     };
     delete (entity.CatID);
 
-    const [result, fields] = await db.patch(entity, condition, 'categories');
+    const [result, fields] = await db.patch(entity, condition, 'fields');
     return result;
   }
 };

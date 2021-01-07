@@ -1,5 +1,5 @@
 const cartModel = require('../models/cart.model');
-const categoryModel = require("../models/category.model");
+const categoryModel = require("../models/fields.model");
 
 module.exports = function (app) {
   app.use(function (req, res, next) {

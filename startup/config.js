@@ -9,9 +9,9 @@ module.exports = function () {
   if (!config.get("mysql_port")) {
     throw new Error(FATAL_ERROR.replace(env_var, "mysql.port"));
   }
-  if (!config.get("mysql_password")) {
-    throw new Error(FATAL_ERROR.replace(env_var, "mysql.password"));
-  }
+  // if (!config.get("mysql_password")) {
+  //   throw new Error(FATAL_ERROR.replace(env_var, "mysql.password"));
+  // }
   if (!config.get("mysql_database")) {
     throw new Error(FATAL_ERROR.replace(env_var, "mysql.database"));
   }
