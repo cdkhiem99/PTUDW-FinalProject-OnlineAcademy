@@ -16,11 +16,10 @@ router.get("/register", function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
   const hash = bcrypt.hashSync(req.body.password, 10);
-  const dob = moment(req.body.dob, "DD/MM/YYYY").format("YYYY-MM-DD");
   const user = {
     username: req.body.username,
     password: hash,
-    dob: dob,
+    phone: req.body.phone,
     name: req.body.name,
     email: req.body.email,
     permission: 0,
