@@ -1,5 +1,5 @@
 const express = require('express');
-const productModel = require('../models/product.model');
+const courseModel = require('../models/course.model');
 const { paginate } = require('../config/default.json');
 
 const router = express.Router();
@@ -17,7 +17,7 @@ router.get('/byCat/:id', async function (req, res, next) {
   const page = req.query.page || 1;
   if (page < 1) page = 1;
 
-  const total = await productModel.countByCat(catId);
+  const total = await courseModel.countByCat(catId);
   let nPages = Math.floor(total / paginate.limit);
   if (total % paginate.limit > 0) nPages++;
 
@@ -30,7 +30,7 @@ router.get('/byCat/:id', async function (req, res, next) {
   }
 
   const offset = (page - 1) * paginate.limit;
-  const list = await productModel.pageByCat(catId, offset);
+  const list = await courseModel.pageByCat(catId, offset);
 
   res.render('vwProducts/byCat', {
     products: list,
@@ -41,7 +41,7 @@ router.get('/byCat/:id', async function (req, res, next) {
 
 router.get('/detail/:id', async function (req, res, next) {
   const proId = +req.params.id;
-  const product = await productModel.single(proId);
+  const product = await courseModel.single(proId);
   if (product === null) {
     return res.redirect('/');
   }

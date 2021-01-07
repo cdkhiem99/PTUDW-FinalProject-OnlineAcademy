@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const moment = require("moment");
-const userModel = require("../models/user.model");
+const studentModel = require("../models/student.model");
 const auth = require("../middlewares/auth.mdw");
 
 const router = express.Router();
@@ -26,13 +26,13 @@ router.post("/register", async function (req, res, next) {
     permission: 0,
   };
 
-  await userModel.add(user);
+  await studentModel.add(user);
   res.render("vwAccount/register");
 });
 
 router.get("/is-available", async function (req, res) {
   const username = req.query.user;
-  const user = await userModel.singleByUserName(username);
+  const user = await studentModel.singleByUserName(username);
   if (user === null) {
     return res.json(true);
   }
@@ -47,7 +47,7 @@ router.get("/login", function (req, res) {
 });
 
 router.post("/login", async function (req, res) {
-  const user = await userModel.singleByUserName(req.body.username);
+  const user = await studentModel.singleByUserName(req.body.username);
   if (user === null) {
     return res.render("vwAccount/login", {
       layout: false,
