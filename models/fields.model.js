@@ -1,12 +1,12 @@
 const db = require('../utils/db');
 
 // const list = [
-//   { CatID: 1, CatName: 'Laptop' },
-//   { CatID: 2, CatName: 'Phone' },
-//   { CatID: 3, CatName: 'Quần áo' },
-//   { CatID: 4, CatName: 'Giày dép' },
-//   { CatID: 5, CatName: 'Trang sức' },
-//   { CatID: 6, CatName: 'Khác' },
+//   { fieldsID: 1, name: 'Laptop' },
+//   { fieldsID: 2, name: 'Phone' },
+//   { fieldsID: 3, name: 'Quần áo' },
+//   { fieldsID: 4, name: 'Giày dép' },
+//   { fieldsID: 5, name: 'Trang sức' },
+//   { fieldsID: 6, name: 'Khác' },
 // ];
 
 module.exports = {
@@ -18,16 +18,16 @@ module.exports = {
 
   async allWithDetails() {
     const sql = `
-      select c.*, count(p.ProID) as ProductCount, 0 as IsActive
-      from'fields c left join products p on c.CatID = p.CatID
-      group by c.CatID, c.CatName
+      select c.*, count(p.fieldsID) as ProductCount, 0 as IsActive
+      from fields c left join course p on c.id = p.fieldsID
+      group by c.id, c.name
     `;
     const [rows, fields] = await db.load(sql);
     return rows;
   },
 
   async single(id) {
-    const sql = `select * from'fields where CatID = ${id}`;
+    const sql = `select * from fields where id = ${id}`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0)
       return null;
@@ -43,7 +43,7 @@ module.exports = {
 
   async del(id) {
     const condition = {
-      CatID: id
+      fieldsID: id
     };
     const [result, fields] = await db.del(condition, 'fields');
     return result;
@@ -51,9 +51,9 @@ module.exports = {
 
   async patch(entity) {
     const condition = {
-      CatID: entity.CatID
+      fieldsID: entity.fieldsID
     };
-    delete (entity.CatID);
+    delete (entity.fieldsID);
 
     const [result, fields] = await db.patch(entity, condition, 'fields');
     return result;
