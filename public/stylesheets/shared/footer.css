@@ -1,64 +1,64 @@
 .udlite-footer .footer-section {
-    padding-left: 3.2rem;
-    padding-right: 3.2rem;
+  padding-left: 3.2rem;
+  padding-right: 3.2rem;
 }
 
 .udlite-footer .footer-section-main {
-    padding-top: 2.4rem;
+  padding-top: 2.4rem;
 }
 
 .udlite-footer .footer-section {
-    background: #fff;
-    border-top: 1px solid #dcdacb;
-    padding-left: 2.4rem;
-    padding-right: 2.4rem;
+  background: #fff;
+  border-top: 1px solid #dcdacb;
+  padding-left: 2.4rem;
+  padding-right: 2.4rem;
 }
 
 .udlite-footer .links-and-locale {
-    display: flex;
+  display: flex;
 }
 
 .udlite-footer .link-column {
-    flex-basis: 25.6rem;
-    margin-right: 1.6rem;
-    margin-bottom: 0;
+  flex-basis: 25.6rem;
+  margin-right: 1.6rem;
+  margin-bottom: 0;
 }
 
 .unstyled-list {
-    list-style: none;
-    margin: 0;
-        margin-right: 0px;
-        margin-bottom: 0px;
-    padding: 0;
-    max-width: none;
+  list-style: none;
+  margin: 0;
+  margin-right: 0px;
+  margin-bottom: 0px;
+  padding: 0;
+  max-width: none;
 }
 
-
 .udlite-footer .logo-and-copyright {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6.4rem 0 4.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6.4rem 0 4.8rem;
 }
 
 .udlite-footer .logo-and-copyright .logo-container {
-    padding: 0;
+  padding: 0;
 }
 .udlite-footer .logo-container {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
-.udlite-footer .locale-select-container, .udlite-footer .logo-container {
-    padding: 1.6rem 0;
+.udlite-footer .locale-select-container,
+.udlite-footer .logo-container {
+  padding: 1.6rem 0;
 }
 
 .udlite-footer .logo-and-copyright .copyright-container {
-    padding: 0;
-    height: 100%;
-    top: 50%;
-    color: #73726c;
+  padding: 0;
+  height: 100%;
+  top: 50%;
+  color: #73726c;
 }
 .udlite-footer .copyright-container {
-    color: #73726c;
-    padding-bottom: 1.6rem;
+  color: #73726c;
+  padding-bottom: 1.6rem;
 }
