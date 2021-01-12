@@ -1,0 +1,14 @@
+.price-text--container--Ws-fP {
+  align-items: center;
+  color: #3c3b37;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.price-text--price-part--Tu6MH {
+  line-height: 1;
+  padding: 0.4rem 0;
+  margin-right: 0.8rem;
+  white-space: nowrap;
+}

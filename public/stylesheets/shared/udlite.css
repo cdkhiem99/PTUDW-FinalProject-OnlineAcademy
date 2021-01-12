@@ -4,17 +4,26 @@
 }
 
 .udlite-text-sm {
-  font-size: 1.4rem;
-}
-
-.udlite-text-sm {
-  font-family: sf pro text,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+  font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui,
+    Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
+    segoe ui symbol;
   font-weight: 400;
   line-height: 1.4;
   font-size: 1.4rem;
 }
 
-.udlite-btn-ghost, .udlite-btn-ghost.udlite-btn-disabled, .udlite-btn-link {
+.udlite-text-xs {
+  font-family: sf pro text, -apple-system, BlinkMacSystemFont, Roboto, segoe ui,
+    Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
+    segoe ui symbol;
+  font-weight: 400;
+  line-height: 1.4;
+  font-size: 1.2rem;
+}
+
+.udlite-btn-ghost,
+.udlite-btn-ghost.udlite-btn-disabled,
+.udlite-btn-link {
   color: #0f7c90;
   background-color: transparent;
   min-width: auto;
@@ -40,10 +49,44 @@
   white-space: nowrap;
 }
 
-.udlite-heading-md {
-  font-family: sf pro display,-apple-system,BlinkMacSystemFont,Roboto,segoe ui,Helvetica,Arial,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+.udlite-heading-sm {
+  font-family: sf pro display, -apple-system, BlinkMacSystemFont, Roboto,
+    segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
+    segoe ui symbol;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -.02rem;
+  letter-spacing: -0.02rem;
+  font-size: 1.4rem;
+}
+
+.udlite-heading-md {
+  font-family: sf pro display, -apple-system, BlinkMacSystemFont, Roboto,
+    segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
+    segoe ui symbol;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02rem;
   font-size: 1.6rem;
+}
+
+.udlite-heading-xl {
+  font-family: sf pro display, -apple-system, BlinkMacSystemFont, Roboto,
+    segoe ui, Helvetica, Arial, sans-serif, apple color emoji, segoe ui emoji,
+    segoe ui symbol;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02rem;
+  font-size: 2.4rem;
+}
+
+.udlite-badge-bestseller {
+  background-color: #ffe799;
+  color: #593d00;
+}
+
+.udlite-badge {
+  border-radius: 4px;
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  white-space: nowrap;
 }

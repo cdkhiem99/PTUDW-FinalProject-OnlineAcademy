@@ -1,6 +1,10 @@
 @import "shared/udlite.css";
 @import "shared/header.css";
 @import "shared/footer.css";
+@import "shared/carousel.css";
+@import "shared/course-card.css";
+@import "shared/star-rating.css";
+@import "shared/price-text.css";
 
 :root {
   font-size: 62.5%;
@@ -42,17 +46,47 @@ a {
   text-decoration: none;
 }
 
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /* Change color of dropdown links on hover */
-.dropdown-menu a:hover {background-color: #ddd;}
+.dropdown-menu a:hover {
+  background-color: #ddd;
+}
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-menu {display: block;}
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {
+  background-color: #3e8e41;
+}
 
 .dropdown-submenu .dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: -1px;
+}
+
+.component-margin {
+  margin: 4.8rem 0;
+}
+
+.unit-title--container--EH-Rf {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1.6rem;
+  align-items: baseline;
+}
+
+.unit-title--title--2TQwd {
+  max-width: 80rem;
+}
+
+.popper--popper--19faV {
+  position: relative;
 }
