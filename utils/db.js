@@ -8,8 +8,8 @@ const pool = mysql.createPool(mysql_opts);
 const promisePool = pool.promise();
 
 module.exports = {
-  load(sql) {
-    return promisePool.query(sql); // [rows, fields]
+  load(sql,condition = "") {
+    return promisePool.query(sql, condition); // [rows, fields]
   },
 
   add(entity, table_name) {

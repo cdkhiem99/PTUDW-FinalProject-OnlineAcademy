@@ -6,31 +6,81 @@
 {{#section 'js'}}
 <script
   src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-  $('#frmRegister').on('submit', function (e) {
-    e.preventDefault();
+  function DisplayError(string){
+    swal("Error!", string, "error");
+  }
 
-    const username = $('#txtUsername').val();
-    if (username.length === 0) {
-      alert('Invalid data');
-      return;
+
+
+  function CheckValidInput(){
+    const userName = $("#txtUsername").val();
+    if (userName === ""){
+      DisplayError("Username can not be blanked!");
+      return false;
     }
 
-    const phoneNumber = $('#txtPhone').val();
-    if (phoneNumber.length !== 10) {
-      alert('Invalid data');
-      return;
+    const pass = $("#txtPassword").val();
+    if (pass === ""){
+      DisplayError("Password can not be blanked!");
+      return false;
     }
-    
-    $.getJSON(`/account/is-available?user=${username}`, function (data) {
-      if (data === true) {
-        $('#frmRegister').off('submit').submit();
-      } else {
-        alert('Not available');
-      }
-    })
-  });
 
+    const confirmPass = $("#txtConfirm").val();
+    if (confirmPass !== pass){
+      DisplayError("Password mis-matched!");
+      return false;
+    }
+
+    const name = $("#txtName").val();
+    if (name === ""){
+      DisplayError("Namw can not be blanked!");
+      return false;
+    }
+
+    const mail = $("#txtEmail").val();
+    if (mail === ""){
+      DisplayError("Email can not be blanked!");
+      return false;
+    }
+
+    const phone = $("#txtPhone").val();
+    if (phone === ""){
+      DisplayError("phone number can not be blanked!");
+      return false;
+    }
+
+    return {
+      username: userName,
+      password: pass,
+      phone: phone,
+      name: name,
+      email: mail
+    };
+  }
+
+  function SubmitRegister(){
+    const un = $("#txtUsername").val();
+    console.log(un);
+
+    const newData = CheckValidInput();
+    if (newData !== false){
+      $.post('/account/register', newData, function(data,status){
+        if(data === true){
+          swal("Success!", "Your account has been registed!", "success").then((value)=>{
+            if (value === true){
+              location.reload();
+            }
+          });
+        }
+        else{
+          DisplayError(data);
+        }
+      });
+    }
+  }
 </script>
 {{/section}}
 
@@ -49,7 +99,7 @@
         <input type="password" class="form-control" id="txtPassword" name="password">
       </div>
       <div class="form-group">
-        <label for="txtConfirm">Confirm Password</label>
+        <label for="txtConfirm">Confirm Password</label>  
         <input type="password" class="form-control" id="txtConfirm" name="confirm">
       </div>
       <div class="form-group">
@@ -65,11 +115,12 @@
         <input type="text" class="form-control" id="txtPhone" name="phone">
       </div>
     </div>
-    <div class="card-footer">
-      <button class="btn btn-success" type="submit">
-        <i class="fa fa-check" aria-hidden="true"></i>
-        Register
-      </button>
-    </div>
   </div>
 </form>
+
+<div class="card-footer">
+  <button class="btn btn-success" onclick="SubmitRegister()">
+    <i class="fa fa-check" aria-hidden="true"></i>
+    Register
+  </button>
+</div>
