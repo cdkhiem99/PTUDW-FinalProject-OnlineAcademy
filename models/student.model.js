@@ -30,7 +30,7 @@ module.exports = {
     try {
       const hash = bcrypt.hashSync(user.password, 10);
       const newUser = {
-        phone_number: user.phone_number,
+        phone_number: user.phone,
         password: hash
       }
       const condition = {
