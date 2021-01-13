@@ -1,0 +1,15 @@
+@media (min-width: 37.56em) {
+  .headline {
+    display: block;
+  }
+}
+
+.headline__main-text {
+  max-width: 80rem;
+}
+
+.headline__sub-text {
+  color: #73726c;
+  margin-top: 0.8rem;
+  max-width: 80rem;
+}
