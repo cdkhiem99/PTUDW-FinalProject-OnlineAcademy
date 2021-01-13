@@ -4,8 +4,22 @@
 }
 
 /* Show the dropdown menu on hover */
-.dropdown:hover .dropdown-menu {
+.dropdown:hover .dropdown-menu#main-menu {
   display: block;
+}
+
+/* Sub menu */
+.dropdown .dropdown-menu#main-menu .dropright  {
+  position: relative;
+  display: block;
+}
+
+.dropdown .dropdown-menu#main-menu .dropright:hover .dropdown-menu#sub-menu  {
+  display: block;
+
+  position: absolute;
+  top: 0%;
+  left: 100%;
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */
@@ -13,8 +27,8 @@
   background-color: #3e8e41;
 }
 
-.dropdown-submenu .dropdown-menu {
+/* .dropdown-submenu .dropdown-menu {
   top: 0;
   left: 100%;
   margin-top: -1px;
-}
+} */

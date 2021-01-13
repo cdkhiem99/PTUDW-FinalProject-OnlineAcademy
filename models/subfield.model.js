@@ -1,17 +1,8 @@
 const db = require('../utils/db');
-const sub = require('../models/subfield.model');
-// const list = [
-//   { fieldsID: 1, name: 'Laptop' },
-//   { fieldsID: 2, name: 'Phone' },
-//   { fieldsID: 3, name: 'Quần áo' },
-//   { fieldsID: 4, name: 'Giày dép' },
-//   { fieldsID: 5, name: 'Trang sức' },
-//   { fieldsID: 6, name: 'Khác' },
-// ];
 
 module.exports = {
   async all() {
-    const sql = 'select * from fields';
+    const sql = 'select * from subField';
     const [rows, fields] = await db.load(sql);
     return rows;
   },
@@ -24,30 +15,16 @@ module.exports = {
       group by f.name
     `;
     const [rows, fields] = await db.load(sql);
-    const list = [];
-
-    if (rows.length !== 0){
-      for (let index = 0; index < rows.length; index++) {
-        const element = rows[index];
-          const subName = await sub.single(element.name);
-          console.log(subName);
-          list.push({
-            name: element.name,
-            subName: subName
-          })
-      }
-    }
-
-    return list;
+    return rows;
   },
 
-  async single(id) {
-    const sql = `select * from fields where name = ${id}`;
-    const [rows, fields] = await db.load(sql);
+  async single(fieldName) {
+    const sql = `select name from subField where fieldName = ?`;
+    const condition = [fieldName];
+    const [rows, fields] = await db.load(sql, condition);
     if (rows.length === 0)
       return null;
-
-    return rows[0];
+    return rows;
   },
 
   async add(category) {
