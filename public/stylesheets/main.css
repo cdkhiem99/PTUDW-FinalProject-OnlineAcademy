@@ -45,9 +45,9 @@ body,
   overflow-x: hidden;
 }
 
-a {
-  color: #0f7c90;
-  text-decoration: none;
+a:hover {
+  /* color: #0f7c90; */
+  text-decoration-line: none;
 }
 
 img {
