@@ -71,5 +71,18 @@ module.exports = {
 
     const [result, fields] = await db.patch(entity, condition, 'fields');
     return result;
+  },
+
+  async mostPopularField(){
+    const sql = `select f.name, sum(c.view) as 'Fieldview'
+                  from fields as f left join subField as sf on f.name=sf.fieldName
+                                        join course as c on c.subFieldId=sf.id
+                  group by f.name
+                  order by Fieldview desc limit 4`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0)
+      return null;
+
+    return rows;
   }
 };

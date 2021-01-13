@@ -1,5 +1,6 @@
 const db = require('../utils/db');
 const { paginate } = require('../config/default.json');
+const { differenceBy } = require('lodash');
 
 module.exports = {
   async all() {
@@ -34,4 +35,16 @@ module.exports = {
 
     return rows[0];
   },
+
+  async get10mostView(){
+    const sql = `select c.*
+                  from course as c
+                  order by c.view desc limit 10`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0){
+      return null;
+    }
+
+    return rows;
+  }
 };
