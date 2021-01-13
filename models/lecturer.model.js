@@ -3,8 +3,10 @@ const db = require('../utils/db');
 
 module.exports = {
     async singleByLecturerID(id) {
-        const sql = `select * from lecturer where id = ${id}`;
-        const [rows, fields] = await db.load(sql);
+        const sql = `select *, 'lecturer' as role from lecturer where id = ?`;
+        const condition = [id];
+        const [rows, fields] = await db.load(sql, condition);
+        
         if (rows.length === 0)
           return null;
     

@@ -5,6 +5,9 @@ const studentModel = require("../models/student.model");
 const auth = require("../middlewares/auth.mdw");
 const { singleByUserName } = require("../models/student.model");
 const emailService = require("../routes/email.route");
+const lecturerModel = require("../models/lecturer.model");
+const admin = require("../models/admin.model");
+const adminModel = require("../models/admin.model");
 const router = express.Router();
 
 function makeid(length) {
@@ -88,7 +91,36 @@ router.get("/login", function (req, res) {
 });
 
 router.post("/login", async function (req, res) {
-  const user = await studentModel.singleByUserName(req.body.username);
+  var user = await studentModel.singleByUserName(req.body.username);
+  if (user !== null){
+    req.session.auth = true;
+    req.session.authUser = user;
+
+    const url = req.session.retUrl || "/";
+    res.redirect(url);
+    return;
+  }
+
+  user = await lecturerModel.singleByLecturerID(req.body.username);
+  if (user !== null){
+    req.session.auth = true;
+    req.session.authUser = user;
+
+    const url = req.session.retUrl || "/";
+    res.redirect(url);
+    return;
+  }
+
+  user = await adminModel.singleAdmin(req.body.username);
+  if (user !== null){
+    req.session.auth = true;
+    req.session.authUser = user;
+
+    const url = req.session.retUrl || "/";
+    res.redirect(url);
+    return;
+  }
+
   if (user === null) {
     return res.render("vwAccount/login", {
       layout: false,
@@ -111,7 +143,7 @@ router.post("/login", async function (req, res) {
   res.redirect(url);
 });
 
-router.post("/logout", async function (req, res) {
+router.post("/logout", function (req, res) {
   req.session.auth = false;
   req.session.authUser = null;
   req.session.retUrl = null;

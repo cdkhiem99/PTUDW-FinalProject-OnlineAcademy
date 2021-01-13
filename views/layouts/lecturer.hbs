@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="/owlcarousel/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="/owlcarousel/assets/owl.theme.default.min.css">
     <title>Online Academy</title>
-
-    {{{_sections.css}}}
   </head>
 
   <body>
@@ -103,7 +101,7 @@
               </button>
             </div>
           </form>
-          {{#unless auth}}
+
           <div class="header--top-right-btn">
 
             <!-- Management Button -->
@@ -116,13 +114,6 @@
             <a href="/account/register" class="sign_up_container sign_up">Sign Up</a>
 
           </div>
-          {{else}}
-          <a href="#currentPage">Hi, {{authUser.name}}!</a>
-          <a href="/student"> Profile </a>
-          <form method="POST" action="/account/logout">
-              <button class="sign_up_container sign_up"> Log out </button>
-          </form>
-          {{/unless}}
 
           <script type="text/javascript">
             document.querySelector('.searchbox [type="reset"]').addEventListener('click', function () {
