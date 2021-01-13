@@ -20,22 +20,47 @@
     {{!-- header --}}
     <div class="udlite-header">
       <div class="header--flex-middle header--header udlite-text-sm">
-        <a class="navbar-brand" href="/" style="font-size: large;">Online Academy</a>
+        <a href="/" class="header--flex-middle header--logo">
+          <img src="/imgs/logo-group4.png" alt="Online Academy" width="50" height="50">
+        </a>
 
         {{!-- categories --}}
         <div class="dropdown">
+          <a
+            id="main-menu"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="dropdown-toggle nav-link"
+            href="javascript:;"
+          >
+            Categories
+          </a>
 
-          <a data-toggle="dropdown" id="main-menu" aria-expanded="false" class="dropdown-toggle nav-link" href="#"
-            style="font-size: large;">Categories</a>
-
-          <div id="main-menu" class="dropdown-menu" aria-labelledby="main-menu">
+          <div
+            id="main-menu"
+            class="dropdown-menu"
+            aria-labelledby="main-menu"
+          >
             {{#each lcCategories}}
             <div class="nav-item dropright">
-              <a data-toggle="dropdown-submenu" class="dropdown-toggle nav-link" href="#"
-                style="font-size: large;">{{this.name}}</a>
+              <a
+                data-toggle="dropdown-submenu"
+                class="dropdown-toggle nav-link"
+                href="javascript:;"
+                style="font-size: large;"
+              >
+                {{this.name}}
+              </a>
               <div id="sub-menu" class="dropdown-menu">
                 {{#each this.subName}}
-                <a class="dropdown-item" href="/" aria-expanded="false" style="font-size: 15px;">{{this.name}}</a>
+                <a
+                  class="dropdown-item"
+                  href="/"
+                  aria-expanded="false"
+                  style="font-size: 1.4rem;"
+                >
+                  {{this.name}}
+                </a>
                 {{/each}}
               </div>
             </div>

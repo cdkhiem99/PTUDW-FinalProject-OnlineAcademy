@@ -9,12 +9,12 @@
 }
 
 /* Sub menu */
-.dropdown .dropdown-menu#main-menu .dropright  {
+.dropdown .dropdown-menu#main-menu .dropright {
   position: relative;
   display: block;
 }
 
-.dropdown .dropdown-menu#main-menu .dropright:hover .dropdown-menu#sub-menu  {
+.dropdown .dropdown-menu#main-menu .dropright:hover .dropdown-menu#sub-menu {
   display: block;
 
   position: absolute;
@@ -32,3 +32,7 @@
   left: 100%;
   margin-top: -1px;
 } */
+
+.dropdown-toggle {
+  color: #3c3b37;
+}
