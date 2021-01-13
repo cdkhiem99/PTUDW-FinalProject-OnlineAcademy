@@ -17,13 +17,15 @@ router.get("/register", function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
   const hash = bcrypt.hashSync(req.body.password, 10);
+  const block = true;
   console.log(req.body.email);
   const user = {
     id: req.body.username,
     password: hash,
     phone_number: req.body.phone,
     name: req.body.name,
-    email: req.body.email
+    email: req.body.email,
+    block: block
   };
 
   const findID = await singleByUserName(user.id);
