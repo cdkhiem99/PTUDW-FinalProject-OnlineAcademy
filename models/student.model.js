@@ -2,7 +2,6 @@ const db = require('../utils/db');
 
 module.exports = {
   async singleByUserName(id) {
-    console.log(id);
     const sql = `select * from student where id = ?`;
     const condition = [id];
     const [rows, fields] = await db.load(sql, condition);

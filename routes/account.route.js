@@ -4,9 +4,20 @@ const moment = require("moment");
 const studentModel = require("../models/student.model");
 const auth = require("../middlewares/auth.mdw");
 const { singleByUserName } = require("../models/student.model");
-
+const emailService = require("../routes/email.route");
 const router = express.Router();
 
+function makeid(length) {
+  var result           = '';
+  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for ( var i = 0; i < length; i++ ) {
+     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
+}
+
+const jwt = new Map();
 router.get("/profile", auth, function (req, res, next) {
   res.render("vwAccount/profile");
 });
@@ -17,9 +28,8 @@ router.get("/register", function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
   const hash = bcrypt.hashSync(req.body.password, 10);
-  const block = true;
-  console.log(req.body.email);
-  const user = {
+  const block = false;
+    const user = {
     id: req.body.username,
     password: hash,
     phone_number: req.body.phone,
@@ -33,10 +43,27 @@ router.post("/register", async function (req, res, next) {
     res.json("Username has already existed!");
   }
   else{
-    await studentModel.add(user);
-    res.json(true);
+    const randomString = makeid(15);
+        jwt.set(randomString,user);
+    emailService.sendConfirmationEmail(user, randomString, function callback(err,data) {
+      if (err === null){
+        res.json(true);
+      }
+      else{
+        res.json(err);
+      }
+    })
   }
 });
+
+router.get("/confirmation/:token", async function (req, res) {
+  const randomString = req.params.token;
+  const user = jwt.get(randomString);
+  if(user !== null){
+    await studentModel.add(user);
+  }
+  res.redirect("/account/login")
+})
 
 router.get("/is-available", async function (req, res) {
   const username = req.query.user;
@@ -61,7 +88,6 @@ router.get("/login", function (req, res) {
 });
 
 router.post("/login", async function (req, res) {
-  console.log(req.body.username);
   const user = await studentModel.singleByUserName(req.body.username);
   if (user === null) {
     return res.render("vwAccount/login", {

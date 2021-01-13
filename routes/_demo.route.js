@@ -9,8 +9,7 @@ router.get('/editor', async function (req, res) {
 })
 
 router.post('/editor', async function (req, res) {
-  console.log(req.body.FullDes);
-  res.send('ok');
+    res.send('ok');
 })
 
 router.get('/upload', async function (req, res) {

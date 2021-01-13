@@ -30,7 +30,6 @@ module.exports = {
       for (let index = 0; index < rows.length; index++) {
         const element = rows[index];
           const subName = await sub.single(element.name);
-          console.log(subName);
           list.push({
             name: element.name,
             subName: subName
