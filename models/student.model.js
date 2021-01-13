@@ -15,4 +15,23 @@ module.exports = {
     const [result, fields] = await db.add(user, 'student');
     return result;
   },
+
+  async del(id) {
+      const condition = {
+          id: id
+      }
+
+      const [result, fields] = await db.del(condition, 'student');
+      return result;
+  },
+
+  async patch(user) {
+      const condition = {
+        id: user.id
+      }
+      delete (user.id);
+
+      const [result, fields] = await db.patch(user, condition, 'student');
+      return result;
+  }
 };

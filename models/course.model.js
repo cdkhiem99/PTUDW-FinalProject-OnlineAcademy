@@ -27,6 +27,31 @@ module.exports = {
     return rows;
   },
 
+  async addCourse() {
+    const [result, fields] = await db.add(course, 'course');
+    // console.log(result);
+    return result;
+  },
+
+  async deleteCourse(id) {
+    const condition = {
+      id: id
+    };
+
+    const [result, fields] = await db.del(condition, 'course');
+    return result;
+  },
+
+  async updateCourse(entity) {
+    const condition = {
+      id: entity.id
+    }
+    delete (entity.id);
+
+    const [result, fields] = await db.patch(entity, condition, 'course');
+    return result;
+  },
+
   async single(id) {
     const sql = `select * from course where id=${id}`;
     const [rows, fields] = await db.load(sql);
