@@ -16,11 +16,6 @@
   padding-right: 1.2rem;
 }
 
-/*Categories button*/
-.popper--popper--19faV {
-  position: relative;
-}
-
 .header--gap-button--3bIww .js-header-button {
   padding: 0 1.2rem;
 }
@@ -32,7 +27,8 @@
   position: relative;
 }
 
-button, input {
+button,
+input {
   background-image: none;
 }
 
@@ -58,12 +54,12 @@ button, input {
 
 .sbx-twitter__input {
   display: inline-block;
-  -webkit-transition: box-shadow .4s ease, background .4s ease;
-  transition: box-shadow .4s ease, background .4s ease;
+  -webkit-transition: box-shadow 0.4s ease, background 0.4s ease;
+  transition: box-shadow 0.4s ease, background 0.4s ease;
   border: 0;
   border-radius: 17px;
-  box-shadow: inset 0 0 0 1px #E1E8ED;
-  background: #F5F8FA;
+  box-shadow: inset 0 0 0 1px #e1e8ed;
+  background: #f5f8fa;
   padding: 0;
   padding-right: 52px;
   padding-left: 16px;
@@ -73,11 +69,14 @@ button, input {
   white-space: normal;
   font-size: inherit;
   -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-.sbx-twitter__input::-webkit-search-decoration, .sbx-twitter__input::-webkit-search-cancel-button, .sbx-twitter__input::-webkit-search-results-button, .sbx-twitter__input::-webkit-search-results-decoration {
+.sbx-twitter__input::-webkit-search-decoration,
+.sbx-twitter__input::-webkit-search-cancel-button,
+.sbx-twitter__input::-webkit-search-results-button,
+.sbx-twitter__input::-webkit-search-results-decoration {
   display: none;
 }
 
@@ -85,26 +84,27 @@ button, input {
   box-shadow: inset 0 0 0 1px #c1d0da;
 }
 
-.sbx-twitter__input:focus, .sbx-twitter__input:active {
+.sbx-twitter__input:focus,
+.sbx-twitter__input:active {
   outline: 0;
-  box-shadow: inset 0 0 0 1px #D6DEE3;
-  background: #FFFFFF;
+  box-shadow: inset 0 0 0 1px #d6dee3;
+  background: #ffffff;
 }
 
 .sbx-twitter__input::-webkit-input-placeholder {
-  color: #9AAEB5;
+  color: #9aaeb5;
 }
 
 .sbx-twitter__input::-moz-placeholder {
-  color: #9AAEB5;
+  color: #9aaeb5;
 }
 
 .sbx-twitter__input:-ms-input-placeholder {
-  color: #9AAEB5;
+  color: #9aaeb5;
 }
 
 .sbx-twitter__input::placeholder {
-  color: #9AAEB5;
+  color: #9aaeb5;
 }
 
 .sbx-twitter__submit {
@@ -123,9 +123,9 @@ button, input {
   text-align: center;
   font-size: inherit;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .sbx-twitter__submit::before {
@@ -133,10 +133,11 @@ button, input {
   margin-right: -4px;
   height: 100%;
   vertical-align: middle;
-  content: '';
+  content: "";
 }
 
-.sbx-twitter__submit:hover, .sbx-twitter__submit:active {
+.sbx-twitter__submit:hover,
+.sbx-twitter__submit:active {
   cursor: pointer;
 }
 
@@ -163,9 +164,9 @@ button, input {
   padding: 0;
   font-size: inherit;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   fill: rgba(0, 0, 0, 0.5);
 }
 
@@ -183,20 +184,20 @@ button, input {
 .sbx-twitter__input:valid ~ .sbx-twitter__reset {
   display: block;
   -webkit-animation-name: sbx-reset-in;
-          animation-name: sbx-reset-in;
-  -webkit-animation-duration: .15s;
-          animation-duration: .15s;
+  animation-name: sbx-reset-in;
+  -webkit-animation-duration: 0.15s;
+  animation-duration: 0.15s;
 }
 
 @-webkit-keyframes sbx-reset-in {
   0% {
     -webkit-transform: translate3d(-20%, 0, 0);
-            transform: translate3d(-20%, 0, 0);
+    transform: translate3d(-20%, 0, 0);
     opacity: 0;
   }
   100% {
     -webkit-transform: none;
-            transform: none;
+    transform: none;
     opacity: 1;
   }
 }
@@ -204,72 +205,65 @@ button, input {
 @keyframes sbx-reset-in {
   0% {
     -webkit-transform: translate3d(-20%, 0, 0);
-            transform: translate3d(-20%, 0, 0);
+    transform: translate3d(-20%, 0, 0);
     opacity: 0;
   }
   100% {
     -webkit-transform: none;
-            transform: none;
+    transform: none;
     opacity: 1;
   }
 }
 
-/*Management button*/
-.management {
-	box-shadow:inset 0px 1px 0px 0px #bbdaf7;
-	background:linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
-	background-color:#79bbff;
-	border-radius:6px;
-	border:1px solid #84bbf3;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	font-weight:bold;
-	padding:6px 24px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #528ecc;
-}
-.management:hover {
-	background:linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
-	background-color:#378de5;
-}
-.management:active {
-	position:relative;
-	top:1px;
-}
-
-/*Sign up button*/
 .sign_up_container {
   display: flex;
-  justify-content: flex-end;
-  padding-left: 12px 0;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 12rem;
+  height: 4rem;
+
+  font-size: 1.5rem;
+  font-weight: bolder;
+
+  background: linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
+  background-color: #79bbff;
+  border-radius: 6px;
+
+  margin-left: 1.2rem;
 }
 
+.sign_up_container:hover {
+  background: linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
+}
+
+.management,
 .sign_up {
-	box-shadow: inset 0px 1px 0px 0px #bbdaf7;
-	background: linear-gradient(to bottom, #79bbff 5%, #378de5 100%);
-	background-color: #79bbff;
-	border-radius: 6px;
-	border: 1px solid #84bbf3;
-	display: inline-block;
-	cursor: pointer;
-	color: #ffffff;
-	font-family: Arial;
-	font-size: 15px;
-	font-weight: bold;
-	padding: 6px 24px;
-	text-decoration: none;
-	text-shadow: 0px 1px 0px #528ecc;
+  color: white;
 }
 
-.sign_up:hover {
-	background: linear-gradient(to bottom, #378de5 5%, #79bbff 100%);
-	background-color: #378de5;
+.management:active,
+.sign_up:active,
+.login-btn:active {
+  position: relative;
+  top: 1px;
 }
 
-.sign_up:active {
-	position: relative;
-	top: 1px;
+.login-btn {
+  border: 1px solid #378de5;
+  color: #378de5;
+  background: white;
+  box-shadow: -3px -2px 2px 0px #bbdaf7 inset;
+  font-weight: 500;
+}
+
+.login-btn:hover {
+  background: white;
+  font-weight: bolder;
+}
+
+.header-top-right-btn {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
 }
