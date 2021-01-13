@@ -1,19 +1,11 @@
 const db = require('../utils/db');
 
 module.exports = {
-  async single(id) {
-    const sql = `select * from student where id = ${id}`;
-    const [rows, fields] = await db.load(sql);
-    if (rows.length === 0)
-      return null;
-
-    return rows[0];
-  },
-
   async singleByUserName(id) {
     console.log(id);
-    const sql = `select * from student where id = ${id}`;
-    const [rows, fields] = await db.load(sql);
+    const sql = `select * from student where id = ?`;
+    const condition = [id];
+    const [rows, fields] = await db.load(sql, condition);
     if (rows.length === 0)
       return null;
 

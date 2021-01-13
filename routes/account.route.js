@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const moment = require("moment");
 const studentModel = require("../models/student.model");
 const auth = require("../middlewares/auth.mdw");
+const { singleByUserName } = require("../models/student.model");
 
 const router = express.Router();
 
@@ -16,17 +17,23 @@ router.get("/register", function (req, res, next) {
 
 router.post("/register", async function (req, res, next) {
   const hash = bcrypt.hashSync(req.body.password, 10);
+  console.log(req.body.email);
   const user = {
-    username: req.body.username,
+    id: req.body.username,
     password: hash,
-    phone: req.body.phone,
+    phone_number: req.body.phone,
     name: req.body.name,
-    email: req.body.email,
-    permission: 0,
+    email: req.body.email
   };
 
-  await studentModel.add(user);
-  res.render("vwAccount/register");
+  const findID = await singleByUserName(user.id);
+  if (findID !== null){
+    res.json("Username has already existed!");
+  }
+  else{
+    await studentModel.add(user);
+    res.json(true);
+  }
 });
 
 router.get("/is-available", async function (req, res) {
