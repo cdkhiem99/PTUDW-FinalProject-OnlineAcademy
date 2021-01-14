@@ -1,7 +1,7 @@
 const db = require('../utils/db');
 
 module.exports = {
-    async takeSignleVideo(id, courseID){
+    async takeSingleVideo(id, courseID){
         const sql = `select * from section where id=${id} and courseId=${courseID}`;
         const [rows, fields] = await db.load(sql);
         if (rows.length === 0)
@@ -27,5 +27,37 @@ module.exports = {
         }
 
         return true; 
+    },
+
+    async getPreviewVideo(courseID) {
+        const sql = `select preview from section where courseId = ?`;
+        const condition = [courseID];
+        const [result, fields] = await db.load(sql, condition);
+
+        if (result.length === 0) {
+            return null;
+        }
+        
+        return result[0];
+    },
+    
+    async getCourseContent(courseID) {
+        const sql = `select id, title, videoPath from section where courseId = ?`;
+        const condition = [courseID];
+        const [rows, fields] = await db.load(sql, condition);
+
+        listOfContent = [];
+        
+        if (rows.length !== 0) {
+            for (let index = 0; index < rows.length; index++) {
+                listOfContent.push({
+                    ID: rows[index].id,
+                    Title: rows[index].title,
+                    videoPath: rows[index].videoPath,
+                })
+            }
+        }
+
+        return listOfContent;
     }
 }

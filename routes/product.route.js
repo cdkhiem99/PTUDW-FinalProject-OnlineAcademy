@@ -3,6 +3,7 @@ const express = require('express');
 const productModel = require('../models/course.model');
 const fieldModel = require('../models/subfield.model');
 const feedbackModel = require('../models/feedback.model');
+const sectionModel = require('../models/section.model');
 
 const router = express.Router();
 
@@ -51,11 +52,16 @@ router.get('/field/:Field', async function (req, res, next) {
 router.get('/detail/:courseID', async function(req, res, next) {
   const course = await productModel.getCourseByID(req.params.courseID);
   const feedbackList = await feedbackModel.getFeedBack(req.params.courseID);
+  const previewVideo = await sectionModel.getPreviewVideo(req.params.courseID);
+  const courseContent = await sectionModel.getCourseContent(req.params.courseID);
   res.locals.course = course;
   res.locals.empty = course === 0;
-  
   res.locals.feedbackList = feedbackList;
   res.locals.feedbackempty = feedbackList === 0;
+  res.locals.previewVideo = previewVideo;
+  res.locals.noPreviewVideo = previewVideo === 0;
+  res.locals.courseContent = courseContent;
+  res.locals.courseContentempty = courseContent === 0;
   res.render('vwProducts/detail');
 })
 
