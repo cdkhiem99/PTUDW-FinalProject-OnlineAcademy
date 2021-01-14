@@ -12,7 +12,7 @@ router.get("/", async function (req, res) {
   debug("mostViewedCourses", mostViewedCourses[0]);
   debug("newCourses", newCourses[0]);
 
-  res.render("home2", {
+  res.render("home", {
     popularCourses: popularCourses,
     mostViewedCourses: mostViewedCourses,
     newCourses: newCourses,
