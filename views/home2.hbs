@@ -1,16 +1,62 @@
 {{#section 'css'}}
-<link rel="stylesheet" href="/owlcarousel/assets/owl.carousel.min.css">
-<link rel="stylesheet" href="/owlcarousel/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="/owlcarousel/assets/owl.carousel.min.css" />
+<link rel="stylesheet" href="/owlcarousel/assets/owl.theme.default.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" />
+
+<style>
+  .popular-courses--item {
+    display: block;
+
+    position: relative;
+
+    width: auto;
+    height: 75vh;
+
+    margin: 2rem auto 0;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .popular-courses--item-caption {
+    position: absolute;
+    bottom: 2%;
+    padding: 0 1.5rem;
+
+    display: -webkit-box;
+
+    font-size: 3.2rem;
+    font-weight: 900;
+    color: white;
+    text-shadow: -1px -0.5px grey;
+  }
+</style>
 {{/section}}
 
 {{#section 'js'}}
 <script src="/owlcarousel/owl.carousel.min.js"></script>
 <script>
   $(document).ready(function(){
-    $('.owl-carousel').owlCarousel({
+    $('.popular-courses.owl-carousel').owlCarousel({
+      animateOut: 'slideOutDown',
+      animateIn: 'flipInX',
+      items: 1,
+      margin: 24,
+      stagePadding: 24,
+      smartSpeed: 450,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplayHoverPause: true,
+      loop: true
+    });
+    $('.most-viewed-courses.owl-carousel').owlCarousel({
       loop:true,
       nav: true,
       margin: 10,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplayHoverPause: true,
       responsiveClass: true,
       responsive:{
         0:{
@@ -19,15 +65,41 @@
         },
         600:{
             items: 3,
+            slideBy: 2
         },
         1000:{
             items: 5,
+            slideBy: 4
         }
       }
     })
   });
 </script>
 {{/section}}
+
+<div class="popular-courses owl-carousel owl-theme">
+  <a
+    href="javascript:;"
+    class="popular-courses--item"
+    style="background-image: url(/course/1/photo.png)"
+  >
+    <div class="popular-courses--item-caption">HEELO 1</div>
+  </a>
+  <a
+    href="javascript:;"
+    class="popular-courses--item"
+    style="background-image: url(/course/2/photo.png)"
+  >
+    <div class="popular-courses--item-caption">HEELO 2</div>
+  </a>
+  <a
+    href="javascript:;"
+    class="popular-courses--item"
+    style="background-image: url(/course/3/photo.png)"
+  >
+    <div class="popular-courses--item-caption">HEELO 3</div>
+  </a>
+</div>
 
 <div class="headline udlite-container">
   <div class="headline__main-text udlite-heading-xl">
@@ -39,6 +111,7 @@
     <div class="col px-auto py-auto">18127126 Huynh Duc Le</div>
   </div>
 </div>
+
 <div class="udlite-container">
 
   {{!-- Khoá học được xem nhiều nhất --}}
@@ -48,7 +121,7 @@
         Most viewed courses
       </h2>
     </div>
-    <div class="carousel--container--22Ab7 owl-carousel owl-theme">
+    <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
       {{#each mostViewedCourses}}
       <div class="carousel--scroll-item--3Wciz">
         <div class="popper--popper--19faV">
@@ -95,7 +168,7 @@
                     $11.99
                   </div>
                 </div>
-                <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller">
+                <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
                   Bestseller
                 </div>
               </div>
