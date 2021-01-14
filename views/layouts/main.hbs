@@ -57,9 +57,10 @@
                   {{#each this.subName}}
                   <a
                     class="dropdown-item"
-                    href="javascript:;"
+                    href="/product/courseBySubField/{{this.name}}"
                     aria-expanded="false"
                     style="font-size: 1.4rem;"
+                    name="fieldsName"
                   >
                     {{this.name}}
                   </a>
