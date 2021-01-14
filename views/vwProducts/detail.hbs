@@ -34,10 +34,12 @@
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Course Content</h1>
     {{#each courseContent}}
       <div class="card-body">
-        <h4 class="card-text">#{{ID}}</h4>
-        <h4 class="card-text">{{Title}}</h4>
+        <span class="card-text">#{{ID}}</span>
+        <span class="card-text">{{Title}}</span>
         <span class="card-text">
-          {{previewVideo}}
+          {{#with previewVideo}}
+
+          {{/with}}
         </span>
       </div>
       <!-- if purchased show video link, else, only preview -->
