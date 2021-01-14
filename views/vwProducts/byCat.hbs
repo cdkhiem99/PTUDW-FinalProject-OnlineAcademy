@@ -14,10 +14,10 @@
           <img src="/course/{{this.CourseID}}/photo.png" alt="{{this.CourseName}}" title="{{this.CourseName}}"
             class="card-img-top">
           <div class="card-body">
-            <h3 class="card-title">{{this.CourseName}}</h6>
-            <h3 class="card-title">Field: {{this.fieldName}}</h6>
-            <h3 class="card-title">Lecturer Name: {{this.LecturerName}}</h6>
-            <h5 class="card-title text-danger">Price: {{Price}}</h5>
+            <h2 class="card-title">{{this.CourseName}}</h2>
+            <h4 class="card-title">Field: {{this.fieldName}}</h4>
+            <h4 class="card-title">Lecturer Name: {{this.LecturerName}}</h4>
+            <h5 class="card-title text-danger"><i class="fas fa-dollar-sign "></i> Price: {{Price}}</h5>
             <h5 class="card-title">Rating: {{this.Rating}}</h5>
             <p class="card-text">{{this.briefDescription}}</p>
           </div>
@@ -26,10 +26,12 @@
               <i class="fa fa-eye" aria-hidden="true"></i>
               Details
             </a>
+            {{#unless auth}}
             <a class="btn btn-sm btn-outline-success" href="#" role="button">
               <i class="fa fa-cart-plus" aria-hidden="true"></i>
               Add to cart
             </a>
+            {{/unless}}
           </div>
         </div>
       </div>
