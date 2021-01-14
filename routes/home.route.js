@@ -12,12 +12,6 @@ router.get("/", async function (req, res) {
     highlightedCourses: highlightedCourses,
     newViewedCourses: newViewedCourses,
     mostViewedCourses: mostViewedCourses
-  })
-
-  res.render("home", {
-    popularCourses: popularCourses,
-    mostViewedCourses: mostViewedCourses,
-    newCourses: newCourses,
   });
 });
 
