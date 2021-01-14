@@ -144,7 +144,7 @@
               </div>
               <div class="course-card--main-content--3xEIw course-card--has-price-text--1Ikr0">
                 <div class="udlite-heading-md course-card--course-title--2f7tE">
-                  2021 Complete Python Bootcamp From Zero to Hero in Python
+                  {{title}}
                 </div>
                 <div class="udlite-text-xs course-card--instructor-list--lIA4f" data-purpose="safely-set-inner-html:course-card:visible-instructors">
                   Jose Portilla
@@ -156,11 +156,11 @@
                       aria-hidden="true"
                       data-purpose="rating-number"
                     >
-                      4.6
+                      {{likes}} likes
                     </span>
                   </span>
                   <span  class="udlite-text-xs course-card--reviews-text--12UpL">
-                    (341,058)
+                    ({{format_number view}} views)
                   </span>
                 </div>
                 <div
@@ -171,7 +171,7 @@
                     class="price-text--price-part--Tu6MH course-card--discount-price--3TaBk udlite-heading-md"
                     data-purpose="course-price-text"
                   >
-                    $11.99
+                    ${{price}}
                   </div>
                 </div>
                 <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
