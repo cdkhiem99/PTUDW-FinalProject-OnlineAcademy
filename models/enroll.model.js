@@ -19,10 +19,12 @@ module.exports = {
   },
 
   async getBestSeller() {
-    const sql = `select courseId, count(studentId) as NumberOfStudents
-                from enroll
+    const sql = `select c.*, count(studentId) as NumberOfStudents
+                from enroll as er
+                join course as c on er.courseId = c.id
+                join lecturer as lt on c.lecturerId = lt.id
                 group by courseId
-                order by NumberOfStudents desc limit 10`;
+                order by NumberOfStudents desc limit 5`;
 
     const [result, fields] = await db.load(sql);
     
