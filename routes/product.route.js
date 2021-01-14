@@ -33,9 +33,18 @@ router.get('/', async function (req, res, next) {
 })
 router.get('/courseBySubField/:subField', async function (req, res, next) {
   const id = await fieldModel.getBySubName(req.params.subField);
-  const listByFields = await productModel.getAllCourseByField(parseInt(id.id));
-  res.locals.listByFields = listByFields;
-  res.locals.empty = listByFields.length === 0;
+  const listBySubFields = await productModel.getAllCourseBySubField(parseInt(id.id));
+  res.locals.listBySubFields = listBySubFields;
+  res.locals.empty = listBySubFields.length === 0;
   res.render('vwProducts/byCat');
 })
+
+router.get('/:Field', async function (req, res, next) {
+  console.log(req.params.Field);
+  const listByFields = await productModel.getAllCourseByField(req.params.Field);
+  res.locals.listByFields = listByFields;
+  res.locals.empty = listByFields === 0;
+  res.render('vwProducts/byFields');
+})
+
 module.exports = router;
