@@ -16,5 +16,20 @@ module.exports = {
     }
 
     return rows;
+  },
+
+  async getBestSeller() {
+    const sql = `select courseId, count(studentId) as NumberOfStudents
+                from enroll
+                group by courseId
+                order by NumberOfStudents desc limit 10`;
+
+    const [result, fields] = await db.load(sql);
+    
+    if (result.length === 0) {
+      return null;
+    }
+
+    return result;
   }
 };

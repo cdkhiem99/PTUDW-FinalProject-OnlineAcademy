@@ -62,8 +62,10 @@ module.exports = {
   },
 
   async get10mostView() {
-    const sql = `select c.*
+    const sql = `select c.*, lt.name as LecturerName
                   from course as c
+                  join lecturer as lt
+                  on lt.id = c.lecturerId
                   order by c.view desc limit 10`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0) {
@@ -121,6 +123,35 @@ module.exports = {
     const [rows, fields] = await db.load(sql, condition);
 
     return rows[0];
+  },
+
+  async getCourseByID(courseID) {
+    const sql = `select c.id as CourseID, c.title as CourseName, c.briefDescription as BriefDes, c.description as fullDes,
+                c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University
+                from course as c 
+                join lecturer as lt on c.lecturerId = lt.id
+                where c.id = ?`;
+    const condition = [courseID];
+
+    const [rows, fields] = await db.load(sql, condition);
+
+    const CourseDetails = [];
+
+    if (rows.length !== 0) {
+      CourseDetails.push({
+        CourseID: rows[0].CourseID,
+        CouresName: rows[0].CouresName,
+        Price: rows[0].Price,
+        briefDescription: rows[0].BriefDes,
+        fullDescription: rows[0].fullDes,
+        LecturerID: rows[0].LectID,
+        LecturerName: rows[0].LecturerName,
+        LecturerPhone: rows[0].PhoneNumber,
+        LecturerUniversity: rows[0].University,
+      })
+    }
+
+    return CourseDetails;
   },
 
   async getAllCourseByField(fieldName) {

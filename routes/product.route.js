@@ -39,12 +39,19 @@ router.get('/courseBySubField/:subField', async function (req, res, next) {
   res.render('vwProducts/byCat');
 })
 
-router.get('/:Field', async function (req, res, next) {
+router.get('/field/:Field', async function (req, res, next) {
   console.log(req.params.Field);
   const listByFields = await productModel.getAllCourseByField(req.params.Field);
   res.locals.listByFields = listByFields;
   res.locals.empty = listByFields === 0;
   res.render('vwProducts/byFields');
+})
+
+router.get('/detail/:courseID', async function(req, res, next) {
+  const course = await productModel.getCourseByID(req.params.courseID);
+  res.locals.course = course;
+  res.locals.empty = course === 0;
+  res.render('vwProducts/detail');
 })
 
 module.exports = router;
