@@ -8,13 +8,15 @@
     <link rel="stylesheet" type="text/css"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/stylesheets/main.css">
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     {{{_sections.css}}}
 
     <title>Online Academy</title>
 
     {{{_sections.css}}}
   </head>
+
+
 
   <body>
     <div class="main-content-wrapper">
@@ -107,9 +109,6 @@
           {{#unless auth}}
           <div class="header--top-right-btn">
 
-            <!-- Management Button -->
-            <a href="/admin/products" class="sign_up_container management">Management</a>
-
             <!-- Login button -->
             <a href="/account/login" class="sign_up_container login-btn">Login</a>
 
@@ -118,11 +117,36 @@
 
           </div>
           {{else}}
-          <a href="#currentPage">Hi, {{authUser.name}}!</a>
-          <a href="/student"> Profile </a>
-          <form method="POST" action="/account/logout">
-              <button class="sign_up_container sign_up"> Log out </button>
-          </form>
+          {{#if (eq authUser.role 'student')}}
+            <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, {{authUser.name}}!</a>
+            <a href="/student" class="sign_up_container sign_up"> Profile </a>
+            <form method="POST" action="/account/logout">
+                <button class="sign_up_container sign_up"> Log out </button>
+            </form>
+          {{/if}}
+
+          {{#if (eq authUser.role 'lecturer')}}
+            <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, {{authUser.name}}!</a>
+            <a href="/student" class="sign_up_container sign_up"> Profile </a>
+            <a href="#currentPage" class="sign_up_container sign_up"> My Course </a>
+            <form method="POST" action="/account/logout">
+                <button class="sign_up_container sign_up"> Log out </button>
+            </form>
+          {{/if}}
+
+          {{#if (eq authUser.role 'admin')}}
+            <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, Admin {{authUser.id}}!</a>
+
+            <!-- Management Button -->
+            <a href="/admin/products" class="sign_up_container management" align="center">Fields Management</a>
+            <a href="/admin/products" class="sign_up_container management" align="center">Course Management</a>
+            <a href="/admin/products" class="sign_up_container management" align="center">Student Management</a>
+            <a href="/admin/products" class="sign_up_container management" align="center">Lecturer Management</a>
+            <a href="/student" class="sign_up_container sign_up"> Profile </a>
+            <form method="POST" action="/account/logout">
+                <button class="sign_up_container sign_up"> Log out </button>
+            </form>
+          {{/if}}
           {{/unless}}
 
           <script type="text/javascript">
@@ -173,7 +197,7 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
 

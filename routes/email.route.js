@@ -1,7 +1,7 @@
 const nodemailer = require("nodemailer");
 
 module.exports = {
-    sendConfirmationEmail(user, token ,callback) {
+    sendConfirmationEmail(user, uRl,  callback) {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             secure: true,
@@ -13,7 +13,7 @@ module.exports = {
                 rejectUnauthorized: false
             }
         });
-        const url = `http://localhost:3000/account/confirmation/${token}`;
+        const url = uRl;
         let mailOptions = {
             from: process.env.GMAIL_USER,
             to: user.email,

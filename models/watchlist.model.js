@@ -8,7 +8,7 @@ module.exports = {
 
   async deleteInWatchList(id) {
     const condition = {
-      id: id,
+      courseId: id,
     };
 
     const [result, fields] = await db.del(condition, 'watchList');

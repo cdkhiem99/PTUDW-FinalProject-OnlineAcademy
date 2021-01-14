@@ -47,8 +47,9 @@ router.post("/register", async function (req, res, next) {
   }
   else{
     const randomString = makeid(15);
+    const url = `http://localhost:3000/account/confirmation/${randomString}`;
         jwt.set(randomString,user);
-    emailService.sendConfirmationEmail(user, randomString, function callback(err,data) {
+    emailService.sendConfirmationEmail(user, url, function callback(err,data) {
       if (err === null){
         res.json(true);
       }
@@ -92,17 +93,17 @@ router.get("/login", function (req, res) {
 
 router.post("/login", async function (req, res) {
   var user = await studentModel.singleByUserName(req.body.username);
-  if (user !== null){
+  if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
     req.session.auth = true;
     req.session.authUser = user;
-
+    
     const url = req.session.retUrl || "/";
     res.redirect(url);
     return;
   }
 
   user = await lecturerModel.singleByLecturerID(req.body.username);
-  if (user !== null){
+  if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
     req.session.auth = true;
     req.session.authUser = user;
 
@@ -112,7 +113,7 @@ router.post("/login", async function (req, res) {
   }
 
   user = await adminModel.singleAdmin(req.body.username);
-  if (user !== null){
+  if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
     req.session.auth = true;
     req.session.authUser = user;
 
@@ -124,23 +125,10 @@ router.post("/login", async function (req, res) {
   if (user === null) {
     return res.render("vwAccount/login", {
       layout: false,
-      err_message: "Invalid username.",
+      err_message: "Wrong username or password!",
     });
   }
 
-  const ret = bcrypt.compareSync(req.body.password, user.password);
-  if (ret === false) {
-    return res.render("vwAccount/login", {
-      layout: false,
-      err_message: "Invalid password.",
-    });
-  }
-
-  req.session.auth = true;
-  req.session.authUser = user;
-
-  const url = req.session.retUrl || "/";
-  res.redirect(url);
 });
 
 router.post("/logout", function (req, res) {
