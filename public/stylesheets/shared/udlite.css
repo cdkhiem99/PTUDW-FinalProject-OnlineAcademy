@@ -95,7 +95,7 @@
   width: 100%;
   max-width: 134rem;
   margin-right: auto;
-  margin-left: auto;
+  /* margin-left: auto; */
   padding-right: 2.4rem;
   padding-left: 2.4rem;
 }
