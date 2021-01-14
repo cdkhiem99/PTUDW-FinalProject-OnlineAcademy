@@ -1,8 +1,9 @@
 const db = require('../utils/db');
+const bcrypt = require("bcryptjs");
 
 module.exports = {
   async singleByUserName(id) {
-    const sql = `select * from student where id = ?`;
+    const sql = `select *,'student' as role from student where id = ?`;
     const condition = [id];
     const [rows, fields] = await db.load(sql, condition);
     if (rows.length === 0)
@@ -15,4 +16,31 @@ module.exports = {
     const [result, fields] = await db.add(user, 'student');
     return result;
   },
+
+  async del(id) {
+      const condition = {
+          id: id
+      }
+
+      const [result, fields] = await db.del(condition, 'student');
+      return result;
+  },
+
+  async patch(user,id) {
+    try {
+      const hash = bcrypt.hashSync(user.password, 10);
+      const newUser = {
+        phone_number: user.phone,
+        password: hash
+      }
+      const condition = {
+        id: id
+      }
+      const [result, fields] = await db.patch(newUser, condition, 'student');
+
+    } catch (error) {
+      return error.message;
+    }
+    return true;
+  }
 };

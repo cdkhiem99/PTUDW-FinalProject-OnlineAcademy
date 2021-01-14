@@ -7,13 +7,9 @@ module.exports = function (app) {
       req.session.auth = false;
     }
 
-    if (req.session.auth === false) {
-      req.session.cart = [];
-    }
-
     res.locals.auth = req.session.auth;
     res.locals.authUser = req.session.authUser;
-    res.locals.cartSummary = cartModel.getNumberOfItems(req.session.cart);
+
     next();
   });
 

@@ -5,7 +5,11 @@ const categories = require("../routes/category.route");
 const products = require("../routes/product.route");
 const account = require("../routes/account.route");
 const product_fe = require("../routes/product-fe.route");
-const _demo = require("../routes/_demo.route");
+
+const student = require("../routes/student.route");
+const lecturer = require("../routes/lecturer.route");
+const admin = require("../routes/admin.route");
+
 
 module.exports = function (app) {
   app.use("/", home);
@@ -19,5 +23,7 @@ module.exports = function (app) {
   app.use("/admin/categories", categories);
   app.use("/admin/products", products);
 
-  app.use("/demo", _demo);
+  app.use("/student", student);
+  // app.use("/lecturer", lecturer);
+  // app.use("/admin", admin);
 };
