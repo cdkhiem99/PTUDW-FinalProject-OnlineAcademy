@@ -87,5 +87,18 @@ module.exports = {
     }
 
     return rows;
+  },
+
+  async get10LatestCourse() {
+    const sql = `select c.*
+                  from course as c limit 10
+                  order by c.dates desc limit 10`;
+    const [rows, fields] = await db.load(sql);
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return rows;
   }
 };

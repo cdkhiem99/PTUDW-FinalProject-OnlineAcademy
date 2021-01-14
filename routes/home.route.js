@@ -7,6 +7,17 @@ router.get("/", async function (req, res) {
   res.render("home", {
     mostViewedCourses: mostViewedCourses,
   });
+
+  const newViewedCourses = await courseModel.get10LatestCourse();
+  res.render("home", {
+    newViewedCourses: newViewedCourses,
+  })
+
+  const highlightedCourses = await courseModel.get4HighlightedCourse();
+  res.render("home", {
+    highlightedCourses: highlightedCourses,
+  })
+
 });
 
 module.exports = router;
