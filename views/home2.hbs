@@ -21,15 +21,30 @@
 
   .popular-courses--item-caption {
     position: absolute;
-    bottom: 2%;
+    bottom: 0;
+  }
+
+  .popular-courses--item-title,
+  .popular-courses--item-description {
     padding: 0 1.5rem;
+    margin-bottom: 0.8rem;
 
     display: -webkit-box;
 
     font-size: 3.2rem;
-    font-weight: 900;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.02rem;
+
     color: white;
     text-shadow: -1px -0.5px grey;
+  }
+
+  .popular-courses--item-description {
+    margin-bottom: 1.6rem;
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.4;
   }
 </style>
 {{/section}}
@@ -78,27 +93,18 @@
 {{/section}}
 
 <div class="popular-courses owl-carousel owl-theme">
+  {{#each popularCourses}}
   <a
     href="javascript:;"
     class="popular-courses--item"
-    style="background-image: url(/course/1/photo.png)"
+    style="background-image: url({{trimImagePath imagePath}})"
   >
-    <div class="popular-courses--item-caption">HEELO 1</div>
+    <div class="popular-courses--item-caption">
+      <div class="popular-courses--item-title">{{title}}</div>
+      <div class="popular-courses--item-description">{{briefDescription}}</div>
+    </div>
   </a>
-  <a
-    href="javascript:;"
-    class="popular-courses--item"
-    style="background-image: url(/course/2/photo.png)"
-  >
-    <div class="popular-courses--item-caption">HEELO 2</div>
-  </a>
-  <a
-    href="javascript:;"
-    class="popular-courses--item"
-    style="background-image: url(/course/3/photo.png)"
-  >
-    <div class="popular-courses--item-caption">HEELO 3</div>
-  </a>
+  {{/each}}
 </div>
 
 <div class="headline udlite-container">
