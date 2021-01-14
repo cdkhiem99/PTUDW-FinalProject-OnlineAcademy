@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const courseModel = require("../models/course.model");
+const debug = require("debug")("routes:home");
 
 router.get("/", async function (req, res) {
   console.log(res.locals.authUser);
@@ -13,6 +14,11 @@ router.get("/", async function (req, res) {
     mostViewedCourses: mostViewedCourses
   })
 
+  res.render("home", {
+    popularCourses: popularCourses,
+    mostViewedCourses: mostViewedCourses,
+    newCourses: newCourses,
+  });
 });
 
 module.exports = router;

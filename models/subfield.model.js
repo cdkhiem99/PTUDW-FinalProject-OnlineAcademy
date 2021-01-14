@@ -27,6 +27,16 @@ module.exports = {
     return rows;
   },
 
+  async getBySubName(subName) {
+    const sql = `select id from subfield where name = ?`;
+    const condition = [subName];
+    const [rows, fields] = await db.load(sql, condition);
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows[0];
+  },
+
   async add(category) {
     const [result, fields] = await db.add(category, 'fields');
     // console.log(result);

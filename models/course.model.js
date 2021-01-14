@@ -1,6 +1,7 @@
 const db = require("../utils/db");
 const { paginate } = require("../config/default.json");
 const debug = require("debug")("models:course");
+const sub = require("../models/subfield.model")
 
 module.exports = {
   async all() {
@@ -100,5 +101,83 @@ module.exports = {
     }
 
     return rows;
-  }
+  },
+
+  async getCourseIDbyFieldID(fieldsId) {
+    const sql = `select c.id
+                from course as c join subfield as sf on sf.courseID = c.subFieldId
+                where sf.id = ?`;
+    const condition = [fieldsId];
+    const [rows, fields] = await db.load(sql, condition);
+
+    return rows[0];
+  },
+
+  async getCourseNamebyFieldID(fieldsId) {
+    const sql = `select c.name
+                from course as c join subfield as sf on sf.courseID = c.subFieldId
+                where sf.id = ?`;
+    const condition = [fieldsId];
+    const [rows, fields] = await db.load(sql, condition);
+
+    return rows[0];
+  },
+
+  async getAllCourseByField(fieldName) {
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName, 
+                lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
+                from course as c join subfield as sf on c.subFieldId = sf.id
+                join lecturer as lt on lt.id = c.lecturerId
+                where sf.fieldName = ?`;
+    const condition = [fieldName];
+    const [rows, fields] = await db.load(sql, condition);
+
+    const listByFields = [];
+    
+    if (rows.length !== 0) {
+      for (let index = 0; index < rows.length; index++) {
+        const element = rows[index];
+        listByFields.push({
+          CourseID: element.CourseID,
+          CourseName: element.CourseName,
+          LecturerName: element.LecturerName,
+          Rating: element.Rating,
+          Price: element.CoursePrice,
+          briefDescription: element.briefDes,
+          fullDescription: element.FullDes,
+          fieldName: element.FieldName,
+        })
+      }
+    }
+    return listByFields;
+  },
+
+  async getAllCourseBySubField(fieldsID) {
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName, 
+                lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
+                from course as c join subfield as sf on c.subFieldId = sf.id
+                join lecturer as lt on lt.id = c.lecturerId
+                where sf.id = ?`;
+    const condition = [fieldsID];
+    const [rows, fields] = await db.load(sql, condition);
+
+    const listByFields = [];
+    
+    if (rows.length !== 0) {
+      for (let index = 0; index < rows.length; index++) {
+        const element = rows[index];
+        listByFields.push({
+          CourseID: element.CourseID,
+          CourseName: element.CourseName,
+          LecturerName: element.LecturerName,
+          Rating: element.Rating,
+          Price: element.CoursePrice,
+          briefDescription: element.briefDes,
+          fullDescription: element.FullDes,
+          fieldName: element.FieldName,
+        })
+      }
+    }
+    return listByFields;
+  },
 };
