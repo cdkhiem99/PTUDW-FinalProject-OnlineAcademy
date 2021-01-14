@@ -127,6 +127,7 @@ module.exports = {
 
   async getCourseByID(courseID) {
     const sql = `select c.id as CourseID, c.title as CourseName, c.briefDescription as BriefDes, c.description as fullDes,
+                TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University
                 from course as c 
                 join lecturer as lt on c.lecturerId = lt.id
@@ -144,6 +145,7 @@ module.exports = {
         Price: rows[0].Price,
         briefDescription: rows[0].BriefDes,
         fullDescription: rows[0].fullDes,
+        lastUpdate: rows[0].lastUpdate,
         LecturerID: rows[0].LectID,
         LecturerName: rows[0].LecturerName,
         LecturerPhone: rows[0].PhoneNumber,

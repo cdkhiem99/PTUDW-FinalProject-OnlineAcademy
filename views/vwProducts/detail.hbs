@@ -1,5 +1,5 @@
 {{#each course}}
-<div class="card">
+<div class="card" style="display: flex; margin: 35px;">
   <h4 class="card-header">
     {{CourseName}}
   </h4>
@@ -15,13 +15,27 @@
     <p class="card-text">
       University: {{LecturerUniversity}}
     </p>
-    <p class="card-text">
+    <p class="card-text" style="display: flex; justify-content: flex-end; margin: auto;">
       {{{fullDescription}}}
     </p>
     
+    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1>
+    {{#each feedbackList}}
+      <div class="card-body">
+        <h4 class="card-text">Name: {{StudentName}}</h4>
+        <h4 class="card-text">{{Star}}</h4>
+        <h4 class="card-text">{{datePost}}</h4>
+        <p class="card-text">
+          {{{StudentComment}}}
+        </p>
+      </div>
+    {{/each}}
+
+    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Course Content</h1>
   </div>
+
   <div class="card-footer text-muted">
-    <small>Last upadated 3 minutes ago.</small>
+    <small>Last updated {{lastUpdate}} days ago.</small>
   </div>
 </div>
 {{/each}}
