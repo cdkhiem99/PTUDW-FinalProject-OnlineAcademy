@@ -7,11 +7,14 @@ module.exports = function (app) {
     "hbs",
     exphbs({
       defaultLayout: "main.hbs",
-      // defaultLayout: 'bs4.hbs',
       helpers: {
         section: hbs_sections(),
         format_number(val) {
           return numeral(val).format("0,0");
+        },
+        format_price: this.format_number,
+        trimImagePath(imgPath) {
+          return imgPath.replace("/resource/public", "");
         },
       },
     })
