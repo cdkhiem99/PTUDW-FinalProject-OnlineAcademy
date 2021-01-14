@@ -8,5 +8,24 @@ module.exports = {
             return null;
 
         return rows[0];
+    },
+
+    async addNewVideo(video, id) {
+        try {
+            const condition = {
+                courseID: id,
+            };
+            const newVideo = {
+                title: video.title,
+                description: video.description,
+                preview: video.preview
+            }
+
+            const [result, fields] = await db.patch(newVideo, condition, 'section');
+        } catch (error) {
+            error.message;
+        }
+
+        return true; 
     }
 }
