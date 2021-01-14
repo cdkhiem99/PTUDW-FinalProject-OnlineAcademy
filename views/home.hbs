@@ -118,7 +118,7 @@
   </div>
 </div>
 
-<div class="udlite-container">
+<div class="udlite-container" style="align-items: center; ">
 
   {{!-- Khoá học được xem nhiều nhất --}}
   <div class="component-margin">
@@ -129,6 +129,140 @@
     </div>
     <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
       {{#each mostViewedCourses}}
+      <div class="carousel--scroll-item--3Wciz">
+        <div class="popper--popper--19faV">
+          <a class="course-card" href="javascript:;">
+            <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
+              <div class="course-card--image-wrapper--Sxd90">
+                <img
+                  alt=""
+                  width="240"
+                  height="135"
+                  class="course-card--course-image--2sjYP browse-course-card--image--35hYN"
+                  src={{trimImagePath imagePath}}
+                >
+              </div>
+              <div class="course-card--main-content--3xEIw course-card--has-price-text--1Ikr0">
+                <div class="udlite-heading-md course-card--course-title--2f7tE">
+                  {{title}}
+                </div>
+                <div class="udlite-text-xs course-card--instructor-list--lIA4f" data-purpose="safely-set-inner-html:course-card:visible-instructors">
+                  {{LecturerName}}
+                </div>
+                <div class="course-card--row--1OMjg">
+                  <span class="star-rating--star-wrapper--2eczq">
+                    <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                    <span
+                      class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                      aria-hidden="true"
+                      data-purpose="rating-number"
+                    >
+                      {{likes}}
+                    </span>
+                  </span>
+                  <span  class="udlite-text-xs course-card--reviews-text--12UpL">
+                    ({{format_number view}} views)
+                  </span>
+                </div>
+                <div
+                  class="price-text--container--Ws-fP course-card--price-text-container--2sb8G"
+                  data-purpose="price-text-container"
+                >
+                  <div
+                    class="price-text--price-part--Tu6MH course-card--discount-price--3TaBk udlite-heading-md"
+                    data-purpose="course-price-text"
+                  >
+                    ${{price}}
+                  </div>
+                </div>
+                <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
+                  Bestseller
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Khoá học mới nhất --}}
+  <div class="component-margin">
+    <div class="unit-title--container--EH-Rf">
+      <h2 class="udlite-heading-xl unit-title--title--2TQwd">
+        New courses
+      </h2>
+    </div>
+    <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
+      {{#each newViewedCourses}}
+      <div class="carousel--scroll-item--3Wciz">
+        <div class="popper--popper--19faV">
+          <a class="course-card" href="javascript:;">
+            <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
+              <div class="course-card--image-wrapper--Sxd90">
+                <img
+                  alt=""
+                  width="240"
+                  height="135"
+                  class="course-card--course-image--2sjYP browse-course-card--image--35hYN"
+                  src={{trimImagePath imagePath}}
+                >
+              </div>
+              <div class="course-card--main-content--3xEIw course-card--has-price-text--1Ikr0">
+                <div class="udlite-heading-md course-card--course-title--2f7tE">
+                  {{title}}
+                </div>
+                <div class="udlite-text-xs course-card--instructor-list--lIA4f" data-purpose="safely-set-inner-html:course-card:visible-instructors">
+                  {{LecturerName}}
+                </div>
+                <div class="course-card--row--1OMjg">
+                  <span class="star-rating--star-wrapper--2eczq">
+                    <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                    <span
+                      class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                      aria-hidden="true"
+                      data-purpose="rating-number"
+                    >
+                      {{likes}}
+                    </span>
+                  </span>
+                  <span  class="udlite-text-xs course-card--reviews-text--12UpL">
+                    ({{format_number view}} views)
+                  </span>
+                </div>
+                <div
+                  class="price-text--container--Ws-fP course-card--price-text-container--2sb8G"
+                  data-purpose="price-text-container"
+                >
+                  <div
+                    class="price-text--price-part--Tu6MH course-card--discount-price--3TaBk udlite-heading-md"
+                    data-purpose="course-price-text"
+                  >
+                    ${{price}}
+                  </div>
+                </div>
+                <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
+                  Bestseller
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Khoá học nổi bật --}}
+  <div class="component-margin">
+    <div class="unit-title--container--EH-Rf">
+      <h2 class="udlite-heading-xl unit-title--title--2TQwd">
+        Highlighted courses
+      </h2>
+    </div>
+    <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
+      {{#each highlightedCourses}}
       <div class="carousel--scroll-item--3Wciz">
         <div class="popper--popper--19faV">
           <a class="course-card" href="javascript:;">
