@@ -75,4 +75,30 @@ module.exports = {
 
     return rows;
   },
+
+  async get4HighlightedCourse() {
+    const sql = `select c.*
+                  from course as c
+                  order by c.likes desc limit 4`;
+    const [rows, fields] = await db.load(sql);
+    
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return rows;
+  },
+
+  async get10LatestCourse() {
+    const sql = `select c.*
+                  from course as c
+                  order by c.date desc limit 10`;
+    const [rows, fields] = await db.load(sql);
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return rows;
+  }
 };
