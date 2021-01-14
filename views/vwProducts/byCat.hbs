@@ -1,25 +1,28 @@
 <div class="card">
   <div class="card-header">
-    <h4>Products</h4>
+    <h4>Course</h4>
   </div>
   <div class="card-body">
-    {{#if this.empty}}
+    {{#if empty}}
     <h5 class="card-title">Không có dữ liệu!</h5>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
     {{else}}
     <div class="row">
-      {{#each this.products}}
+      {{#each listByFields}}
       <div class="col-sm-4 mb-3">
         <div class="card h-100">
-          <img src="/imgs/sp/{{ProID}}/main_thumbs.jpg" alt="{{ProName}}" title="{{ProName}}"
+          <img src="/course/{{this.CourseID}}/photo.png" alt="{{this.CourseName}}" title="{{this.CourseName}}"
             class="card-img-top">
           <div class="card-body">
-            <h6 class="card-title">{{ProName}}</h6>
-            <h5 class="card-title text-danger">{{format_number Price}}</h5>
-            <p class="card-text">{{TinyDes}}</p>
+            <h3 class="card-title">{{this.CourseName}}</h6>
+            <h3 class="card-title">Field: {{this.fieldName}}</h6>
+            <h3 class="card-title">Lecturer Name: {{this.LecturerName}}</h6>
+            <h5 class="card-title text-danger">Price: {{Price}}</h5>
+            <h5 class="card-title">Rating: {{this.Rating}}</h5>
+            <p class="card-text">{{this.briefDescription}}</p>
           </div>
           <div class="card-footer text-muted">
-            <a class="btn btn-sm btn-outline-primary" href="/products/detail/{{ProID}}" role="button">
+            <a class="btn btn-sm btn-outline-primary" href="/product/detail/{{this.CourseID}}" role="button">
               <i class="fa fa-eye" aria-hidden="true"></i>
               Details
             </a>
