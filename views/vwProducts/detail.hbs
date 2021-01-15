@@ -1,17 +1,63 @@
-{{#with listBySubFields}}
-<div class="card">
+{{#section 'css'}}
+<style>
+  .img-big {
+    width: 100%;
+    height: auto;
+  }
+
+</style>
+{{/section}}
+
+{{#each course}}
+<div class="card" style="display: flex; margin: 35px;">
   <h4 class="card-header">
     {{CourseName}}
   </h4>
   <div class="card-body">
-    <img src="/course/{{CourseID}}/photo.png" alt="{{CourseName}}">
-    <p class="card-text mt-3">Price: <span class="text-danger font-weight-bold">{{Price}}</span></p>
+    <img src="/course/{{CourseID}}/photo.png" alt="{{CourseName}}" class="img-big">
+    <p class="card-text mt-3">Price: {{Price}}</p>
     <p class="card-text">
+      Lecturer: {{LecturerName}}
+    </p>
+    <p class="card-text">
+      Phone: {{LecturerPhone}}
+    </p>
+    <p class="card-text">
+      University: {{LecturerUniversity}}
+    </p>
+    <p class="card-text" style="display: flex; justify-content: flex-end; margin: auto;">
       {{{fullDescription}}}
     </p>
+
+    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1>
+    {{#each feedbackList}}
+      <div class="card-body">
+        <h4 class="card-text">Name: {{StudentName}}</h4>
+        <h4 class="card-text">{{Star}}</h4>
+        <h4 class="card-text">{{datePost}}</h4>
+        <p class="card-text">
+          {{{StudentComment}}}
+        </p>
+      </div>
+    {{/each}}
+
+    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Course Content</h1>
+    {{#each courseContent}}
+      <div class="card-body">
+        <span class="card-text">#{{ID}}</span>
+        <span class="card-text">{{Title}}</span>
+        <span class="card-text">
+          {{#with previewVideo}}
+
+          {{/with}}
+        </span>
+      </div>
+      <!-- if purchased show video link, else, only preview -->
+    {{/each}}
   </div>
+
   <div class="card-footer text-muted">
-    <small>Last upadated 3 minutes ago.</small>
+    <small>Last updated {{lastUpdate}} days ago.</small>
   </div>
 </div>
-{{/with}}
+{{/each}}
