@@ -22,12 +22,19 @@
   .popular-courses--item-caption {
     position: absolute;
     bottom: 0;
+
+    background: rgb(33,37,41);
+    background: linear-gradient(0deg, rgba(33,37,41,1) 0%,
+    rgba(108,117,125,0.8) 60%, rgba(173,181,189,0.7) 80%,
+    rgba(233,236,239,0.6) 100%);
+
+    width: 100%;
   }
 
   .popular-courses--item-title,
   .popular-courses--item-description {
     padding: 0 1.5rem;
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.5rem;
 
     display: -webkit-box;
 
@@ -37,11 +44,10 @@
     letter-spacing: -.02rem;
 
     color: white;
-    text-shadow: -1px -0.5px grey;
   }
 
   .popular-courses--item-description {
-    margin-bottom: 1.6rem;
+    margin-bottom: 1rem;
     font-size: 1.9rem;
     font-weight: 400;
     line-height: 1.4;
