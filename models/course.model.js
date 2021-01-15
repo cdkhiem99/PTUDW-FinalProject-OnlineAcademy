@@ -1,7 +1,7 @@
 const db = require("../utils/db");
 const { paginate } = require("../config/default.json");
 const debug = require("debug")("models:course");
-const sub = require("../models/subfield.model")
+const sub = require("../models/subfield.model");
 
 module.exports = {
   async all() {
@@ -29,27 +29,27 @@ module.exports = {
   },
 
   async addCourse() {
-    const [result, fields] = await db.add(course, 'course');
+    const [result, fields] = await db.add(course, "course");
     // console.log(result);
     return result;
   },
 
   async deleteCourse(id) {
     const condition = {
-      id: id
+      id: id,
     };
 
-    const [result, fields] = await db.del(condition, 'course');
+    const [result, fields] = await db.del(condition, "course");
     return result;
   },
 
   async updateCourse(entity) {
     const condition = {
-      id: entity.id
-    }
-    delete (entity.id);
+      id: entity.id,
+    };
+    delete entity.id;
 
-    const [result, fields] = await db.patch(entity, condition, 'course');
+    const [result, fields] = await db.patch(entity, condition, "course");
     return result;
   },
 
@@ -79,12 +79,14 @@ module.exports = {
     return rows;
   },
 
-  async get4HighlightedCourse() {
-    const sql = `select c.*
+  async get10LatestCourse() {
+    const sql = `select c.*, lt.name as LecturerName
                   from course as c
-                  order by c.likes desc limit 4`;
+                  join lecturer as lt
+                  on lt.id = c.lecturerId
+                  order by c.date desc limit 10`;
     const [rows, fields] = await db.load(sql);
-    
+
     if (rows.length === 0) {
       return null;
     }
@@ -92,10 +94,12 @@ module.exports = {
     return rows;
   },
 
-  async get10LatestCourse() {
-    const sql = `select c.*
+  async get4HighlightedCourse() {
+    const sql = `select c.*, lt.name as LecturerName
                   from course as c
-                  order by c.date desc limit 10`;
+                  join lecturer as lt
+                  on lt.id = c.lecturerId
+                  order by c.likes desc limit 10`;
     const [rows, fields] = await db.load(sql);
 
     if (rows.length === 0) {
@@ -129,7 +133,7 @@ module.exports = {
     const sql = `select c.id as CourseID, c.title as CourseName, c.briefDescription as BriefDes, c.description as fullDes,
                 TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University
-                from course as c 
+                from course as c
                 join lecturer as lt on c.lecturerId = lt.id
                 where c.id = ?`;
     const condition = [courseID];
@@ -150,14 +154,14 @@ module.exports = {
         LecturerName: rows[0].LecturerName,
         LecturerPhone: rows[0].PhoneNumber,
         LecturerUniversity: rows[0].University,
-      })
+      });
     }
 
     return CourseDetails;
   },
 
   async getAllCourseByField(fieldName) {
-    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName, 
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName,
                 lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
@@ -166,7 +170,7 @@ module.exports = {
     const [rows, fields] = await db.load(sql, condition);
 
     const listByFields = [];
-    
+
     if (rows.length !== 0) {
       for (let index = 0; index < rows.length; index++) {
         const element = rows[index];
@@ -179,14 +183,14 @@ module.exports = {
           briefDescription: element.briefDes,
           fullDescription: element.FullDes,
           fieldName: element.FieldName,
-        })
+        });
       }
     }
     return listByFields;
   },
 
   async getAllCourseBySubField(fieldsID) {
-    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName, 
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName,
                 lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
@@ -195,7 +199,7 @@ module.exports = {
     const [rows, fields] = await db.load(sql, condition);
 
     const listByFields = [];
-    
+
     if (rows.length !== 0) {
       for (let index = 0; index < rows.length; index++) {
         const element = rows[index];
@@ -208,7 +212,7 @@ module.exports = {
           briefDescription: element.briefDes,
           fullDescription: element.FullDes,
           fieldName: element.FieldName,
-        })
+        });
       }
     }
     return listByFields;
