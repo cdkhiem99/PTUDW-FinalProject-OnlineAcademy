@@ -2,7 +2,6 @@ const exphbs = require("express-handlebars");
 const hbs_sections = require("express-handlebars-sections");
 const numeral = require("numeral");
 
-
 module.exports = function (app) {
   app.engine(
     "hbs",
@@ -17,7 +16,8 @@ module.exports = function (app) {
         trimImagePath(imgPath) {
           return imgPath.replace("/resource/public", "");
         },
-        eq: require("../utils/helper").eq
+        trimResourcePath: this.trimImagePath,
+        eq: require("../utils/helper").eq,
       },
     })
   );

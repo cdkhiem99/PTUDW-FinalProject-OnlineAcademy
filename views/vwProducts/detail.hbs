@@ -8,7 +8,7 @@
 </style>
 {{/section}}
 
-{{#each course}}
+{{#with course}}
 <div class="card" style="display: flex; margin: 35px;">
   <h4 class="card-header">
     {{CourseName}}
@@ -28,10 +28,9 @@
     <p class="card-text" style="display: flex; justify-content: flex-end; margin: auto;">
       {{{fullDescription}}}
     </p>
-{{/each}}
 
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1>
-    {{#each feedbackList}}
+    {{#each ../feedbackList}}
       <div class="card-body">
         <h4 class="card-text">Name: {{StudentName}}</h4>
         <h4 class="card-text">{{Star}}</h4>
@@ -43,13 +42,13 @@
     {{/each}}
 
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Course Content</h1>
-    {{#each courseContent}}
+    {{#each ../courseContent}}
       <div class="card-body">
         <span class="card-text">#{{ID}}</span>
         <span class="card-text">{{Title}}</span>
         <span class="card-text">
-          {{#with previewVideo}}
-
+          {{#with ../previewVideo}}
+            {{trimResourcePath preview}}
           {{/with}}
         </span>
       </div>
@@ -57,9 +56,8 @@
     {{/each}}
   </div>
 
-{{#each course}}
   <div class="card-footer text-muted">
     <small>Last updated {{lastUpdate}} days ago.</small>
   </div>
 </div>
-{{/each}}
+{{/with}}
