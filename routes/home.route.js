@@ -16,10 +16,10 @@ router.get("/", async function (req, res) {
   debug("highlight:", highlightedCourses[0]);
 
   res.render("home", {
-    popularCourses: popularCourses,
-    mostViewedCourses: mostViewedCourses,
-    newViewedCourses: newViewedCourses,
-    highlightedCourses: highlightedCourses,
+    popularCourses,
+    mostViewedCourses,
+    newViewedCourses,
+    highlightedCourses,
   });
 });
 
