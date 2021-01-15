@@ -65,7 +65,7 @@
       autoplayHoverPause: true,
       loop: true
     });
-    $('.most-viewed-courses.owl-carousel').owlCarousel({
+    $('.target-courses.owl-carousel').owlCarousel({
       loop:true,
       nav: true,
       margin: 10,
@@ -95,7 +95,7 @@
 <div class="popular-courses owl-carousel owl-theme">
   {{#each popularCourses}}
   <a
-    href="javascript:;"
+    href="/product/detail/{{id}}"
     class="popular-courses--item"
     style="background-image: url({{trimImagePath imagePath}})"
   >
@@ -127,11 +127,11 @@
         Most viewed courses
       </h2>
     </div>
-    <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
+    <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
       {{#each mostViewedCourses}}
       <div class="carousel--scroll-item--3Wciz">
         <div class="popper--popper--19faV">
-          <a class="course-card" href="javascript:;">
+          <a class="course-card" href="/product/detail/{{id}}">
             <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
               <div class="course-card--image-wrapper--Sxd90">
                 <img
@@ -194,11 +194,11 @@
         New courses
       </h2>
     </div>
-    <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
+    <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
       {{#each newViewedCourses}}
       <div class="carousel--scroll-item--3Wciz">
         <div class="popper--popper--19faV">
-          <a class="course-card" href="javascript:;">
+          <a class="course-card" href="/product/detail/{{id}}">
             <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
               <div class="course-card--image-wrapper--Sxd90">
                 <img
@@ -261,11 +261,11 @@
         Highlighted courses
       </h2>
     </div>
-    <div class="most-viewed-courses carousel--container--22Ab7 owl-carousel owl-theme">
+    <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
       {{#each highlightedCourses}}
       <div class="carousel--scroll-item--3Wciz">
         <div class="popper--popper--19faV">
-          <a class="course-card" href="javascript:;">
+          <a class="course-card" href="/product/detail/{{id}}">
             <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
               <div class="course-card--image-wrapper--Sxd90">
                 <img
