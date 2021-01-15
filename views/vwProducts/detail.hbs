@@ -1,10 +1,20 @@
+{{#section 'css'}}
+<style>
+  .img-big {
+    width: 100%;
+    height: auto;
+  }
+
+</style>
+{{/section}}
+
 {{#each course}}
 <div class="card" style="display: flex; margin: 35px;">
   <h4 class="card-header">
     {{CourseName}}
   </h4>
   <div class="card-body">
-    <img src="/course/{{CourseID}}/photo.png" alt="{{CourseName}}">
+    <img src="/course/{{CourseID}}/photo.png" alt="{{CourseName}}" class="img-big">
     <p class="card-text mt-3">Price: {{Price}}</p>
     <p class="card-text">
       Lecturer: {{LecturerName}}
@@ -18,7 +28,7 @@
     <p class="card-text" style="display: flex; justify-content: flex-end; margin: auto;">
       {{{fullDescription}}}
     </p>
-    
+
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1>
     {{#each feedbackList}}
       <div class="card-body">
