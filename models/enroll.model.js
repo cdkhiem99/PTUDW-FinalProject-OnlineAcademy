@@ -1,8 +1,8 @@
-const db = require('../utils/db');
+const db = require("../utils/db");
 
 module.exports = {
   async add(order) {
-    const [result, fields] = await db.add(order, 'enroll');
+    const [result, fields] = await db.add(order, "enroll");
     return result;
   },
 
@@ -27,11 +27,11 @@ module.exports = {
                 order by NumberOfStudents desc limit 5`;
 
     const [result, fields] = await db.load(sql);
-    
+
     if (result.length === 0) {
       return null;
     }
 
     return result;
-  }
+  },
 };
