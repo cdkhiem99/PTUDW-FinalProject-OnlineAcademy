@@ -28,6 +28,7 @@
     <p class="card-text" style="display: flex; justify-content: flex-end; margin: auto;">
       {{{fullDescription}}}
     </p>
+{{/each}}
 
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1>
     {{#each feedbackList}}
@@ -56,6 +57,7 @@
     {{/each}}
   </div>
 
+{{#each course}}
   <div class="card-footer text-muted">
     <small>Last updated {{lastUpdate}} days ago.</small>
   </div>
