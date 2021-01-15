@@ -24,6 +24,6 @@ module.exports = function (app) {
   app.use("/admin/products", products);
 
   app.use("/student", student);
-  // app.use("/lecturer", lecturer);
-  // app.use("/admin", admin);
+  app.use("/lecturer", lecturer);
+  app.use("/admin", admin);
 };
