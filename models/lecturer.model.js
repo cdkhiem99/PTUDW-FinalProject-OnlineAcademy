@@ -12,6 +12,19 @@ module.exports = {
     
         return rows[0];
       },
+
+    async allCourseByID(id){
+      const sql = `select *
+                    from lecturer as l join course as c on l.id=c.lecturerId
+                    where id=?`;
+      const condition = [id];
+      const [rows, fields] = await db.load(sql, condition);
+
+      if (rows.length === 0)
+          return null;
+    
+      return rows;
+    },
     
     async add(user) {
         const [result, fields] = await db.add(user, 'lecturer');
@@ -28,12 +41,24 @@ module.exports = {
     },
 
     async patch(user) {
-        const condition = {
-           id: user.id
-        }
-        delete (user.id);
-
-        const [result, fields] = await db.patch(user, condition, 'lecturer');
-        return result;
+        try {
+            const hash = bcrypt.hashSync(user.password, 10);
+            const newUser = {
+              name: user.name,
+              phone_number: user.phone,
+              gender: user.gender,
+              university: user.university,
+              email: user.email,
+              password: hash
+            }
+            const condition = {
+              id: id
+            }
+            const [result, fields] = await db.patch(newUser, condition, 'lecturer');
+      
+          } catch (error) {
+            return error.message;
+          }
+          return true;
     }
 }

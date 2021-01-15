@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 const moment = require("moment");
 const studentModel = require("../models/student.model");
 const auth = require("../middlewares/auth.mdw");
-const { singleByUserName } = require("../models/student.model");
+const { singleByUserName, singleByEmail } = require("../models/student.model");
 const emailService = require("../routes/email.route");
 const lecturerModel = require("../models/lecturer.model");
 const admin = require("../models/admin.model");
@@ -42,6 +42,10 @@ router.post("/register", async function (req, res, next) {
   };
 
   const findID = await singleByUserName(user.id);
+  var findEmail = await singleByEmail(user.email);
+  if (findEmail === true){
+    res.json("Email has been used!");
+  }
   if (findID !== null){
     res.json("Username has already existed!");
   }
@@ -96,7 +100,7 @@ router.post("/login", async function (req, res) {
   if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
     req.session.auth = true;
     req.session.authUser = user;
-    
+
     const url = req.session.retUrl || "/";
     res.redirect(url);
     return;

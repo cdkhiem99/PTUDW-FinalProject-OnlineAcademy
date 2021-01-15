@@ -127,7 +127,7 @@
 
           {{#if (eq authUser.role 'lecturer')}}
             <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, {{authUser.name}}!</a>
-            <a href="/student" class="sign_up_container sign_up"> Profile </a>
+            <a href="/lecturer" class="sign_up_container sign_up"> Profile </a>
             <a href="#currentPage" class="sign_up_container sign_up"> My Course </a>
             <form method="POST" action="/account/logout">
                 <button class="sign_up_container sign_up"> Log out </button>
@@ -142,7 +142,6 @@
             <a href="/admin/products" class="sign_up_container management" align="center">Course Management</a>
             <a href="/admin/products" class="sign_up_container management" align="center">Student Management</a>
             <a href="/admin/products" class="sign_up_container management" align="center">Lecturer Management</a>
-            <a href="/student" class="sign_up_container sign_up"> Profile </a>
             <form method="POST" action="/account/logout">
                 <button class="sign_up_container sign_up"> Log out </button>
             </form>

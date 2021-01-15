@@ -12,6 +12,16 @@ module.exports = {
     return rows[0];
   },
 
+  async singleByEmail(email){
+    const sql = `select * from student where email = ?`;
+    const condition = [email];
+    const [rows, fields] = await db.load(sql, condition);
+    if (rows.length === 0)
+      return false;
+
+    return true;
+  },
+
   async add(user) {
     const [result, fields] = await db.add(user, 'student');
     return result;
