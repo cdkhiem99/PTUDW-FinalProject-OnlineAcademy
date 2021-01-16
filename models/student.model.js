@@ -22,6 +22,15 @@ module.exports = {
     return true;
   },
 
+  async getAllStudent() {
+    const sql = `select * from student`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows;
+  },
+
   async add(user) {
     const [result, fields] = await db.add(user, 'student');
     return result;
