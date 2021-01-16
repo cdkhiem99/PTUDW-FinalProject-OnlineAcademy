@@ -12,11 +12,12 @@ module.exports = function (app) {
         format_number(val) {
           return numeral(val).format("0,0");
         },
-        format_price: this.format_number,
         trimImagePath(imgPath) {
           return imgPath.replace("/resource/public", "");
         },
-        trimResourcePath: this.trimImagePath,
+        trimResourcePath(rsrcPath) {
+          return rsrcPath.replace("/resource/public", "");
+        },
         eq: require("../utils/helper").eq,
       },
     })
