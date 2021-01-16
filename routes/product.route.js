@@ -4,6 +4,7 @@ const subfieldModel = require("../models/subfield.model");
 const feedbackModel = require("../models/feedback.model");
 const sectionModel = require("../models/section.model");
 const debug = require("debug")("routes:product");
+const studentModel = require("../models/enroll.model");
 
 const router = express.Router();
 
@@ -53,11 +54,15 @@ router.get("/field/:Field", async function (req, res, next) {
 
 router.get("/detail/:courseID", async function (req, res, next) {
   const course = await courseModel.getCourseByID(req.params.courseID);
+  
   const feedbackList = await feedbackModel.getFeedBack(req.params.courseID);
-  const previewVideo = await sectionModel.getPreviewVideo(req.params.courseID);
   const courseContent = await sectionModel.getCourseContent(
     req.params.courseID
   );
+  let isEnrolled = false;
+  if(res.locals.auth && res.locals.authUser.role === 'student'){
+    isEnrolled = await studentModel.isEnroll(res.locals.authUser.id, course.CourseID);
+  }
   // res.locals.course = course;
   // res.locals.empty = course === 0;
   // res.locals.feedbackList = feedbackList;
@@ -67,13 +72,11 @@ router.get("/detail/:courseID", async function (req, res, next) {
   // res.locals.courseContent = courseContent;
   // res.locals.courseContentempty = courseContent === 0;
 
-  debug(previewVideo);
-
   res.render("vwProducts/detail", {
     course,
     feedbackList,
-    previewVideo,
     courseContent,
+    isEnrolled
   });
 });
 

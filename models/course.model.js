@@ -134,7 +134,7 @@ module.exports = {
   },
 
   async getCourseByID(courseID) {
-    const sql = `select c.id as CourseID, c.title as CourseName, c.briefDescription as BriefDes, c.description as fullDes,
+    const sql = `select c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
                 TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University
                 from course as c
@@ -150,6 +150,7 @@ module.exports = {
     return {
       CourseID: rows[0].CourseID,
       CourseName: rows[0].CourseName,
+      imagePath: rows[0].imagePath,
       Price: rows[0].Price,
       briefDescription: rows[0].BriefDes,
       fullDescription: rows[0].fullDes,

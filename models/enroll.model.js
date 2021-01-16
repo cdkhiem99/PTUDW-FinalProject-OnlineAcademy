@@ -1,9 +1,28 @@
+const { exceptions } = require("winston");
 const db = require("../utils/db");
 
 module.exports = {
-  async add(order) {
-    const [result, fields] = await db.add(order, "enroll");
-    return result;
+  async enrollCourse(studentId, courseId, date){
+    try{
+      const newData = {
+        studentId: studentId,
+        courseId: courseId,
+        date: date
+      }
+
+      await db.add(newData, 'enroll');
+      return true;
+
+    } catch(e){
+      return e.messege;
+    }
+  },
+
+  async isEnroll(studentId, courseId){
+    const sql = `select * from enroll where studentId=? and courseId=?`;
+    const condition = [studentId, parseInt(courseId)];
+    const [rows, fields] = await db.load(sql, condition);
+    return (rows.length !== 0);
   },
 
   async getAllEnroll(id) {

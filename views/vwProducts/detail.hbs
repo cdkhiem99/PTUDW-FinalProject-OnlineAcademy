@@ -8,13 +8,80 @@
 </style>
 {{/section}}
 
+{{#section 'js'}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+  function DisplayError(string){
+    swal("Error!", string, "error");
+  }
+
+  function onClickEnroll(){
+    const onUsing = "{{auth}}"
+    if (onUsing === "true"){
+      const newData = {
+        courseId: "{{course.CourseID}}"
+      }
+      $.post("/student/enroll", newData, function(data, status){
+        console.log(data);
+          if(data === true){
+            swal("Success!", "Your have enrolled successfully!", "success").then((value)=>{
+              if (value === true){
+                location.reload();
+              }
+            });
+          }
+          else{
+            DisplayError(data);
+          }
+        });
+    }
+    else{
+      location.replace("/account/login");
+    }
+  }
+
+  function onAddtoWatchList(){
+    const onUsing = "{{auth}}"
+    if (onUsing === "true"){
+      /*const newData = {
+        courseId: "{{course.CourseID}}"
+      }
+      $.post("/student/watchlist", newData, function(data, status){
+        console.log(data);
+          if(data === true){
+            swal("Success!", "Added!", "success").then((value)=>{
+              if (value === true){
+                location.reload();
+              }
+            });
+          }
+          else{
+            DisplayError(data);
+          }
+        });*/
+    }
+    else{
+      location.replace("/account/login");
+    }
+  }
+</script>
+{{/section}}
+
 {{#with course}}
 <div class="card" style="display: flex; margin: 35px;">
-  <h4 class="card-header">
+  <a href="#currentPage">
+    <h1 class="card-header">
     {{CourseName}}
-  </h4>
+    {{#unless ../isEnrolled}}
+     <button type="button" class="btn btn-primary btn-lg" onclick="onClickEnroll()">Enroll</button>
+    {{/unless}}
+     <button type="button" class="btn btn-primary btn-lg" onclick="onAddtoWatchList()">Add to Watchlist</button>
+    </h1>
+  </a>
   <div class="card-body">
-    <img src="/course/{{CourseID}}/photo.png" alt="{{CourseName}}" class="img-big">
+    <img src="{{imagePath}}" alt="{{CourseName}}" class="img-big">
     <p class="card-text mt-3">Price: {{Price}}</p>
     <p class="card-text">
       Lecturer: {{LecturerName}}
@@ -43,18 +110,23 @@
 
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Course Content</h1>
     {{#each ../courseContent}}
+    
       <div class="card-body">
         <span class="card-text">#{{ID}}</span>
         <span class="card-text">{{Title}}</span>
         <span class="card-text">
-          {{#with ../../previewVideo}}
-            {{trimResourcePath preview}}
-          {{/with}}
         </span>
       </div>
+      {{#with preview}}
+        <div><a href="{{this}}"> Video Preview </a></div>
+      {{/with}}
+      {{#if ../../isEnrolled}}
+      {{#with videoPath}}
+        <div><a href="{{this}}"> Video </a></div>
+      {{/with}}
+      {{/if}}
       <!-- if purchased show video link, else, only preview -->
     {{/each}}
-  </div>
 
   <div class="card-footer text-muted">
     <small>Last updated {{lastUpdate}} days ago.</small>

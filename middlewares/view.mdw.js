@@ -13,10 +13,10 @@ module.exports = function (app) {
           return numeral(val).format("0,0");
         },
         trimImagePath(imgPath) {
-          return imgPath.replace("/resource/public", "");
+          return imgPath;
         },
         trimResourcePath(rsrcPath) {
-          return rsrcPath.replace("/resource/public", "");
+          return rsrcPath;
         },
         eq: require("../utils/helper").eq,
       },

@@ -136,10 +136,11 @@ router.post("/login", async function (req, res) {
 });
 
 router.post("/logout", function (req, res) {
+  console.log("Log out");
   req.session.auth = false;
   req.session.authUser = null;
   req.session.retUrl = null;
-
+  console.log("Log out");
   const url = req.headers.referer || "/";
   res.redirect(url);
 });
