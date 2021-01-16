@@ -4,6 +4,7 @@ const updateStudent = require("../models/student.model");
 const { password } = require('../utils/mysql_opts');
 const bcrypt = require("bcryptjs");
 const emailService = require("../routes/email.route");
+const enrollC = require("../models/enroll.model");
 
 function makeid(length) {
     var result           = '';
@@ -57,6 +58,13 @@ router.get("/confirmation/:token", async function (req, res) {
     const randomString = req.params.token;
     const user = jwt.get(randomString);
     res.redirect("/");
+})
+
+router.post("/enroll", async function (req, res) {
+    var today = new Date();
+    var date = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+    const enroll = await enrollC.enrollCourse(res.locals.authUser.id, req.body.courseId, date);
+    res.json(enroll);
 })
 
 module.exports = router;

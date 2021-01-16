@@ -29,7 +29,7 @@ module.exports = {
   },
 
   async getPreviewVideo(courseID) {
-    const sql = `select preview from section where courseId = ?`;
+    const sql = `select preview from section where courseId = ? and preview is not null`;
     const condition = [courseID];
     const [result, fields] = await db.load(sql, condition);
 
@@ -41,7 +41,7 @@ module.exports = {
   },
 
   async getCourseContent(courseID) {
-    const sql = `select id, title, videoPath from section where courseId = ?`;
+    const sql = `select id, title, videoPath, preview from section where courseId = ?`;
     const condition = [courseID];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -53,6 +53,7 @@ module.exports = {
           ID: rows[index].id,
           Title: rows[index].title,
           videoPath: rows[index].videoPath,
+          preview: rows[index].preview
         });
       }
     }
