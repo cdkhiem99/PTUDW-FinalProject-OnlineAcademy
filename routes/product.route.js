@@ -80,4 +80,12 @@ router.get("/detail/:courseID", async function (req, res, next) {
   });
 });
 
+router.get("search/:fulltext", async function (req, res, next) {
+  const searchResult = await courseModel.searchCourse(req.params.fulltext);
+
+  res.render("vwProducts/search", {
+    searchResult,
+  });
+});
+
 module.exports = router;
