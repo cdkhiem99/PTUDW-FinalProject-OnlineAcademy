@@ -163,7 +163,7 @@ module.exports = {
   },
 
   async getAllCourseByField(fieldName) {
-    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName,
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName, c.imagePath as imagePath,
                 lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
@@ -180,6 +180,7 @@ module.exports = {
           CourseID: element.CourseID,
           CourseName: element.CourseName,
           LecturerName: element.LecturerName,
+          imagePath: element.imagePath,
           Rating: element.Rating,
           Price: element.CoursePrice,
           briefDescription: element.briefDes,
@@ -192,7 +193,7 @@ module.exports = {
   },
 
   async getAllCourseBySubField(fieldsID) {
-    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName,
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.name as FieldName, c.imagePath as imagePath,
                 lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
@@ -209,6 +210,7 @@ module.exports = {
           CourseID: element.CourseID,
           CourseName: element.CourseName,
           LecturerName: element.LecturerName,
+          imagePath: element.imagePath,
           Rating: element.Rating,
           Price: element.CoursePrice,
           briefDescription: element.briefDes,
