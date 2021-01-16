@@ -10,7 +10,7 @@ module.exports = function (app) {
 
   // 500: Internal Server Error
   app.use(function (err, req, res, next) {
-    winston.error(err);
+    console.error(err);
     res.render("500", {
       layout: false,
     });
