@@ -1,19 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>Online Academy | Group 4</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css"
-      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" href="/stylesheets/main.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    {{!-- for Udemy --}}
+    <link type="text/css" rel="stylesheet" href="https://www.udemy.com/staticx/udemy/js/webpack/entry-udlite-baseline-modern.eb8917390ca9752a614a.css" />
+    <link type="text/css" rel="stylesheet" href="https://www.udemy.com/staticx/udemy/js/webpack/udlite-common-css.2e38746621ba94ca06a7.css" />
+    <script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/udlite-common-css.2d73dcc6aa313e25d2c8.js" defer=""></script>
+    <link type="text/css" rel="stylesheet" href="https://www.udemy.com/staticx/udemy/js/webpack/common-udlite-desktop-server-side.67362ce757023352b4ed.css" />
+    <script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/common-udlite-desktop-server-side.c0475940497adcd26ab9.js" defer=""></script>
+
+    {{{_sections.cssUdemy}}}
+
+    <link rel="preload" as="script" href="https://www.udemy.com/staticx/udemy/js/webpack/common-udlite-desktop-udlite-app.3bc80c3df053f7e87fde.js">
+
     {{{_sections.css}}}
 
-    <title>Online Academy</title>
+    {{!-- <script>
+        window.UD = window.UD || {};
+        window.UD.Config = {"graphql_federation_endpoint":"https://www.udemy.com/graphql/","features":{"notice":{"smart_bar":true,"ufb_smart_bar":false,"instructor_bar":false},"wishlist":true,"intercom_chat":false,"shopping_cart":true,"social_share":{"welcome_popup":true,"email":true},"reviews":{"show_user_avatar":true},"discount":{"change_alerts":true},"organization":{"manage_satisfaction":{"satisfaction":false},"aws_labs_enabled":false,"manage_groups_enabled":true,"measure_competence":{"enabled":false},"lms_self_serve_enabled":false,"group_sections_enabled":false,"enterprise":{"onboarding_enabled":true},"auth":{"scim_integration_component_enabled":true,"sso_self_serve_enabled":false,"scim_api_enabled":false},"learning_path":{"assignment_improvement":false,"enabled":false,"copy_learning_path_item":false},"manage_insights":{"path_insights_v2":false},"course_taking":{"student_assignment_submissions_enabled":true}},"course_landing_page":{"instructor_bio":{"stats":true,"social_links":true,"image":true},"money_back_guarantee":true,"deal_badge":true,"incentives":{"access_tv":true,"lifetime_access":true}},"logged_in_home":{"ufb_ad":false,"linkbar_level_2":true},"course":{"announcements":{"comments":{"view":true}},"discussions":{"view":true},"refundable":true,"students":{"unenroll":false}},"ufb_notices_footer":{"top_com":true},"referral_program_enabled":false,"course_review":{"leave_feedback":true,"clp_review_search":true},"course_badge":true,"zendesk_chat":false,"hello_bar":{"terms":true,"pricing":true,"instructor":false},"flyout":true,"ufb_notices":true,"home":{"my_courses":{"revenue":true,"privacy":true,"free_label":true},"signup_cta":true},"notifications":true,"bundle":{"instructor_bio":{"social_links":true}},"report_abuse":true,"one_trust":false,"invite":{"alert":true}},"marketplace_country":{"id":"VN","_class":"country","currency":"usd","iso_code":"VNM","title":"Vietnam"},"js_bundle":"modern","version":"1cc8bd0ed9322410c69171da0d01c5fd7d7c05a4","env":"PROD","price_country":{"id":"VN","_class":"country","currency":"usd","currency_symbol":"$","currency_formatter":{"currency":"usd","group":",","pattern":"!#,##0.00","locale":"en_US","symbol":"$","decimal":".","scale":2},"currency_charm_amount":-0.01,"currency_decimal_places":2,"usd_currency_formatter":{"currency":"usd","group":",","pattern":"!#,##0.00","locale":"en_US","symbol":"$","decimal":".","scale":2}},"brand":{"is_sso_enabled":false,"is_government":false,"is_team":false,"is_teaching_enabled":true,"logo_url_2x":"https://www.udemy.com/staticx/udemy/images/v6/logo-coral.svg","product_name":"Udemy","is_discussions_enabled":true,"is_feed_commenting_enabled":true,"identifier":"udemy","title":"Udemy","is_third_party_marketing_enabled":true,"is_share_on_slack_enabled":false,"is_user_profiles_public":true,"product_logo_light":"https://www.udemy.com/staticx/udemy/images/v6/logo-coral-light.svg","has_organization":false,"is_add_reviews_enabled":true,"product_logo":"https://www.udemy.com/staticx/udemy/images/v6/logo-coral.svg","is_external_sources_enabled":true,"is_social_sharing_enabled":true,"_class":"brand","link_bar_nav_list_id":"ud-link-bar","is_profile_functions_enabled":true,"is_autoshow_cc_enabled":true,"organization":false,"is_import_courses_enabled":true,"is_messaging_enabled":true,"is_share_to_workplace_enabled":false},"app_name":"search","supported_languages":[{"name":"English","lang":"en","locale":"en_US"},{"name":"Deutsch","lang":"de","locale":"de_DE"},{"name":"Espa\u00f1ol","lang":"es","locale":"es_ES"},{"name":"Fran\u00e7ais","lang":"fr","locale":"fr_FR"},{"name":"Bahasa Indonesia","lang":"id","locale":"id_ID"},{"name":"Italiano","lang":"it","locale":"it_IT"},{"name":"\u65e5\u672c\u8a9e","lang":"ja","locale":"ja_JP"},{"name":"\ud55c\uad6d\uc5b4","lang":"ko","locale":"ko_KR"},{"name":"Nederlands","lang":"nl","locale":"nl_NL"},{"name":"Polski","lang":"pl","locale":"pl_PL"},{"name":"Portugu\u00eas","lang":"pt","locale":"pt_BR"},{"name":"Rom\u00e2n\u0103","lang":"ro","locale":"ro_RO"},{"name":"\u0420\u0443\u0441\u0441\u043a\u0438\u0439","lang":"ru","locale":"ru_RU"},{"name":"\u0e20\u0e32\u0e29\u0e32\u0e44\u0e17\u0e22","lang":"th","locale":"th_TH"},{"name":"T\u00fcrk\u00e7e","lang":"tr","locale":"tr_TR"},{"name":"\u4e2d\u6587(\u7b80\u4f53)","lang":"zh-cn","locale":"zh_CN"},{"name":"\u4e2d\u6587(\u7e41\u9ad4)","lang":"zh-tw","locale":"zh_TW"}],"url":{"to_app":"https://www.udemy.com/","to_page_events":"https://page-events-ustats.udemy.com/","to_root":"https://www.udemy.com/","to_js":"https://www.udemy.com/staticx/udemy/js/","to_images":"https://www.udemy.com/staticx/udemy/images/"},"third_party":{"facebook_app_id":"313137469260","s3":{"asset":{"key":"AKIAIOTLFW3HMG563JEA","bucket_url":"https://udemy-web-upload-transitional.s3.amazonaws.com"},"image_asset":{"key":"AKIAIOTLFW3HMG563JEA","bucket_url":"https://udemy-image-web-upload.s3.amazonaws.com"}},"sift_account":"78b4b13f0a","zendesk":{"refund_form_id":406368},"raven_dsn":"","uft_stripe_publishable_key":"pk_live_dCyHJcZsk8NaNwx1PiRSpqqq","google_analytics_id_for_ufb_only":"UA-12366301-47","intercom":{"app_id":"sehj53dd"},"user_stripe_publishable_key":"pk_live_xOuIgZiF7hb3wSwFSAOz3dRm","google_analytics_id":"UA-12366301-1","google_tag_manager_id":"GTM-7BF3X","branch_metrics":{"ios_download_url":"http://ude.my/ios","android_ufb_download_url":"http://ude.my/android-ufb","android_download_url":"http://ude.my/android","ios_ufb_download_url":"http://ude.my/ios-ufb"},"paypal":{"appid":"ASRJrkbBfTwvxWNTn-QRakeimIbsjmBuK5hWj4zq3QJL46CKIYNb-RiKjrTSe-2iZ-EFrCCuXGZTxHjY","authend":"live","returnurl":"https://www.udemy.com/user/paypal-login-return"},"filestack":{"key":"A0EHlHYkEQbCTpDvxEwAYz"},"google_analytics_id_for_course_taking":"UA-12366301-45","stripe_publishable_key":"pk_live_xOuIgZiF7hb3wSwFSAOz3dRm","pusher":{"key":"825910825f8199bd5b21","coding_exercise_event":"coding-exercise-evaluated"},"storage_static_asset_base_url":"https://s.udemycdn.com/"}};
+        window.UD.experiment = {"ecufbc":{"2953":{"variant":7413,"state":"recorded","values":{"ufb_course_differentiation":true}}},"sw":{"3026":{"variant":7580,"state":"recorded","values":{"onsite_demo_form":true}},"2298":{"variant":5820,"state":"recorded","values":{"update_list_price":true,"price_engine_variant":3}},"2598":{"variant":6568,"state":"recorded","values":{"nearest_99_adjustment":true}}},"srp":{"3040":{"variant":7612,"state":"recorded","values":{"top_companies_and_bundle_position":"8","topic_and_recommendations_position":"8"}},"3058":{"variant":7654,"state":"recorded","values":{"experimentation_platform_aa_test":true}},"3068":{"variant":7674,"state":"recorded","values":{"pmml_model":"mx_vib_pct_months_with_content_update"}},"3066":{"variant":7668,"state":"recorded","values":{"beginners_and_match":"disabled"}},"2986":{"variant":7486,"state":"recorded","values":{"first_phase":false}}},"clpp":{"3092":{"variant":7726,"state":"recorded","values":{"mf_update":"control"}},"3028":{"variant":7582,"state":"recorded","values":{"clp_update_2":"mf1-personalized_rank"}}}};
+        window.UD.request = {"isMobile":false,"isPC":true,"serverTimestamp":"2021-01-16T03:46:56.295303+00:00","navigation_locale":"en_US","termsBarType":"","language_simple_english_title":"English","language":"en","locale":"en_US","isTablet":false,"third_party_location":"https://www.udemy.com/courses/search/?q=python\u0026src=ukw","termsBarUrls":""};
+        window.UD.request.clientTimestamp = new Date().toISOString();
+        window.UD.site_stats = {"default":{"num_courses":130000,"num_topics":2000,"num_instructors":57000,"num_students":35},"organizations":{"num_courses":5000,"num_instructors":1500}};
+        window.UD.meProperties = ["_class","id","email","display_name","job_title","initials","title","time_zone","country","created","locale","language","learning_languages","name","surname","image_50x50","image_100x100","settings","qualaroo_survey_ids","encrypted_affiliate_uid","encrypted_affiliate_email","encrypted_id","has_made_paid_purchase","number_of_courses_purchased","organization"];
+        window.UD.visitingProperties = ["visitor_uuid","is_first_time_visitor","first_visit_time"];
+        window.UD.userSpecificTrackingProperties = ["tracking_enabled"];
+        window.UD.userAgnosticTrackingParams = {"collector_url":"https://www.udemy.com/api-2.0/ecl","page_key":"search"};
+    </script>
+    <script>
+        if (window.performance && typeof window.performance.mark === 'function'
+                && typeof window.performance.measure === 'function') {
+            UD.performance = {
+                _trackedResources: [],
+                _eventNamePrefix: 'UD-',
+                trackResourceTiming: function (resourceName, resourceUrl) {
+                    this._trackedResources.push({ name: resourceName, url: resourceUrl });
+                },
+                mark: function (name) {
+                    window.performance.mark(this._eventNamePrefix + name);
+                },
+                start: function (name) {
+                    window.performance.mark(this._eventNamePrefix + '_' + name + '-start');
+                },
+                end: function (name) {
+                    var endMark = this._eventNamePrefix + '_' + name + '-end';
+                    var startMark = this._eventNamePrefix + '_' + name + '-start';
+                    window.performance.mark(endMark);
 
-    {{{_sections.css}}}
+                    if (window.performance.getEntriesByName(startMark).length > 0) {
+                        window.performance.measure(this._eventNamePrefix + name, startMark, endMark);
+                    }
+                },
+                sync: function() {
+
+                    window.dispatchEvent(new CustomEvent('syncPerf',
+                        { detail: { trackedResources: this._trackedResources } }
+                    ));
+                }
+            };
+        } else {
+            UD.performance = {
+                trackResourceTiming: Function.prototype,
+                mark: Function.prototype,
+                start: Function.prototype,
+                end: Function.prototype,
+                sync: Function.prototype
+            };
+        }
+    </script>
+    <script>
+
+        window.GoogleAnalyticsObject = 'ga';
+        window.ga = function () {
+            (window.ga.q = window.ga.q || []).push(arguments);
+        };
+        window.ga.l = 1 * new Date();
+
+        UD.GoogleAnalytics = UD.GoogleAnalytics || {};
+        UD.GoogleAnalytics.createAccount = function (accountId, propertyName, domainName) {
+            if (accountId) {
+                if (propertyName) {
+                    // Required for multiple trackers
+                    window.ga('create', accountId, 'auto', {'name': propertyName, 'cookieDomain': domainName || 'none',
+                        'siteSpeedSampleRate': 10});
+                } else {
+                    window.ga('create', accountId, 'auto', {'siteSpeedSampleRate': 10});
+                    window.ga('require', 'displayfeatures'); // Enables retargeting
+                }
+                window.ga('set', {
+                    'anonymizeIp': true,
+                    'location' : ""
+                });
+            }
+        };
+        UD.GoogleAnalytics.createAccount(UD.Config.third_party.google_analytics_id);
+    </script> --}}
   </head>
 
 
@@ -196,9 +286,42 @@
 
     </div>
 
+    {{!-- for Bootstrap --}}
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.3/js/bootstrap.min.js"></script>
+    {{!-- for Udemy --}}
+    {{!-- <script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/entry-udlite-baseline-manifest.59c9bd8606d129f2b913.js" defer></script>
+    <script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/entry-udlite-baseline-modern-vendor.c2819a363caff0ad139a.js" defer></script>
+    <script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/jsi18n-en-us-udlite-baseline.58d3059cf0968deff374.js" defer></script>
+    <script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/entry-udlite-baseline-modern.edf3cb27114fc254f06d.js" defer></script>
+    <script>
+        window.handleCSSToggleButtonClick = function (event) {
+            var target = event.currentTarget;
+            var cssToggleId = target && target.dataset && target.dataset.cssToggleId;
+            var input = cssToggleId && document.getElementById(cssToggleId);
+            if (input) {
+                if (input.dataset.type === 'checkbox') {
+                    input.dataset.checked = input.dataset.checked ? '' : 'checked';
+                } else {
+                    input.dataset.checked = input.dataset.allowToggle && input.dataset.checked ? '' : 'checked';
+                    var radios = document.querySelectorAll('[name="' + input.dataset.name + '"]');
+                    for (var i = 0; i < radios.length; i++) {
+                        if (radios[i] !== input) {
+                            radios[i].dataset.checked = '';
+                        }
+                    }
+                }
+            }
+        };
+        (function () {
+            var cssToggleButtons = document.querySelectorAll('[data-css-toggle-id');
+            for (var i = 0; i < cssToggleButtons.length; i++) {
+                cssToggleButtons[i].addEventListener('click', window.handleCSSToggleButtonClick);
+            }
+        })();
+    </script> --}}
 
     {{{_sections.js}}}
   </body>
