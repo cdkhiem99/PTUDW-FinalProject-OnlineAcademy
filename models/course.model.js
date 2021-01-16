@@ -149,7 +149,7 @@ module.exports = {
 
     return {
       CourseID: rows[0].CourseID,
-      CouresName: rows[0].CouresName,
+      CourseName: rows[0].CourseName,
       Price: rows[0].Price,
       briefDescription: rows[0].BriefDes,
       fullDescription: rows[0].fullDes,
