@@ -1,3 +1,5 @@
+const winston = require("winston");
+
 module.exports = function (app) {
   // 404: Not Found
   app.use(function (req, res) {
@@ -8,6 +10,7 @@ module.exports = function (app) {
 
   // 500: Internal Server Error
   app.use(function (err, req, res, next) {
+    winston.error(err);
     res.render("500", {
       layout: false,
     });
