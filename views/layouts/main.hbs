@@ -129,6 +129,8 @@
           {{#if (eq authUser.role 'student')}}
             <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, {{authUser.name}}!</a>
             <a href="/student" class="sign_up_container sign_up"> Profile </a>
+            <a href="/student/myWatchlist" class="sign_up_container sign_up"> My Watchlist </a>
+            <a href="/student/myEnrolllist" class="sign_up_container sign_up"> My Courses </a>
             <form method="POST" action="/account/logout">
                 <button class="sign_up_container sign_up"> Log out </button>
             </form>

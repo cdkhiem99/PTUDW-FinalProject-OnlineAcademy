@@ -5,6 +5,7 @@ const { password } = require('../utils/mysql_opts');
 const bcrypt = require("bcryptjs");
 const emailService = require("../routes/email.route");
 const enrollC = require("../models/enroll.model");
+const wl = require("../models/watchlist.model");
 
 function makeid(length) {
     var result           = '';
@@ -65,6 +66,31 @@ router.post("/enroll", async function (req, res) {
     var date = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
     const enroll = await enrollC.enrollCourse(res.locals.authUser.id, req.body.courseId, date);
     res.json(enroll);
+})
+
+router.post("/watchlist", async function (req, res) {
+    const watchList = await wl.addToWL(res.locals.authUser.id, req.body.courseId);
+    res.json(watchList);
+})
+
+router.post("/del/watchlist", async function (req, res) {
+    const getDel = await wl.deleteInWatchList(res.locals.authUser.id, req.body.courseId);
+    console.log(getDel);
+    res.json(getDel);
+})
+
+router.get("/myEnrolllist", async function (req, res) {
+    const cList = await enrollC.getAllEnroll(res.locals.authUser.id);
+    res.locals.empty = cList === null;
+    res.locals.listEnroll = cList;
+    res.render("vwProducts/myCourseList");
+})
+
+router.get("/myWatchlist", async function (req, res){
+    const watchList = await wl.takeAllFromWL(res.locals.authUser.id);
+    res.locals.empty = watchList === null;
+    res.locals.listWatchlist = watchList;
+    res.render("vwWatchList/index");
 })
 
 module.exports = router;

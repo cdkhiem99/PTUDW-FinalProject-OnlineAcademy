@@ -26,7 +26,7 @@ module.exports = {
   },
 
   async getAllEnroll(id) {
-    const sql = `select * from enroll where studentId = ?`;
+    const sql = `select * from enroll as e join course as c on e.courseId=c.id where e.studentId = ?`;
     const condition = [id];
     const [rows, fields] = await db.load(sql, condition);
 

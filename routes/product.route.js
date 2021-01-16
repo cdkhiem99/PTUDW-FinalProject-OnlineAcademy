@@ -5,6 +5,7 @@ const feedbackModel = require("../models/feedback.model");
 const sectionModel = require("../models/section.model");
 const debug = require("debug")("routes:product");
 const studentModel = require("../models/enroll.model");
+const watchL = require("../models/watchlist.model");
 
 const router = express.Router();
 
@@ -36,6 +37,12 @@ router.get("/", async function (req, res, next) {
 });
 router.get("/courseBySubField/:subField", async function (req, res, next) {
   const id = await subfieldModel.getBySubName(req.params.subField);
+
+  if (id === null){
+    res.redirect("/");
+    return;
+  }
+
   const listBySubFields = await courseModel.getAllCourseBySubField(
     parseInt(id.id)
   );
@@ -45,9 +52,9 @@ router.get("/courseBySubField/:subField", async function (req, res, next) {
 });
 
 router.get("/field/:Field", async function (req, res, next) {
-  console.log(req.params.Field);
   const listByFields = await courseModel.getAllCourseByField(req.params.Field);
   res.locals.listByFields = listByFields;
+
   res.locals.empty = listByFields === 0;
   res.render("vwProducts/byFields");
 });
@@ -63,6 +70,11 @@ router.get("/detail/:courseID", async function (req, res, next) {
   if(res.locals.auth && res.locals.authUser.role === 'student'){
     isEnrolled = await studentModel.isEnroll(res.locals.authUser.id, course.CourseID);
   }
+
+  let isInWatchList = false;
+  if(res.locals.auth && res.locals.authUser.role === 'student'){
+    isInWatchList = await watchL.isInWatchList(res.locals.authUser.id, course.CourseID);
+  }
   // res.locals.course = course;
   // res.locals.empty = course === 0;
   // res.locals.feedbackList = feedbackList;
@@ -76,7 +88,8 @@ router.get("/detail/:courseID", async function (req, res, next) {
     course,
     feedbackList,
     courseContent,
-    isEnrolled
+    isEnrolled,
+    isInWatchList
   });
 });
 
