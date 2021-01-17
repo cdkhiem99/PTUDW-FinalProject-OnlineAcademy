@@ -60,4 +60,27 @@ module.exports = {
 
     return listOfContent;
   },
+
+  async getLearnProcess(studentId, courseId, sectionId){
+    const sql = `select isComplete from markComplete where studentId=? and courseId=? and sectionId=?`;
+    const condition = [studentId, courseId, sectionId];
+    const [rows, fields] = await db.load(sql, condition);
+
+    if (rows.length === 0) 
+      return null;
+
+    return rows[0];
+  }, 
+
+  async finishCourse(studentId, courseId, sectionId){
+    try {
+      const sql = `insert into markComplete values(?,?,?,?) on duplicate key update isComplete = ?`;
+      const condition = [studentId, courseId, sectionId, true, true];
+      const [result, fields] = await db.load(sql, condition);
+      console.log(result);
+      return true;
+    } catch (error) {
+      return error.message;
+    }
+  }
 };

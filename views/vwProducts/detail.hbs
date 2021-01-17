@@ -164,22 +164,66 @@
       });
     }
   }
+
+  function onClickFinish(){
+    const onUsing = "{{auth}}"
+    if (onUsing === "true"){
+      const newData = {
+        studentId: "{{authUser.id}}",
+        courseId: "{{course.CourseID}}",
+        sectionId: "{{courseContent.id}}"
+      }
+      $.post("/student/finish", newData, function(data, status){
+        console.log(data);
+          if(data === true){
+            swal("Thank you!", "Thank you for finish the course!", "success").then((value)=>{
+              if (value === true){
+                location.reload();
+              }
+            });
+          }
+          else{
+            DisplayError(data);
+          }
+        });
+    }
+    else{
+      location.replace("/account/login");
+    }
+  }
 </script>
 {{/section}}
 
 {{#with course}}
-<div class="card" style="display: flex; margin: 35px;">
-  <a href="#currentPage">
-    <h1 class="card-header" style="display: flex;">
-    {{CourseName}}
-    {{#unless ../isEnrolled}}
-     <button type="button" class="btn btn-primary btn-lg" onclick="onClickEnroll()">Enroll</button>
-    {{/unless}}
-    {{#unless ../isInWatchList}}
-     <button type="button" class="btn btn-primary btn-lg" onclick="onAddtoWatchList()">Add to Watchlist</button>
-    {{/unless}}
-    </h1>
-  </a>
+<div class="card" style="margin: 35px;">
+    <div class="card-header">
+      <div class="container-fluid" style="padding: 0px; margin:0px 0px;">
+        <div class="row">
+          <div class="col-md-6" style="font-size: xx-large;">{{CourseName}}</div>
+          <div class="col-md-6" style="display: flex; justify-content: flex-end;">
+            {{#if (eq ../authUser.role 'student')}}
+              {{#if ../isEnrolled}}
+                {{#unless ../isComplete}}
+                <a name="fisnish" class="btn btn-lg btn-primary" role="button" onclick="onClickFinish()">
+                  <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
+                </a>
+                {{else}}
+                <a name="fisnish" class="btn btn-lg btn-primary" role="button" disabled>
+                  <i class="fa fa-graduation-cap fa-lg" aria-hidden="true"></i>
+                </a>
+                {{/unless}}
+              {{/if}}
+              {{#unless ../isEnrolled}}
+                <button type="button" class="btn btn-primary btn-lg" style="margin-left: 5px;" onclick="onClickEnroll()">Enroll</button>
+              {{/unless}}
+              {{#unless ../isInWatchList}}
+                <button type="button" class="btn btn-primary btn-lg" style="margin-left: 5px;" onclick="onAddtoWatchList()">Add to Watchlist</button>
+              {{/unless}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
   <hr>
   <div class="card-body">
     <img src="{{imagePath}}" alt="{{CourseName}}" class="img-big">

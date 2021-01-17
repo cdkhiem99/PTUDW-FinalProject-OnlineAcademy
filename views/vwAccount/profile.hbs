@@ -129,7 +129,9 @@
       newData = CheckValidInputLecturer();
     }
 
-    const url = `/${authUser.role}/edit/profile`;
+    const url = `/${check}/edit/profile`;
+
+    console.log(url);
 
     if (newData !== false){
       $.post(url, newData, function(data,status){

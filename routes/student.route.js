@@ -7,6 +7,7 @@ const emailService = require("../routes/email.route");
 const enrollC = require("../models/enroll.model");
 const wl = require("../models/watchlist.model");
 const fb = require("../models/feedback.model");
+const fini = require("../models/section.model");
 
 function makeid(length) {
     var result           = '';
@@ -99,6 +100,12 @@ router.post("/rate/detail", async function (req, res) {
     const addFeedback = await fb.add(req.body.studentId, req.body.courseId, req.body.star, req.body.comment, date);
 
     res.json(addFeedback);
+})
+
+router.post("/finish", async function (req, res) {
+    const finished = await fini.finishCourse(req.body.studentId, req.body.courseId, req.body.sectionId);
+
+    res.json(finished);
 })
 
 module.exports = router;

@@ -77,6 +77,12 @@ router.get("/detail/:courseID", async function (req, res, next) {
   if(res.locals.auth && res.locals.authUser.role === 'student'){
     isInWatchList = await watchL.isInWatchList(res.locals.authUser.id, course.CourseID);
   }
+
+  let isComplete = false;
+  if(res.locals.auth && res.locals.authUser.role === 'student'){
+    isComplete = await sectionModel.getLearnProcess(res.locals.authUser.id, course.CourseID, courseContent.id);
+  }
+
   // res.locals.course = course;
   // res.locals.empty = course === 0;
   // res.locals.feedbackList = feedbackList;
@@ -91,7 +97,8 @@ router.get("/detail/:courseID", async function (req, res, next) {
     feedbackList,
     courseContent,
     isEnrolled,
-    isInWatchList
+    isInWatchList,
+    isComplete
   });
 });
 
