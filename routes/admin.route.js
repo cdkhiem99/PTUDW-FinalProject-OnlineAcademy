@@ -40,4 +40,10 @@ router.get("/fields/", async function(req, res) {
     res.render("vwAdmin/field");
 });
 
+router.post("/suspend/course", async function(req, res) {
+    const getDel = await courseModel.suspendCourse(req.body.courseId);
+    console.log(getDel);
+    res.json(getDel);
+})
+
 module.exports = router;
