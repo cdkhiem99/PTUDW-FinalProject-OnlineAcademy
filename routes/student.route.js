@@ -76,7 +76,6 @@ router.post("/watchlist", async function (req, res) {
 
 router.post("/del/watchlist", async function (req, res) {
     const getDel = await wl.deleteInWatchList(res.locals.authUser.id, req.body.courseId);
-    console.log(getDel);
     res.json(getDel);
 })
 
