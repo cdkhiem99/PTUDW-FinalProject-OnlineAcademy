@@ -9,32 +9,34 @@ const watchL = require("../models/watchlist.model");
 
 const router = express.Router();
 
-router.get("/", async function (req, res, next) {
-  const list = await courseModel.all();
-  res.render("vwProducts/index", {
-    products: list,
-    empty: list.length === 0,
-  });
+// router.get("/", async function (req, res, next) {
+//   const list = await courseModel.all();
+//   res.render("vwProducts/index", {
+//     products: list,
+//     empty: list.length === 0,
+//   });
 
-  const id = await subfieldModel.getBySubName(req.body.fieldsName);
+//   const id = await subfieldModel.getBySubName(req.body.fieldsName);
 
-  const listByFields = await courseModel.getAllCourseByField(id);
-  res.render("vwProducts/byCats", {
-    courseByField: listByFields,
-    empty: listByFields.length === 0,
-  });
-  // try {
-  //   const list = await productModel.all();
-  //   res.render('vwProducts/index', {
-  //     products: list,
-  //     empty: list.length === 0
-  //   });
-  // } catch (err) {
-  //   next(err);
-  //   // console.error(err);
-  //   // res.send('err');
-  // }
-});
+//   const listByFields = await courseModel.getAllCourseByField(id);
+//   res.render("vwProducts/byCats", {
+//     courseByField: listByFields,
+//     empty: listByFields.length === 0,
+//   });
+
+//   // try {
+//   //   const list = await productModel.all();
+//   //   res.render('vwProducts/index', {
+//   //     products: list,
+//   //     empty: list.length === 0
+//   //   });
+//   // } catch (err) {
+//   //   next(err);
+//   //   // console.error(err);
+//   //   // res.send('err');
+//   // }
+// });
+
 router.get("/courseBySubField/:subField", async function (req, res, next) {
   const id = await subfieldModel.getBySubName(req.params.subField);
 

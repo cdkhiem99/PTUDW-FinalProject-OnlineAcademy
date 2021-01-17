@@ -145,13 +145,13 @@
           {{/if}}
 
           {{#if (eq authUser.role 'admin')}}
-            <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, Admin {{authUser.id}}!</a>
+            <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, {{authUser.id}}!</a>
 
             <!-- Management Button -->
-            <a href="/admin/products" class="sign_up_container management" align="center">Fields Management</a>
-            <a href="/admin/products" class="sign_up_container management" align="center">Course Management</a>
-            <a href="/admin/products" class="sign_up_container management" align="center">Student Management</a>
-            <a href="/admin/products" class="sign_up_container management" align="center">Lecturer Management</a>
+            <a href="/admin/fields/" class="sign_up_container management" align="center">Fields</a>
+            <a href="/admin/courses/" class="sign_up_container management" align="center">Course</a>
+            <a href="/admin/students/" class="sign_up_container management" align="center">Student</a>
+            <a href="/admin/lecturers/" class="sign_up_container management" align="center">Lecturer</a>
             <form method="POST" action="/account/logout">
                 <button class="sign_up_container sign_up"> Log out </button>
             </form>
@@ -195,10 +195,10 @@
               <p><span class="new-line-span">227 Nguyen Van Cu Street</span> HCMC, Vietnam</p>
             </div>
             <div><i class="fa fa-phone footer-contacts-icon"></i>
-              <p class="footer-center-info email text-left"> +1 555 123456</p>
+              <p class="footer-center-info email text-left">+1 555 123456</p>
             </div>
             <div><i class="fa fa-envelope footer-contacts-icon"></i>
-              <p><a href="/" target="_blank">18127103@student.hcmus.edu.vn</a></p>
+              <p><a href="/" target="_blank">Group_04@student.hcmus.edu.vn</a></p>
             </div>
           </div>
         </div>

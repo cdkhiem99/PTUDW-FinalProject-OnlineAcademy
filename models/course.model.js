@@ -5,25 +5,25 @@ const sub = require("../models/subfield.model");
 
 module.exports = {
   async all() {
-    const sql = "select * from course";
+    const sql = "select * from course as c where c.status != 'suspended'";
     const [rows, fields] = await db.load(sql);
     return rows;
   },
 
   async allByCat(id) {
-    const sql = `select * from course where id=${id}`;
+    const sql = `select * from course where id=${id} and status != 'suspended'`;
     const [rows, fields] = await db.load(sql);
     return rows;
   },
 
   async countByCat(id) {
-    const sql = `select count(*) as total from course where id=${id}`;
+    const sql = `select count(*) as total from course where id=${id} and status != 'suspended'`;
     const [rows, fields] = await db.load(sql);
     return rows[0].total;
   },
 
   async pageByCat(id, offset) {
-    const sql = `select * from course where id=${id} limit ${paginate.limit} offset ${offset}`;
+    const sql = `select * from course where id=${id} and status != 'suspended' limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
     return rows;
   },
@@ -54,7 +54,7 @@ module.exports = {
   },
 
   async single(id) {
-    const sql = `select * from course where id=${id}`;
+    const sql = `select * from course where id=${id} and status != 'suspended'`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0) return null;
 
@@ -66,6 +66,7 @@ module.exports = {
                   from course as c
                   join lecturer as lt
                   on lt.id = c.lecturerId
+                  where c.status != 'suspended'
                   order by c.view desc limit 10`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0) {
@@ -84,6 +85,7 @@ module.exports = {
                   from course as c
                   join lecturer as lt
                   on lt.id = c.lecturerId
+                  where c.status != 'suspended'
                   order by c.date desc limit 10`;
     const [rows, fields] = await db.load(sql);
 
@@ -99,6 +101,7 @@ module.exports = {
                   from course as c
                   join lecturer as lt
                   on lt.id = c.lecturerId
+                  where c.status != 'suspended'
                   order by c.likes desc limit 10`;
     const [rows, fields] = await db.load(sql);
 
@@ -112,7 +115,8 @@ module.exports = {
   async getCourseIDbyFieldID(fieldsId) {
     const sql = `select c.id
                 from course as c join subfield as sf on sf.courseID = c.subFieldId
-                where sf.id = ?`;
+                where sf.id = ?
+                and c.status != 'suspended'`;
     const condition = [fieldsId];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -122,7 +126,8 @@ module.exports = {
   async getCourseNamebyFieldID(fieldsId) {
     const sql = `select c.name
                 from course as c join subfield as sf on sf.courseID = c.subFieldId
-                where sf.id = ?`;
+                where sf.id = ?
+                and c.status != 'suspended'`;
     const condition = [fieldsId];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -139,7 +144,8 @@ module.exports = {
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University
                 from course as c
                 join lecturer as lt on c.lecturerId = lt.id
-                where c.id = ${courseID}`;
+                where c.id = ${courseID}
+                and c.status != 'suspended'`;
 
     const [rows, _] = await db.load(sql);
 
@@ -167,7 +173,8 @@ module.exports = {
                 lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
-                where sf.fieldName = ?`;
+                where sf.fieldName = ?
+                and c.status != 'suspended'`;
     const condition = [fieldName];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -198,7 +205,8 @@ module.exports = {
                 lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
-                where sf.id = ?`;
+                where sf.id = ?
+                and c.status != 'suspended'`;
     const condition = [fieldsID];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -230,7 +238,8 @@ module.exports = {
             from course as c join subfield as sf on c.subFieldId = sf.id
             join lecturer as lt on lt.id = c.lecturerId
             where Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) 
-            or Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE)`;
+            or Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE)
+            and c.status != 'suspended'`;
     const condition = [match, match];
     const [rows, fields] = await db.load(sql, condition);
 
