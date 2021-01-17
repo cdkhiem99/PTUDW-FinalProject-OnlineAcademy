@@ -238,6 +238,36 @@ module.exports = {
     return listByFields;
   },
 
+  async getAllCourse() {
+    const sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
+                lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
+                from course as c join subfield as sf on c.subFieldId = sf.id
+                join lecturer as lt on lt.id = c.lecturerId
+                where c.ban=false`;
+    const [rows, fields] = await db.load(sql);
+
+    const allCourses = [];
+
+    if (rows.length !== 0) {
+      for (let index = 0; index < rows.length; index++) {
+        const element = rows[index];
+        allCourses.push({
+          CourseID: element.CourseID,
+          CourseName: element.CourseName,
+          imagePath: element.imagePath,
+          LecturerName: element.LecturerName,
+          imagePath: element.imagePath,
+          Rating: element.Rating,
+          Price: element.CoursePrice,
+          briefDescription: element.briefDes,
+          fullDescription: element.FullDes,
+          fieldName: element.FieldName,
+        });
+      }
+    }
+    return allCourses;
+  },
+
   async searchCourse(match) {
     let sql = ``;
     if (match.trim() === "IT") {

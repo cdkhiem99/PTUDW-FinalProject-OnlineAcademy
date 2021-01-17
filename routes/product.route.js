@@ -37,6 +37,14 @@ const router = express.Router();
 //   // }
 // });
 
+router.get("/", async function (req, res) {
+  const list = await courseModel.getAllCourse();
+  res.render("vwProducts/index", {
+    list: list,
+    empty: list.length === 0,
+  })
+});
+
 router.get("/courseBySubField/:subField", async function (req, res, next) {
   const id = await subfieldModel.getBySubName(req.params.subField);
 
