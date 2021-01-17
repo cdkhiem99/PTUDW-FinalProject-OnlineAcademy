@@ -6,6 +6,7 @@ const bcrypt = require("bcryptjs");
 const emailService = require("../routes/email.route");
 const enrollC = require("../models/enroll.model");
 const wl = require("../models/watchlist.model");
+const fb = require("../models/feedback.model");
 
 function makeid(length) {
     var result           = '';
@@ -91,6 +92,14 @@ router.get("/myWatchlist", async function (req, res){
     res.locals.empty = watchList === null;
     res.locals.listWatchlist = watchList;
     res.render("vwWatchList/index");
+})
+
+router.post("/rate/detail", async function (req, res) {
+    var today = new Date();
+    var date = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, 0)}-${today.getDate().toString().padStart(2, 0)}`;
+    const addFeedback = await fb.add(req.body.studentId, req.body.courseId, req.body.star, req.body.comment, date);
+
+    res.json(addFeedback);
 })
 
 module.exports = router;

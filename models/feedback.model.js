@@ -1,18 +1,31 @@
 const db = require('../utils/db');
 
 module.exports = {
-    async takeFeedback(studenID, courseID){
-        const sql = `select * from feedback where studentId=${studenID} and courseID=${courseID}`;
-        const [rows, fields] = await db.load(sql);
+    async takeFeedback(studentID, courseID){
+        const sql = `select * from feedback where studentId=? and courseID=?`;
+        const condition = [studentID, courseID];
+        const [rows, fields] = await db.load(sql, condition);
         if (rows.length === 0)
             return null;
 
         return rows[0];
     },
 
-    async add(feedbacks) {
-        const [result, fields] = await db.add(feedbacks, 'feedback');
-        return result;
+    async add(studentId, courseId, star, comment, date) {
+        try{
+            const newData={
+                studentId: studentId,
+                courseId: parseInt(courseId),
+                star: parseInt(star),
+                comment: comment,
+                date: date
+            }
+            
+            await db.add(newData, 'feedback');
+            return true;
+        } catch(e){
+            return e.messege;
+        }
     },
 
     async getFeedBack(courseID) {
