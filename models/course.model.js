@@ -233,13 +233,24 @@ module.exports = {
   },
 
   async searchCourse(match) {
-    const sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
+    let sql = ``;
+    if (match.trim() === "IT") {
+      sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
+            lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
+            from course as c join subfield as sf on c.subFieldId = sf.id
+            join lecturer as lt on lt.id = c.lecturerId
+            where c.title LIKE '%IT%' 
+            or sf.fieldname LIKE '%IT%'
+            and c.status != 'Suspended'`;
+    } else {
+      sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
             lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
             from course as c join subfield as sf on c.subFieldId = sf.id
             join lecturer as lt on lt.id = c.lecturerId
             where Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) 
             or Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE)
             and c.status != 'Suspended'`;
+    }
     const condition = [match, match];
     const [rows, fields] = await db.load(sql, condition);
 
