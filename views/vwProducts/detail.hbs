@@ -29,6 +29,10 @@
       transition: all .2s
   }
 
+  hr.new4 {
+  border: 1px solid red;
+}
+
   input.star:checked~label.star:before {
       content: '\f005';
       color: #FD4;
@@ -176,6 +180,7 @@
     {{/unless}}
     </h1>
   </a>
+  <hr>
   <div class="card-body">
     <img src="{{imagePath}}" alt="{{CourseName}}" class="img-big">
     <p class="card-text mt-3">Price: {{Price}}</p>
@@ -188,11 +193,14 @@
     <p class="card-text">
       University: {{LecturerUniversity}}
     </p>
+    <hr>
     <p class="card-text" style="display: flex; justify-content: flex-end; margin: auto;">
       {{{fullDescription}}}
     </p>
     {{#unless ../isEnrolled}}
+    <hr class="new4">
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">You have to enroll this course to give feedback and rate</h1>
+    <hr class="new4">
     {{else}}
     <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1>
     <div class="input-group input-group-lg">
@@ -224,6 +232,7 @@
       </div>
     {{/unless}}
     {{#each ../feedbackList}}
+      <hr>
       <div class="card-body">
         <h4 class="card-text">Name: {{StudentName}}</h4>
         <h4 class="card-text">{{Star}}</h4>
@@ -233,8 +242,7 @@
         </p>
       </div>
     {{/each}}
-
-    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Course Content</h1>
+    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;"><hr>Course Content</h1>
     {{#each ../courseContent}}
     
       <div class="card-body">
