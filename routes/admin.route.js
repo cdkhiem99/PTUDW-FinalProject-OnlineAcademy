@@ -41,9 +41,19 @@ router.get("/fields/", async function(req, res) {
 });
 
 router.post("/suspend/course", async function(req, res) {
+    console.log(req.body.courseId);
     const getDel = await courseModel.suspendCourse(req.body.courseId);
-    console.log(getDel);
     res.json(getDel);
-})
+});
+
+router.post("/suspend/lecturer", async function (req, res) { 
+    const banLt = await lecturerModel.banLecturer(req.body.lecturerId);
+    res.json(banLt);
+});
+
+router.post("/suspend/student", async function (req, res) { 
+    const banSt = await studentModel.banStudent(req.body.lecturerId);
+    res.json(banSt);
+});
 
 module.exports = router;

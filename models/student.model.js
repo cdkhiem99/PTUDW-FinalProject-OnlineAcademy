@@ -63,5 +63,18 @@ module.exports = {
       return error.message;
     }
     return true;
-  }
+  },
+
+  async banStudent(studentId) {
+    try {
+      const sql = `update from lecturer 
+                set block = 1
+                where id = ?`;
+    const condition = [studentId];
+    const [result, fields] = await db.load(sql, condition);
+    return true;
+    } catch (error) {
+      error.message;
+    }
+  },
 };

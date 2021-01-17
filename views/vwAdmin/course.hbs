@@ -11,7 +11,6 @@
 
   function DisplayError(string){
     swal("Error!", string, "error");
-    console.log(element);
   }
 
   function onClickSuspendCourse(element) {
@@ -63,7 +62,7 @@
             <td class="clickable-row" data-href="/product/detail/{{id}}">{{status}}</td>
             <td class="text-right">
                 <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickSuspendCourse(this)">
-                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                <i class="fa fa-ban" aria-hidden="true"></i>
                 </a>
             </td>
             </tr>

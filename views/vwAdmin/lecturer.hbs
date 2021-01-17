@@ -1,3 +1,42 @@
+{{#section 'js'}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        console.log(this);
+        window.location = $(this).data("href");
+    });
+  });
+
+  function DisplayError(string){
+    swal("Error!", string, "error");
+  }
+
+  function onClickBanLecturer(element) {
+    console.log(element);
+    const newData = {
+      lecturerId: jQuery(element).attr("id")
+    }
+    console.log(element);
+
+    $.post("/lecturers/suspend/lecturer", newData, function(data, status) {
+        if(data === true) {
+          swal("Success!", "Done!", "success").then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        }
+        else {
+          DisplayError(data);
+        }
+    });
+  }
+</script>
+{{/section}}
+
+
 <div class="card">
   <div class="card-header d-flex justify-content-between">
     <h4>List of Lecturers on the Server</h4>
@@ -26,8 +65,8 @@
             <td class="clickable-row" data-href="/product/detail/{{id}}">{{phone_number}}</td>
             <td class="clickable-row" data-href="/product/detail/{{id}}">{{university}}</td>
             <td class="text-right">
-                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickDel(this)">
-                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickBanLecturer(this)">
+                <i class="fa fa-ban" aria-hidden="true"></i>
                 </a>
             </td>
             </tr>

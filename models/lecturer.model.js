@@ -69,5 +69,18 @@ module.exports = {
         return null;
       }
       return rows;
+    },
+
+    async banLecturer(lecturerId) {
+      try {
+        const sql = `update from lecturer 
+                  set block = 1
+                  where id = ?`;
+      const condition = [lecturerId];
+      const [result, fields] = await db.load(sql, condition);
+      return true;
+      } catch (error) {
+        error.message;
+      }
     }
 }
