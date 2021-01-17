@@ -93,11 +93,15 @@ router.get("/detail/:courseID", async function (req, res, next) {
   });
 });
 
-router.get("search/:fulltext", async function (req, res, next) {
-  const searchResult = await courseModel.searchCourse(req.params.fulltext);
+router.get("/search", async function (req, res, next) {
+  console.log(req.query);
+  const fulltext = req.query.search;
+  const searchResult = await courseModel.searchCourse(fulltext);
+  console.log(searchResult);
 
   res.render("vwProducts/search", {
     searchResult,
+    empty: searchResult.length === 0,
   });
 });
 

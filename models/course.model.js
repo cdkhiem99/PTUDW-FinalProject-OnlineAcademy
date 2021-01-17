@@ -226,11 +226,12 @@ module.exports = {
 
   async searchCourse(match) {
     const sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
-                lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
-                from course as c join subfield as sf on c.subFieldId = sf.id
-                join lecturer as lt on lt.id = c.lecturerId
-                where sf.fieldname LIKE '%?%' or c.title LIKE '%?%'`;
-    const condition = [match];
+            lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
+            from course as c join subfield as sf on c.subFieldId = sf.id
+            join lecturer as lt on lt.id = c.lecturerId
+            where Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) 
+            or Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE)`;
+    const condition = [match, match];
     const [rows, fields] = await db.load(sql, condition);
 
     const listOfResults = [];
