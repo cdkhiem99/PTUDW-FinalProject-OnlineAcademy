@@ -1,0 +1,63 @@
+<div class="card">
+  <div class="card-header">
+    <h4>Course</h4>
+  </div>
+  <div class="card-body">
+    {{#if empty}}
+    <h5 class="card-title">Không có dữ liệu!</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    {{else}}
+    <div class="row">
+      {{#each listByLecturerName}}
+      <div class="col-sm-4 mb-3">
+        <div class="card h-100">
+          <img src="{{imagePath}}" alt="{{this.CourseName}}" title="{{this.CourseName}}"
+            class="card-img-top">
+          <div class="card-body">
+            <h2 class="card-title">{{this.CourseName}}</h2>
+            <h4 class="card-title">Field: {{this.fieldName}}</h4>
+            <h4 class="card-title">Lecturer Name: {{this.LecturerName}}</h4>
+            <h5 class="card-title text-danger"><i class="fas fa-dollar-sign "></i> Price: {{Price}}</h5>
+            <h5 class="card-title">Rating: {{this.Rating}}</h5>
+            <p class="card-text">{{this.briefDescription}}</p>
+          </div>
+          <div class="card-footer text-muted">
+            <a class="btn btn-sm btn-outline-primary" href="/product/detail/{{this.CourseID}}" role="button">
+              <i class="fa fa-eye" aria-hidden="true"></i>
+              Details
+            </a>
+            {{#unless auth}}
+            <a class="btn btn-sm btn-outline-success" href="#" role="button">
+              <i class="fa fa-cart-plus" aria-hidden="true"></i>
+              Add to cart
+            </a>
+            {{/unless}}
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+    <nav>
+      <ul class="pagination">
+        <li class="page-item disabled">
+          <span class="page-link">Previous</span>
+        </li>
+        {{#each this.page_numbers}}
+        {{#if isCurrentPage}}
+        <li class="page-item active">
+          <a class="page-link" href="javascript:;">{{value}}</a>
+        </li>
+        {{else}}
+        <li class="page-item">
+          <a class="page-link" href="?page={{value}}">{{value}}</a>
+        </li>
+        {{/if}}
+        {{/each}}
+        <li class="page-item">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      </ul>
+    </nav>
+    {{/if}}
+  </div>
+</div>

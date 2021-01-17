@@ -84,5 +84,16 @@ module.exports = {
       return null;
 
     return rows;
+  },
+
+  async getAllFieldName() {
+    const sql = `select name from fields`;
+    const [rows, fields] = await db.load(sql);
+
+    if (rows.length === 0) {
+      return null;
+    }
+
+    return rows;
   }
 };

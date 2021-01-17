@@ -93,5 +93,16 @@ module.exports = {
       } catch (error) {
         return error.message;
       }
+    },
+
+    async getAllLecturerName() {
+      const sql = `select name from lecturer`;
+      const [rows, fields] = await db.load(sql);
+
+      if (rows.length === 0) {
+        return null;
+      }
+
+      return rows;
     }
 }

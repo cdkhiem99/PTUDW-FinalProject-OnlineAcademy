@@ -6,6 +6,9 @@ const sectionModel = require("../models/section.model");
 const debug = require("debug")("routes:product");
 const studentModel = require("../models/enroll.model");
 const watchL = require("../models/watchlist.model");
+const lecturerModel = require("../models/lecturer.model");
+const fieldModel = require("../models/fields.model");
+const fieldsModel = require("../models/fields.model");
 
 const router = express.Router();
 
@@ -37,6 +40,18 @@ const router = express.Router();
 //   // }
 // });
 
+router.get("/", async function (req, res) {
+  const list = await courseModel.getAllCourse();
+  const listLecturersName = await lecturerModel.getAllLecturerName();
+  const listFieldsName = await fieldsModel.getAllFieldName();
+  res.render("vwProducts/index", {
+    list: list,
+    empty: list.length === 0,
+    listLecturersName,
+    listFieldsName,
+  })
+});
+
 router.get("/courseBySubField/:subField", async function (req, res, next) {
   const id = await subfieldModel.getBySubName(req.params.subField);
 
@@ -59,6 +74,23 @@ router.get("/field/:Field", async function (req, res, next) {
 
   res.locals.empty = listByFields === 0;
   res.render("vwProducts/byFields");
+});
+
+router.get("/:Field", async function (req, res, next) {
+  const listByFields = await courseModel.getAllCourseByField(req.params.Field);
+  res.locals.listByFields = listByFields;
+
+  res.locals.empty = listByFields === 0;
+  res.render("vwProducts/byFields");
+});
+
+router.get("/:lecturerName", async function (req, res, next) {
+  console.log(req.params.lecturerName);
+  const listByLecturerName = await courseModel.getAllCourseByLecturerName(req.params.lecturerName);
+  res.locals.listByLecturerName = listByLecturerName;
+
+  res.locals.empty = listByLecturerName === 0;
+  res.render("vwProducts/byLect");
 });
 
 router.get("/detail/:courseID", async function (req, res, next) {
