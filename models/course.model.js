@@ -5,25 +5,31 @@ const sub = require("../models/subfield.model");
 
 module.exports = {
   async all() {
-    const sql = "select * from course as c where c.status != 'Suspended'";
+    const sql = "select * from course as c where c.ban=false";
+    const [rows, fields] = await db.load(sql);
+    return rows;
+  },
+
+  async allForAd(){
+    const sql = "select * from course";
     const [rows, fields] = await db.load(sql);
     return rows;
   },
 
   async allByCat(id) {
-    const sql = `select * from course where id=${id} and status != 'Suspended'`;
+    const sql = `select * from course where id=${id} and ban=false`;
     const [rows, fields] = await db.load(sql);
     return rows;
   },
 
   async countByCat(id) {
-    const sql = `select count(*) as total from course where id=${id} and status != 'Suspended'`;
+    const sql = `select count(*) as total from course where id=${id} and ban=false`;
     const [rows, fields] = await db.load(sql);
     return rows[0].total;
   },
 
   async pageByCat(id, offset) {
-    const sql = `select * from course where id=${id} and status != 'Suspended' limit ${paginate.limit} offset ${offset}`;
+    const sql = `select * from course where id=${id} and ban=false limit ${paginate.limit} offset ${offset}`;
     const [rows, fields] = await db.load(sql);
     return rows;
   },
@@ -54,7 +60,7 @@ module.exports = {
   },
 
   async single(id) {
-    const sql = `select * from course where id=${id} and status != 'Suspended'`;
+    const sql = `select * from course where id=${id} and ban=false`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0) return null;
 
@@ -66,7 +72,7 @@ module.exports = {
                   from course as c
                   join lecturer as lt
                   on lt.id = c.lecturerId
-                  where c.status != 'Suspended'
+                  where c.ban=false
                   order by c.view desc limit 10`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0) {
@@ -85,7 +91,7 @@ module.exports = {
                   from course as c
                   join lecturer as lt
                   on lt.id = c.lecturerId
-                  where c.status != 'Suspended'
+                  where c.ban=false
                   order by c.date desc limit 10`;
     const [rows, fields] = await db.load(sql);
 
@@ -101,7 +107,7 @@ module.exports = {
                   from course as c
                   join lecturer as lt
                   on lt.id = c.lecturerId
-                  where c.status != 'Suspended'
+                  where c.ban=false
                   order by c.likes desc limit 10`;
     const [rows, fields] = await db.load(sql);
 
@@ -116,7 +122,7 @@ module.exports = {
     const sql = `select c.id
                 from course as c join subfield as sf on sf.courseID = c.subFieldId
                 where sf.id = ?
-                and c.status != 'Suspended'`;
+                and c.ban=false`;
     const condition = [fieldsId];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -127,7 +133,7 @@ module.exports = {
     const sql = `select c.name
                 from course as c join subfield as sf on sf.courseID = c.subFieldId
                 where sf.id = ?
-                and c.status != 'Suspended'`;
+                and c.ban=false`;
     const condition = [fieldsId];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -145,7 +151,7 @@ module.exports = {
                 from course as c
                 join lecturer as lt on c.lecturerId = lt.id
                 where c.id = ${courseID}
-                and c.status != 'Suspended'`;
+                and c.ban=false`;
 
     const [rows, _] = await db.load(sql);
 
@@ -174,7 +180,7 @@ module.exports = {
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
                 where sf.fieldName = ?
-                and c.status != 'Suspended'`;
+                and c.ban=false`;
     const condition = [fieldName];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -206,7 +212,7 @@ module.exports = {
                 from course as c join subfield as sf on c.subFieldId = sf.id
                 join lecturer as lt on lt.id = c.lecturerId
                 where sf.id = ?
-                and c.status != 'Suspended'`;
+                and c.ban=false`;
     const condition = [fieldsID];
     const [rows, fields] = await db.load(sql, condition);
 
@@ -241,7 +247,7 @@ module.exports = {
             join lecturer as lt on lt.id = c.lecturerId
             where c.title LIKE '%IT%' 
             or sf.fieldname LIKE '%IT%'
-            and c.status != 'Suspended'`;
+            and c.ban=false`;
     } else {
       sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
             lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
@@ -249,7 +255,7 @@ module.exports = {
             join lecturer as lt on lt.id = c.lecturerId
             where Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) 
             or Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE)
-            and c.status != 'Suspended'`;
+            and c.ban=false`;
     }
     const condition = [match, match];
     const [rows, fields] = await db.load(sql, condition);
@@ -277,15 +283,27 @@ module.exports = {
   },
 
   async suspendCourse(courseId) {
-     try {
-      const sql = `update course set status = 'Suspended' where id = ?`;
+    try {
+      const sql = `update course set ban=true where id = ?`;
       const condition = [courseId];
       const [result, fields] = await db.load(sql, condition);
       console.log(result);
       return true;
-     } catch (error) {
+    } catch (error) {
       return error.message;
-     }
+    }
+  },
+
+  async unlockCourse(courseId) {
+    try {
+      const sql = `update course set ban=false where id = ?`;
+      const condition = [courseId];
+      const [result, fields] = await db.load(sql, condition);
+      console.log(result);
+      return true;
+    } catch (error) {
+      return error.message;
+    }
     
   }
 };

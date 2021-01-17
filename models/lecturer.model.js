@@ -69,5 +69,29 @@ module.exports = {
         return null;
       }
       return rows;
+    },
+
+    async blockLecturer(id){
+      try {
+        const sql = `update lecturer set block=true where id = ?`;
+        const condition = [id];
+        const [result, fields] = await db.load(sql, condition);
+        console.log(result);
+        return true;
+      } catch (error) {
+        return error.message;
+      }
+    },
+
+    async unblockLecturer(id){
+      try {
+        const sql = `update lecturer set block=false where id = ?`;
+        const condition = [id];
+        const [result, fields] = await db.load(sql, condition);
+        console.log(result);
+        return true;
+      } catch (error) {
+        return error.message;
+      }
     }
 }

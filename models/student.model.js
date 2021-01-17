@@ -63,5 +63,29 @@ module.exports = {
       return error.message;
     }
     return true;
+  },
+
+  async blockStudent(id){
+    try {
+      const sql = `update student set block=true where id = ?`;
+      const condition = [id];
+      const [result, fields] = await db.load(sql, condition);
+      console.log(result);
+      return true;
+    } catch (error) {
+      return error.message;
+    }
+  },
+
+  async unblockStudent(id){
+    try {
+      const sql = `update student set block=false where id = ?`;
+      const condition = [id];
+      const [result, fields] = await db.load(sql, condition);
+      console.log(result);
+      return true;
+    } catch (error) {
+      return error.message;
+    }
   }
 };

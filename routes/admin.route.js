@@ -23,7 +23,7 @@ router.get("/students/", async function(req, res) {
 });
 
 router.get("/courses/", async function(req, res) {
-    const allCourses = await courseModel.all();
+    const allCourses = await courseModel.allForAd();
     res.locals.empty = allCourses === null;
     res.locals.allCourses = allCourses;
     res.render("vwAdmin/course");
@@ -40,10 +40,35 @@ router.get("/fields/", async function(req, res) {
     res.render("vwAdmin/field");
 });
 
-router.post("/suspend/course", async function(req, res) {
+router.post("/course/suspend", async function(req, res) {
     const getDel = await courseModel.suspendCourse(req.body.courseId);
-    console.log(getDel);
+
     res.json(getDel);
+});
+
+router.post("/course/open", async function (req, res) {
+    const open = await courseModel.unlockCourse(req.body.courseId);
+    res.json(open);
+});
+
+router.post("/lecturer/block", async function (req, res) {
+    const blockL = await lecturerModel.blockLecturer(req.body.id);
+    res.json(blockL);   
+});
+
+router.post("/lecturer/unblock", async function (req, res) {
+    const unblockL = await lecturerModel.unblockLecturer(req.body.id);
+    res.json(unblockL);
+});
+
+router.post("/student/block", async function (req, res) {
+    const blockS = await studentModel.blockStudent(req.body.id);
+    res.json(blockS);   
+});
+
+router.post("/student/unblock", async function (req, res) {
+    const unblockS = await studentModel.unblockStudent(req.body.id);
+    res.json(unblockS);
 })
 
 module.exports = router;

@@ -15,12 +15,30 @@
   }
 
   function onClickSuspendCourse(element) {
-    console.log(element);
     const newData = {
       courseId: jQuery(element).attr("id")
     }
 
-    $.post("/courses/suspend/course", newData, function(data, status) {
+    $.post("/admin/course/suspend", newData, function(data, status) {
+        if(data === true) {
+          swal("Success!", "Done!", "success").then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        }
+        else {
+          DisplayError(data);
+        }
+    });
+  }
+
+  function onClickUnSuspend(element){
+    const newData = {
+      courseId: jQuery(element).attr("id")
+    }
+
+    $.post("/admin/course/open", newData, function(data, status) {
         if(data === true) {
           swal("Success!", "Done!", "success").then((value) => {
             if (value === true) {
@@ -61,11 +79,18 @@
             <td class="clickable-row" data-href="/product/detail/{{id}}">{{title}}</td>
             <td class="clickable-row" data-href="/product/detail/{{id}}">{{price}}</td>
             <td class="clickable-row" data-href="/product/detail/{{id}}">{{status}}</td>
+            {{#unless ban}}
             <td class="text-right">
                 <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickSuspendCourse(this)">
-                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                <i class="fa fa-ban fa-lg" aria-hidden="true"></i>
                 </a>
             </td>
+            {{else}}<td class="text-right">
+                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickUnSuspend(this)">
+                <i class="fa fa-unlock-alt fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            {{/unless}}
             </tr>
         {{/each}}
       </tbody>
