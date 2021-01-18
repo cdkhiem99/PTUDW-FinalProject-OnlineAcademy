@@ -206,3 +206,6 @@ resource/public/lecturer/6.png
 resource/public/lecturer/7.png
 resource/public/lecturer/8.png
 resource/public/lecturer/9.png
+*.mp4
+/static-pages
+/views/vwCourses/details2.hbs
