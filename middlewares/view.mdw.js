@@ -12,12 +12,6 @@ module.exports = function (app) {
         format_number(val) {
           return numeral(val).format("0,0");
         },
-        trimImagePath(imgPath) {
-          return imgPath;
-        },
-        trimResourcePath(rsrcPath) {
-          return rsrcPath;
-        },
         eq: require("../utils/helper").eq,
       },
     })

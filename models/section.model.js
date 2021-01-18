@@ -45,16 +45,22 @@ module.exports = {
     const condition = [courseID];
     const [rows, fields] = await db.load(sql, condition);
 
-    listOfContent = [];
+    const listOfContent = [];
 
     if (rows.length !== 0) {
+      let panelID = 2;
+      let paneltitleID = 3;
       for (let index = 0; index < rows.length; index++) {
         listOfContent.push({
           ID: rows[index].id,
           Title: rows[index].title,
           videoPath: rows[index].videoPath,
-          preview: rows[index].preview
+          preview: rows[index].preview,
+          panelID,
+          paneltitleID,
         });
+        panelID += 4;
+        paneltitleID += 4;
       }
     }
 
