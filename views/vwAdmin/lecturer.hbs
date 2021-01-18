@@ -1,0 +1,96 @@
+{{#section 'js'}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function DisplayError(string){
+      swal("Error!", string, "error");
+      console.log(element);
+    }
+
+    function onClickBlock(element) {
+      const newData = {
+        id: jQuery(element).attr("id")
+      }
+
+      $.post("/admin/lecturer/block", newData, function(data, status) {
+          if(data === true) {
+            swal("Success!", "Done!", "success").then((value) => {
+              if (value === true) {
+                location.reload();
+              }
+            });
+          }
+          else {
+            DisplayError(data);
+          }
+      });
+    }
+
+    function onClickUnblock(element){
+      const newData = {
+        id: jQuery(element).attr("id")
+      }
+      console.log(newData);
+      $.post("/admin/lecturer/unblock", newData, function(data, status) {
+          if(data === true) {
+            swal("Success!", "Done!", "success").then((value) => {
+              if (value === true) {
+                location.reload();
+              }
+            });
+          }
+          else {
+            DisplayError(data);
+          }
+      });
+    }
+</script>
+{{/section}}
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
+    <h4>List of Lecturers on the Server</h4>
+  </div>
+  <div class="card-body">
+    {{#if empty}}
+    <h5 class="card-title">No course added yet!</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    {{else}}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Gender</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">University</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each allLecturers}}
+            <tr>
+            <th class="clickable-row" data-href="/product/detail/{{id}}" scope="row">{{id}}</th>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{name}}</td>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{gender}}</td>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{phone_number}}</td>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{university}}</td>
+            {{#unless block}}
+            <td class="text-right">
+                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickBlock(this)">
+                <i class="fa fa-lock fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            {{else}}
+            <td class="text-right">
+                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickUnblock(this)">
+                <i class="fa fa-unlock-alt fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            {{/unless}}
+            </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+  </div>
+</div>

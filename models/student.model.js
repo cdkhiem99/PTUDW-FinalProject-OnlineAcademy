@@ -22,6 +22,15 @@ module.exports = {
     return true;
   },
 
+  async getAllStudent() {
+    const sql = `select * from student`;
+    const [rows, fields] = await db.load(sql);
+    if (rows.length === 0) {
+      return null;
+    }
+    return rows;
+  },
+
   async add(user) {
     const [result, fields] = await db.add(user, 'student');
     return result;
@@ -54,5 +63,29 @@ module.exports = {
       return error.message;
     }
     return true;
+  },
+
+  async blockStudent(id){
+    try {
+      const sql = `update student set block=true where id = ?`;
+      const condition = [id];
+      const [result, fields] = await db.load(sql, condition);
+      console.log(result);
+      return true;
+    } catch (error) {
+      return error.message;
+    }
+  },
+
+  async unblockStudent(id){
+    try {
+      const sql = `update student set block=false where id = ?`;
+      const condition = [id];
+      const [result, fields] = await db.load(sql, condition);
+      console.log(result);
+      return true;
+    } catch (error) {
+      return error.message;
+    }
   }
 };

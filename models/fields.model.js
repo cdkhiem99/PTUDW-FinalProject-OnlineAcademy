@@ -78,10 +78,21 @@ module.exports = {
                   from fields as f left join subField as sf on f.name=sf.fieldName
                                         join course as c on c.subFieldId=sf.id
                   group by f.name
-                  order by Fieldview desc limit 4`;
+                  order by Fieldview desc limit 5`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0)
       return null;
+
+    return rows;
+  },
+
+  async getAllFieldName() {
+    const sql = `select name from fields`;
+    const [rows, fields] = await db.load(sql);
+
+    if (rows.length === 0) {
+      return null;
+    }
 
     return rows;
   }

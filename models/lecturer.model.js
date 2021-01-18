@@ -60,5 +60,49 @@ module.exports = {
             return error.message;
           }
           return true;
+    },
+
+    async getAllLecturer() {
+      const sql = `select * from lecturer`;
+      const [rows, fields] = await db.load(sql);
+      if (rows.length === 0) {
+        return null;
+      }
+      return rows;
+    },
+
+    async blockLecturer(id){
+      try {
+        const sql = `update lecturer set block=true where id = ?`;
+        const condition = [id];
+        const [result, fields] = await db.load(sql, condition);
+        console.log(result);
+        return true;
+      } catch (error) {
+        return error.message;
+      }
+    },
+
+    async unblockLecturer(id){
+      try {
+        const sql = `update lecturer set block=false where id = ?`;
+        const condition = [id];
+        const [result, fields] = await db.load(sql, condition);
+        console.log(result);
+        return true;
+      } catch (error) {
+        return error.message;
+      }
+    },
+
+    async getAllLecturerName() {
+      const sql = `select name from lecturer`;
+      const [rows, fields] = await db.load(sql);
+
+      if (rows.length === 0) {
+        return null;
+      }
+
+      return rows;
     }
 }

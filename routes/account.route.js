@@ -97,7 +97,7 @@ router.get("/login", function (req, res) {
 
 router.post("/login", async function (req, res) {
   var user = await studentModel.singleByUserName(req.body.username);
-  if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
+  if (user !== null && bcrypt.compareSync(req.body.password, user.password) && user.block === 0){
     req.session.auth = true;
     req.session.authUser = user;
 
@@ -107,7 +107,7 @@ router.post("/login", async function (req, res) {
   }
 
   user = await lecturerModel.singleByLecturerID(req.body.username);
-  if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
+  if (user !== null && bcrypt.compareSync(req.body.password, user.password) && user.block === 0){
     req.session.auth = true;
     req.session.authUser = user;
 
@@ -116,23 +116,29 @@ router.post("/login", async function (req, res) {
     return;
   }
 
-  user = await adminModel.singleAdmin(req.body.username);
-  if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
-    req.session.auth = true;
-    req.session.authUser = user;
+  if (user === null){
+    user = await adminModel.singleAdmin(req.body.username);
+    if (user !== null && bcrypt.compareSync(req.body.password, user.password)){
+      req.session.auth = true;
+      req.session.authUser = user;
 
-    const url = req.session.retUrl || "/";
-    res.redirect(url);
-    return;
+      const url = req.session.retUrl || "/";
+      res.redirect(url);
+      return;
+    }
   }
-
   if (user === null) {
     return res.render("vwAccount/login", {
       layout: false,
       err_message: "Wrong username or password!",
     });
   }
-
+  if (user.block === 1) {
+    return res.render("vwAccount/login", {
+      layout: false,
+      err_message: "Your account has been banned!",
+    });
+  }
 });
 
 router.post("/logout", function (req, res) {

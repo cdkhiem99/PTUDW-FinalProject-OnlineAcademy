@@ -12,6 +12,7 @@ module.exports = {
       select f.name, count(c.id) as 'NumberOfCourse'
       from fields as f left join subField as sf on f.name = sf.fieldName
             left join course as c on c.subFieldId = sf.id
+      where c.status != 'Suspended'
       group by f.name
     `;
     const [rows, fields] = await db.load(sql);

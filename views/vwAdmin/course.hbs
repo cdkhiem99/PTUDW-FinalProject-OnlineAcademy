@@ -1,0 +1,99 @@
+{{#section 'js'}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        console.log(this);
+        window.location = $(this).data("href");
+    });
+  });
+
+  function DisplayError(string){
+    swal("Error!", string, "error");
+  }
+
+  function onClickSuspendCourse(element) {
+    const newData = {
+      courseId: jQuery(element).attr("id")
+    }
+
+    $.post("/admin/course/suspend", newData, function(data, status) {
+        if(data === true) {
+          swal("Success!", "Done!", "success").then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        }
+        else {
+          DisplayError(data);
+        }
+    });
+  }
+
+  function onClickUnSuspend(element){
+    const newData = {
+      courseId: jQuery(element).attr("id")
+    }
+
+    $.post("/admin/course/open", newData, function(data, status) {
+        if(data === true) {
+          swal("Success!", "Done!", "success").then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        }
+        else {
+          DisplayError(data);
+        }
+    });
+  }
+</script>
+{{/section}}
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
+    <h4>List of Courses on the Server</h4>
+  </div>
+  <div class="card-body">
+    {{#if empty}}
+    <h5 class="card-title">No course added yet!</h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    {{else}}
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#ID</th>
+          <th scope="col">Course Name</th>
+          <th scope="col">Course Price</th>
+          <th scope="col">Course Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each allCourses}}
+            <tr>
+            <th class="clickable-row" data-href="/product/detail/{{id}}" scope="row">{{id}}</th>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{title}}</td>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{price}}</td>
+            <td class="clickable-row" data-href="/product/detail/{{id}}">{{status}}</td>
+            {{#unless ban}}
+            <td class="text-right">
+                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickSuspendCourse(this)">
+                <i class="fa fa-ban fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            {{else}}<td class="text-right">
+                <a name="" id="{{id}}" class="btn btn-lg btn-primary" role="button" onclick="onClickUnSuspend(this)">
+                <i class="fa fa-unlock-alt fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            {{/unless}}
+            </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    {{/if}}
+  </div>
+</div>
