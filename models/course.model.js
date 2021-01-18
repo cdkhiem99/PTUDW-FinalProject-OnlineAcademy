@@ -144,29 +144,28 @@ module.exports = {
   },
 
   async getCourseByID(courseID) {
-    const sql = `select c.id as CourseID, c.title as CourseName, c.status as status, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
+    let sql = `select c.*, c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
                 TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University, lt.email
                 from course as c
                 join lecturer as lt on c.lecturerId = lt.id
-                where c.id =  ?
+                where c.id = ${courseID}
                 and c.ban=false`;
 
-    const condition=[courseID];
-    const [rows, f0] = await db.load(sql, condition);
+    const [rows, f0] = await db.load(sql);
 
     if (rows.length === 0) {
       return null;
     }
 
-    sql1 = `select count(*) as nSections from section where section.courseId = ?;`;
-    const [rowsSections, f1] = await db.load(sql1, condition);
+    sql = `select count(*) as nSections from section where section.courseId = ${courseID};`;
+    const [rowsSections, f1] = await db.load(sql);
 
-    sql2 = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ?`;
-    const [rowsField, f2] = await db.load(sql2, condition);
+    sql = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ${courseID}`;
+    const [rowsField, f2] = await db.load(sql);
 
-    sql3 = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ?`;
-    const [rowsStudents, f3] = await db.load(sql3, condition);
+    sql = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ${courseID}`;
+    const [rowsStudents, f3] = await db.load(sql);
 
     return {
       CourseID: rows[0].CourseID,
@@ -181,7 +180,13 @@ module.exports = {
       LecturerPhone: rows[0].PhoneNumber,
       LecturerEmail: rows[0].email,
       LecturerUniversity: rows[0].University,
-      status: rows[0].status
+      totalHours: rows[0].totalHours,
+      nLikes: rows[0].likes,
+      nViews: rows[0].view,
+      nSections: rowsSections[0].nSections,
+      nStudents: rowsStudents[0].nStudents,
+      fieldName: rowsField[0].fieldName,
+      subFieldName: rowsField[0].subFieldName,
     };
   },
 
