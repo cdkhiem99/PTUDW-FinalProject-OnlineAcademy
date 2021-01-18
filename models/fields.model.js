@@ -74,10 +74,10 @@ module.exports = {
   },
 
   async mostPopularField(){
-    const sql = `select distinct f.fieldName, count(course.id)
+    const sql = `select distinct f.fieldName
                   from course join enroll on course.id = enroll.courseId 
                         join subField as f on course.subFieldId = f.id 
-                  group by f.name 
+                  group by f.fieldName 
                   order by count(course.id) desc limit 5`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0)
