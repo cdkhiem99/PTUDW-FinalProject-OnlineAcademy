@@ -112,39 +112,6 @@ router.get("/field/:Field", async function (req, res, next) {
   res.render("vwProducts/byFields");
 });
 
-router.get("/:Field", async function (req, res, next) {
-  const page = req.query.page || 1;
-  if (page < 1) page = 1;
-
-  const total = await courseModel.countCourseByField(req.params.Field);
-  let nPages = Math.floor(total / paginate.limit);
-  if (total % paginate.limit > 0) nPages++;
-
-  const page_numbers = [];
-  for (i = 1; i <= nPages; i++) {
-    page_numbers.push({
-      value: i,
-      isCurrentPage: i === +page
-    });
-  }
-
-  const offset = (page - 1) * paginate.limit;
-  const listByFields = await courseModel.getAllCourseByField(req.params.Field, offset);
-  res.locals.listByFields = listByFields;
-  res.locals.page_numbers = page_numbers;
-  res.locals.empty = listByFields === 0;
-  res.render("vwProducts/byFields");
-});
-
-router.get("/:lecturerName", async function (req, res, next) {
-  console.log(req.params.lecturerName);
-  const listByLecturerName = await courseModel.getAllCourseByLecturerName(req.params.lecturerName);
-  res.locals.listByLecturerName = listByLecturerName;
-
-  res.locals.empty = listByLecturerName === 0;
-  res.render("vwProducts/byLect");
-});
-
 router.get("/detail/:courseID", async function (req, res, next) {
   const course = await courseModel.getCourseByID(req.params.courseID);
   
