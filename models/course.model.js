@@ -1,7 +1,6 @@
 const db = require("../utils/db");
 const { paginate } = require("../config/default.json");
 const debug = require("debug")("models:course");
-const sub = require("../models/subfield.model");
 
 module.exports = {
   async all() {
@@ -134,18 +133,27 @@ module.exports = {
   },
 
   async getCourseByID(courseID) {
-    const sql = `select c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
+    let sql = `select c.*, c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
                 TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
-                c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University
+                c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University, lt.email
                 from course as c
                 join lecturer as lt on c.lecturerId = lt.id
                 where c.id = ${courseID}`;
 
-    const [rows, _] = await db.load(sql);
+    const [rows, f0] = await db.load(sql);
 
     if (rows.length === 0) {
       return null;
     }
+
+    sql = `select count(*) as nSections from section where section.courseId = ${courseID};`;
+    const [rowsSections, f1] = await db.load(sql);
+
+    sql = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ${courseID}`;
+    const [rowsField, f2] = await db.load(sql);
+
+    sql = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ${courseID}`;
+    const [rowsStudents, f3] = await db.load(sql);
 
     return {
       CourseID: rows[0].CourseID,
@@ -158,7 +166,15 @@ module.exports = {
       LecturerID: rows[0].LectID,
       LecturerName: rows[0].LecturerName,
       LecturerPhone: rows[0].PhoneNumber,
+      LecturerEmail: rows[0].email,
       LecturerUniversity: rows[0].University,
+      totalHours: rows[0].totalHours,
+      nLikes: rows[0].likes,
+      nViews: rows[0].view,
+      nSections: rowsSections[0].nSections,
+      nStudents: rowsStudents[0].nStudents,
+      fieldName: rowsField[0].fieldName,
+      subFieldName: rowsField[0].subFieldName,
     };
   },
 
