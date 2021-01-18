@@ -74,11 +74,11 @@ module.exports = {
   },
 
   async mostPopularField(){
-    const sql = `select f.name, sum(c.view) as 'Fieldview'
-                  from fields as f left join subField as sf on f.name=sf.fieldName
-                                        join course as c on c.subFieldId=sf.id
-                  group by f.name
-                  order by Fieldview desc limit 5`;
+    const sql = `select distinct f.fieldName, count(course.id)
+                  from course join enroll on course.id = enroll.courseId 
+                        join subField as f on course.subFieldId = f.id 
+                  group by f.name 
+                  order by count(course.id) desc limit 5`;
     const [rows, fields] = await db.load(sql);
     if (rows.length === 0)
       return null;
