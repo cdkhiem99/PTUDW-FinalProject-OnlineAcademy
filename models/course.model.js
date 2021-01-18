@@ -9,7 +9,7 @@ module.exports = {
     return rows;
   },
 
-  async allForAd(){
+  async allForAd() {
     const sql = "select * from course";
     const [rows, fields] = await db.load(sql);
     return rows;
@@ -144,7 +144,7 @@ module.exports = {
   },
 
   async getCourseByID(courseID) {
-    let sql = `select c.*, c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
+    const sql = `select c.*, c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
                 TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University, lt.email
                 from course as c
@@ -158,14 +158,14 @@ module.exports = {
       return null;
     }
 
-    sql = `select count(*) as nSections from section where section.courseId = ${courseID};`;
-    const [rowsSections, f1] = await db.load(sql);
+    const sql1 = `select count(*) as nSections from section where section.courseId = ${courseID};`;
+    const [rowsSections, f1] = await db.load(sql1);
 
-    sql = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ${courseID}`;
-    const [rowsField, f2] = await db.load(sql);
+    const sql2 = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ${courseID}`;
+    const [rowsField, f2] = await db.load(sql2);
 
-    sql = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ${courseID}`;
-    const [rowsStudents, f3] = await db.load(sql);
+    const sql3 = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ${courseID}`;
+    const [rowsStudents, f3] = await db.load(sql3);
 
     return {
       CourseID: rows[0].CourseID,
@@ -180,6 +180,7 @@ module.exports = {
       LecturerPhone: rows[0].PhoneNumber,
       LecturerEmail: rows[0].email,
       LecturerUniversity: rows[0].University,
+      status: rows[0].status,
       totalHours: rows[0].totalHours,
       nLikes: rows[0].likes,
       nViews: rows[0].view,
@@ -323,7 +324,7 @@ module.exports = {
             lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
             from course as c join subfield as sf on c.subFieldId = sf.id
             join lecturer as lt on lt.id = c.lecturerId
-            where c.title LIKE '%IT%' 
+            where c.title LIKE '%IT%'
             or sf.fieldname LIKE '%IT%'
             and c.ban=false`;
     } else {
@@ -331,7 +332,7 @@ module.exports = {
             lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
             from course as c join subfield as sf on c.subFieldId = sf.id
             join lecturer as lt on lt.id = c.lecturerId
-            where Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) 
+            where Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE)
             or Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE)
             and c.ban=false`;
     }
@@ -356,7 +357,7 @@ module.exports = {
         });
       }
     }
-    
+
     return listOfResults;
   },
 
@@ -382,6 +383,5 @@ module.exports = {
     } catch (error) {
       return error.message;
     }
-    
-  }
+  },
 };
