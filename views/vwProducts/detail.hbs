@@ -208,9 +208,7 @@
             </a>
           </div>
           <div class="col-md-6" style="display: flex; justify-content: flex-end;">
-            {{#if ../auth}}
-            {{#if (eq ../authUser.role 'student')}}
-              {{log ../isFisnish}}
+            {{#if (cs ../authUser.role 'student')}}
               {{#if ../isFisnish}}
                 <a name="fisnished" class="btn btn-lg btn-primary" role="button" style="background-color: yellowgreen;" disabled>
                   <i class="fa fa-graduation-cap fa-lg" aria-hidden="true"></i>
@@ -219,7 +217,6 @@
                 <a name="ongoing" class="btn btn-lg btn-primary" style="background-color: gray;" role="button" disabled>
                   <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
                 </a>
-              {{/if}}
               {{#unless ../isEnrolled}}
                 <button type="button" class="btn btn-primary btn-lg" style="margin-left: 5px;" onclick="onClickEnroll()">Enroll</button>
               {{/unless}}
@@ -311,16 +308,18 @@
         <div><a href="{{this}}"> Video </a></div>
       {{/with}}
       {{/if}}
-      {{#if ../../isEnrolled}}
-        {{#unless this.isComplete}}
-        <a name="fisnish" class="btn btn-lg btn-primary" role="button" data-sectionId="{{ID}}" onclick="onClickFinish(this)">
-          <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
-        </a>
-        {{else}}
-        <a name="fisnish" class="btn btn-lg btn-primary" role="button" disabled>
-          <i class="fa fa-graduation-cap fa-lg" aria-hidden="true"></i>
-        </a>
-        {{/unless}}
+      {{#if ../../auth}}
+        {{#if ../../isEnrolled}}
+          {{#unless this.isComplete}}
+          <a name="fisnish" class="btn btn-lg btn-primary" role="button" data-sectionId="{{ID}}" onclick="onClickFinish(this)">
+            <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
+          </a>
+          {{else}}
+          <a name="fisnish" class="btn btn-lg btn-primary" role="button" disabled>
+            <i class="fa fa-graduation-cap fa-lg" aria-hidden="true"></i>
+          </a>
+          {{/unless}}
+        {{/if}}
       {{/if}}
       <!-- if purchased show video link, else, only preview -->
     {{/each}}
