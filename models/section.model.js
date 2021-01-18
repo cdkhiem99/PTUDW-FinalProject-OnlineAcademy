@@ -48,19 +48,13 @@ module.exports = {
     const listOfContent = [];
 
     if (rows.length !== 0) {
-      let panelID = 2;
-      let paneltitleID = 3;
       for (let index = 0; index < rows.length; index++) {
         listOfContent.push({
           ID: rows[index].id,
           Title: rows[index].title,
           videoPath: rows[index].videoPath,
           preview: rows[index].preview,
-          panelID,
-          paneltitleID,
         });
-        panelID += 4;
-        paneltitleID += 4;
       }
     }
 
@@ -68,16 +62,16 @@ module.exports = {
   },
 
   async getCourseContentWithProcess(courseID, studentId) {
-    const sql = `select id, title, videoPath, preview, 
-                (select count(*) 
-                from markComplete as mc 
+    const sql = `select id, title, videoPath, preview,
+                (select count(*)
+                from markComplete as mc
                 where section.id = mc.sectionId and mc.courseId = section.courseId and mc.studentId = ?) as isComplete
-                from section 
+                from section
                 where courseId = ?`;
     const condition = [studentId, parseInt(courseID)];
     const [rows, fields] = await db.load(sql, condition);
 
-    listOfContent = [];
+    const listOfContent = [];
 
     if (rows.length !== 0) {
       for (let index = 0; index < rows.length; index++) {
@@ -86,7 +80,7 @@ module.exports = {
           Title: rows[index].title,
           videoPath: rows[index].videoPath,
           preview: rows[index].preview,
-          isComplete: rows[index].isComplete === 1
+          isComplete: rows[index].isComplete === 1,
         });
       }
     }
@@ -94,15 +88,21 @@ module.exports = {
     return listOfContent;
   },
 
-  async finishCourse(studentId, courseId, sectionId){
+  async finishCourse(studentId, courseId, sectionId) {
     try {
       const sql = `insert into markComplete values(?,?,?,?) on duplicate key update isComplete = ?`;
-      const condition = [studentId, parseInt(courseId), parseInt(sectionId), true, true];
+      const condition = [
+        studentId,
+        parseInt(courseId),
+        parseInt(sectionId),
+        true,
+        true,
+      ];
       const [result, fields] = await db.load(sql, condition);
       console.log(result);
       return true;
     } catch (error) {
       return error.message;
     }
-  }
+  },
 };
