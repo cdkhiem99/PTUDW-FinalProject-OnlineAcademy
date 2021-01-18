@@ -214,30 +214,119 @@
           </div>
           {{/each}}
         </div>
+
+        <div class="component-margin">
+          <div class="unit-title--container--EH-Rf">
+            <h2 class="udlite-heading-xl unit-title--title--2TQwd">
+              New courses
+            </h2>
+          </div>
+          <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
+            {{#each newViewedCourses}}
+            <div class="carousel--scroll-item--3Wciz">
+              <div class="popper--popper--19faV">
+                <a class="course-card" href="/product/detail/{{id}}">
+                  <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
+                    <div class="course-card--image-wrapper--Sxd90">
+                      <img
+                        alt=""
+                        width="240"
+                        height="135"
+                        class="course-card--course-image--2sjYP browse-course-card--image--35hYN"
+                        src={{imagePath}}
+                      >
+                    </div>
+                    <div class="course-card--main-content--3xEIw course-card--has-price-text--1Ikr0">
+                      <div class="udlite-heading-md course-card--course-title--2f7tE">
+                        {{title}}
+                      </div>
+                      <div class="udlite-text-xs course-card--instructor-list--lIA4f" data-purpose="safely-set-inner-html:course-card:visible-instructors">
+                        {{LecturerName}}
+                      </div>
+                      <div class="course-card--row--1OMjg">
+                        <span class="star-rating--star-wrapper--2eczq">
+                          <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                          <span
+                            class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                            aria-hidden="true"
+                            data-purpose="rating-number"
+                          >
+                            {{likes}}
+                          </span>
+                        </span>
+                        <span  class="udlite-text-xs course-card--reviews-text--12UpL">
+                          ({{format_number view}} views)
+                        </span>
+                      </div>
+                      <div
+                        class="price-text--container--Ws-fP course-card--price-text-container--2sb8G"
+                        data-purpose="price-text-container"
+                      >
+                        <div
+                          class="price-text--price-part--Tu6MH course-card--discount-price--3TaBk udlite-heading-md"
+                          data-purpose="course-price-text"
+                        >
+                          ${{price}}
+                        </div>
+                      </div>
+                      <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
+                        Bestseller
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
       </div>
     </div>
-    
+
     <nav style="display: flex; justify-content: center;">
+
       <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">Previous</span>
+        <li class="page-item" id="previousPage">
+          <a class="page-link" href="javascript:PreviousPage();" class="disable">&laquo;</a>
         </li>
-        {{#each this.page_numbers}}
-        {{#if isCurrentPage}}
-        <li class="page-item active">
-          <a class="page-link" href="javascript:;">{{value}}</a>
+          {{#each this.page_numbers}}
+          {{#if isCurrentPage}}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{value}}">
+                {{value}} <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {{else}}
+            <li id="nextPage" class="page-item">
+              <a class="page-link" href="?page={{value}}">{{value}}</a>
+            </li>
+          {{/if}}
+          {{/each}}
+        <li class="page-item" id="nextPage">
+          <a class="page-link" href="javascript:NextPage();">&raquo;</a>
         </li>
-        {{else}}
-        <li class="page-item">
-          <a class="page-link" href="?page={{value}}">{{value}}</a>
-        </li>
-        {{/if}}
-        {{/each}}
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
+        
       </ul>
     </nav>
     {{/if}}
   </div>
 </div>
+
+<script>
+  function NextPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) + 1;
+    const maxPage = jQuery(".pagination")[0].querySelectorAll("li").length - 2;
+    if (pageActive - 1 >= maxPage) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+
+  function PreviousPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) - 1;
+    if (pageActive + 1 <= 1) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+</script>
