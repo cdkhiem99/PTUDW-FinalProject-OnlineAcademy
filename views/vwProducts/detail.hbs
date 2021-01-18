@@ -28,10 +28,11 @@
       color: #4A148C;
       transition: all .2s
   }
+  
 
   hr.new4 {
-  border: 1px solid red;
-}
+    border: 1px solid red;
+  } 
 
   input.star:checked~label.star:before {
       content: '\f005';
@@ -165,18 +166,19 @@
     }
   }
 
-  function onClickFinish(){
+  function onClickFinish(element){
     const onUsing = "{{auth}}"
+    console.log(element);
     if (onUsing === "true"){
       const newData = {
         studentId: "{{authUser.id}}",
         courseId: "{{course.CourseID}}",
-        sectionId: "{{courseContent.id}}"
+        sectionId: jQuery(element).data("sectionid")
       }
       $.post("/student/finish", newData, function(data, status){
         console.log(data);
           if(data === true){
-            swal("Thank you!", "Thank you for finish the course!", "success").then((value)=>{
+            swal("Thank you!", "Thank you for finished this section!", "success").then((value)=>{
               if (value === true){
                 location.reload();
               }
@@ -199,26 +201,29 @@
     <div class="card-header">
       <div class="container-fluid" style="padding: 0px; margin:0px 0px;">
         <div class="row">
-          <div class="col-md-6" style="font-size: xx-large;">{{CourseName}}</div>
+          <div class="col-md-6" style="font-size: xx-large;">
+            {{CourseName}}
+            <a name="ongoing" class="btn btn-lg btn-primary" style="background-color: gray;" role="button" disabled>
+              {{status}}
+            </a>
+          </div>
           <div class="col-md-6" style="display: flex; justify-content: flex-end;">
-            {{#if (eq ../authUser.role 'student')}}
-              {{#if ../isEnrolled}}
-                {{#unless ../isComplete}}
-                <a name="fisnish" class="btn btn-lg btn-primary" role="button" onclick="onClickFinish()">
-                  <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
-                </a>
-                {{else}}
-                <a name="fisnish" class="btn btn-lg btn-primary" role="button" disabled>
+            {{#if (cs ../authUser.role 'student')}}
+              {{#if ../isFisnish}}
+                <a name="fisnished" class="btn btn-lg btn-primary" role="button" style="background-color: yellowgreen;" disabled>
                   <i class="fa fa-graduation-cap fa-lg" aria-hidden="true"></i>
                 </a>
-                {{/unless}}
-              {{/if}}
+              {{else}}
+                <a name="ongoing" class="btn btn-lg btn-primary" style="background-color: gray;" role="button" disabled>
+                  <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </a>
               {{#unless ../isEnrolled}}
                 <button type="button" class="btn btn-primary btn-lg" style="margin-left: 5px;" onclick="onClickEnroll()">Enroll</button>
               {{/unless}}
               {{#unless ../isInWatchList}}
                 <button type="button" class="btn btn-primary btn-lg" style="margin-left: 5px;" onclick="onAddtoWatchList()">Add to Watchlist</button>
               {{/unless}}
+            {{/if}}
             {{/if}}
           </div>
         </div>
@@ -302,6 +307,19 @@
       {{#with videoPath}}
         <div><a href="{{this}}"> Video </a></div>
       {{/with}}
+      {{/if}}
+      {{#if ../../auth}}
+        {{#if ../../isEnrolled}}
+          {{#unless this.isComplete}}
+          <a name="fisnish" class="btn btn-lg btn-primary" role="button" data-sectionId="{{ID}}" onclick="onClickFinish(this)">
+            <i class="fa fa-check-circle-o fa-lg" aria-hidden="true"></i>
+          </a>
+          {{else}}
+          <a name="fisnish" class="btn btn-lg btn-primary" role="button" disabled>
+            <i class="fa fa-graduation-cap fa-lg" aria-hidden="true"></i>
+          </a>
+          {{/unless}}
+        {{/if}}
       {{/if}}
       <!-- if purchased show video link, else, only preview -->
     {{/each}}

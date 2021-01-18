@@ -97,9 +97,37 @@ router.get("/detail/:courseID", async function (req, res, next) {
   const course = await courseModel.getCourseByID(req.params.courseID);
   
   const feedbackList = await feedbackModel.getFeedBack(req.params.courseID);
-  const courseContent = await sectionModel.getCourseContent(
-    req.params.courseID
-  );
+
+  var courseContent;
+  var isFisnish;
+  if(res.locals.auth===false){
+    courseContent = await sectionModel.getCourseContent(
+      req.params.courseID
+    );
+  } else{
+    courseContent = await sectionModel.getCourseContentWithProcess(
+      req.params.courseID,res.locals.authUser.id
+    );
+
+    var count=0;
+    for (const key in courseContent) {
+      if (Object.hasOwnProperty.call(courseContent, key)) {
+        const element = courseContent[key];
+        if (element.isComplete===true){
+          count+=1;
+        }
+      }
+    }
+
+    if(count===courseContent.length){
+      isFisnish=true;
+    }
+    else{
+      isFisnish=false;
+    }
+  }
+
+
   let isEnrolled = false;
   if(res.locals.auth && res.locals.authUser.role === 'student'){
     isEnrolled = await studentModel.isEnroll(res.locals.authUser.id, course.CourseID);
@@ -108,11 +136,6 @@ router.get("/detail/:courseID", async function (req, res, next) {
   let isInWatchList = false;
   if(res.locals.auth && res.locals.authUser.role === 'student'){
     isInWatchList = await watchL.isInWatchList(res.locals.authUser.id, course.CourseID);
-  }
-
-  let isComplete = false;
-  if(res.locals.auth && res.locals.authUser.role === 'student'){
-    isComplete = await sectionModel.getLearnProcess(res.locals.authUser.id, course.CourseID, courseContent.id);
   }
 
   // res.locals.course = course;
@@ -124,13 +147,14 @@ router.get("/detail/:courseID", async function (req, res, next) {
   // res.locals.courseContent = courseContent;
   // res.locals.courseContentempty = courseContent === 0;
 
+  console.log(res.locals.authUser);
   res.render("vwProducts/detail", {
     course,
     feedbackList,
     courseContent,
     isEnrolled,
     isInWatchList,
-    isComplete
+    isFisnish
   });
 });
 

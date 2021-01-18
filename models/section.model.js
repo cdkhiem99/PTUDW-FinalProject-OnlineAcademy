@@ -67,21 +67,37 @@ module.exports = {
     return listOfContent;
   },
 
-  async getLearnProcess(studentId, courseId, sectionId){
-    const sql = `select isComplete from markComplete where studentId=? and courseId=? and sectionId=?`;
-    const condition = [studentId, courseId, sectionId];
+  async getCourseContentWithProcess(courseID, studentId) {
+    const sql = `select id, title, videoPath, preview, 
+                (select count(*) 
+                from markComplete as mc 
+                where section.id = mc.sectionId and mc.courseId = section.courseId and mc.studentId = ?) as isComplete
+                from section 
+                where courseId = ?`;
+    const condition = [studentId, parseInt(courseID)];
     const [rows, fields] = await db.load(sql, condition);
 
-    if (rows.length === 0) 
-      return null;
+    listOfContent = [];
 
-    return rows[0];
-  }, 
+    if (rows.length !== 0) {
+      for (let index = 0; index < rows.length; index++) {
+        listOfContent.push({
+          ID: rows[index].id,
+          Title: rows[index].title,
+          videoPath: rows[index].videoPath,
+          preview: rows[index].preview,
+          isComplete: rows[index].isComplete === 1
+        });
+      }
+    }
+
+    return listOfContent;
+  },
 
   async finishCourse(studentId, courseId, sectionId){
     try {
       const sql = `insert into markComplete values(?,?,?,?) on duplicate key update isComplete = ?`;
-      const condition = [studentId, courseId, sectionId, true, true];
+      const condition = [studentId, parseInt(courseId), parseInt(sectionId), true, true];
       const [result, fields] = await db.load(sql, condition);
       console.log(result);
       return true;
