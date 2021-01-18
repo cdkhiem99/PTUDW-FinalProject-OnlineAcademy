@@ -1,4 +1,5 @@
 const express = require("express");
+const { paginate } = require('../config/default.json');
 const courseModel = require("../models/course.model");
 const subfieldModel = require("../models/subfield.model");
 const feedbackModel = require("../models/feedback.model");
@@ -41,14 +42,33 @@ const router = express.Router();
 // });
 
 router.get("/", async function (req, res) {
-  const list = await courseModel.getAllCourse();
   const listLecturersName = await lecturerModel.getAllLecturerName();
   const listFieldsName = await fieldsModel.getAllFieldName();
+
+  const page = req.query.page || 1;
+  if (page < 1) page = 1;
+
+  const total = await courseModel.countCourse();
+  let nPages = Math.floor(total / paginate.limit);
+  if (total % paginate.limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrentPage: i === +page
+    });
+  }
+
+  const offset = (page - 1) * paginate.limit;
+  const list = await courseModel.getAllCourse(offset);
+
   res.render("vwProducts/index", {
     list: list,
     empty: list.length === 0,
     listLecturersName,
     listFieldsName,
+    page_numbers
   })
 });
 
@@ -69,28 +89,27 @@ router.get("/courseBySubField/:subField", async function (req, res, next) {
 });
 
 router.get("/field/:Field", async function (req, res, next) {
-  const listByFields = await courseModel.getAllCourseByField(req.params.Field);
-  res.locals.listByFields = listByFields;
+  const page = req.query.page || 1;
+  if (page < 1) page = 1;
 
+  const total = await courseModel.countCourseByField(req.params.Field);
+  let nPages = Math.floor(total / paginate.limit);
+  if (total % paginate.limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrentPage: i === +page
+    });
+  }
+
+  const offset = (page - 1) * paginate.limit;
+  const listByFields = await courseModel.getAllCourseByField(req.params.Field, offset);
+  res.locals.listByFields = listByFields;
+  res.locals.page_numbers = page_numbers;
   res.locals.empty = listByFields === 0;
   res.render("vwProducts/byFields");
-});
-
-router.get("/:Field", async function (req, res, next) {
-  const listByFields = await courseModel.getAllCourseByField(req.params.Field);
-  res.locals.listByFields = listByFields;
-
-  res.locals.empty = listByFields === 0;
-  res.render("vwProducts/byFields");
-});
-
-router.get("/:lecturerName", async function (req, res, next) {
-  console.log(req.params.lecturerName);
-  const listByLecturerName = await courseModel.getAllCourseByLecturerName(req.params.lecturerName);
-  res.locals.listByLecturerName = listByLecturerName;
-
-  res.locals.empty = listByLecturerName === 0;
-  res.render("vwProducts/byLect");
 });
 
 router.get("/detail/:courseID", async function (req, res, next) {
@@ -157,12 +176,35 @@ router.get("/detail/:courseID", async function (req, res, next) {
   });
 });
 
-router.get("/search", async function (req, res, next) {
-  const fulltext = req.query.search;
-  const searchResult = await courseModel.searchCourse(fulltext);
+router.get("/search/:searchStr", async function (req, res, next) {
+  console.log(req.params.searchStr);
+  const fulltext = req.params.searchStr;
+
+  const page = req.query.page || 1;
+  if (page < 1) page = 1;
+
+  const total = await courseModel.countCourseBySearch(fulltext);
+  let nPages = Math.floor(total / paginate.limit);
+  if (total % paginate.limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrentPage: i === +page
+    });
+  }
+
+  const offset = (page - 1) * paginate.limit;
+  const searchResult = await courseModel.searchCourse(fulltext, offset);
+  const highlightedCourses = await courseModel.get4HighlightedCourse();
+  const newViewedCourses = await courseModel.get10LatestCourse();
 
   res.render("vwProducts/search", {
     searchResult,
+    page_numbers,
+    highlightedCourses,
+    newViewedCourses,
     empty: searchResult.length === 0,
   });
 });

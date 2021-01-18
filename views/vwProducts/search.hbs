@@ -1,3 +1,101 @@
+{{#section 'css'}}
+<link rel="stylesheet" href="/owlcarousel/assets/owl.carousel.min.css" />
+<link rel="stylesheet" href="/owlcarousel/assets/owl.theme.default.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" />
+
+<style>
+  .popular-courses--item {
+    display: block;
+
+    position: relative;
+
+    width: auto;
+    height: 75vh;
+
+    margin: 2rem auto 0;
+
+    background-size: cover;
+  }
+
+  .popular-courses--item-caption {
+    position: absolute;
+    bottom: 0;
+
+    background: rgb(33,37,41);
+    background: linear-gradient(0deg, rgba(33,37,41,1) 0%,
+    rgba(108,117,125,0.8) 60%, rgba(173,181,189,0.7) 80%,
+    rgba(233,236,239,0.6) 100%);
+
+    width: 100%;
+  }
+
+  .popular-courses--item-title,
+  .popular-courses--item-description {
+    padding: 0 1.5rem;
+    margin-bottom: 0.5rem;
+
+    display: -webkit-box;
+
+    font-size: 3.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -.02rem;
+
+    color: white;
+  }
+
+  .popular-courses--item-description {
+    margin-bottom: 1rem;
+    font-size: 1.9rem;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+<script src="/owlcarousel/owl.carousel.min.js"></script>
+<script>
+  $(document).ready(function(){
+    $('.popular-courses.owl-carousel').owlCarousel({
+      animateOut: 'slideOutDown',
+      animateIn: 'flipInX',
+      items: 1,
+      margin: 24,
+      stagePadding: 24,
+      smartSpeed: 450,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplayHoverPause: true,
+      loop: true
+    });
+    $('.target-courses.owl-carousel').owlCarousel({
+      loop:true,
+      nav: true,
+      margin: 10,
+      autoplay: true,
+      autoplayTimeout: 3000,
+      autoplayHoverPause: true,
+      responsiveClass: true,
+      responsive:{
+        0:{
+            items: 1,
+            nav: false,
+        },
+        600:{
+            items: 3,
+            slideBy: 2
+        },
+        1000:{
+            items: 5,
+            slideBy: 4
+        }
+      }
+    })
+  });
+</script>
+{{/section}}
+
 <div class="card">
   <div class="card-header">
     <h4>Course</h4>
@@ -49,27 +147,186 @@
       </div>
       {{/each}}
     </div>
-    <nav>
+
+    <div class="udlite-container" style="align-items: center; ">
+      <div class="component-margin">
+        <div class="unit-title--container--EH-Rf">
+          <h2 class="udlite-heading-xl unit-title--title--2TQwd">
+            Highlighting courses
+          </h2>
+        </div>
+
+        <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
+          {{#each highlightedCourses}}
+          <div class="carousel--scroll-item--3Wciz">
+            <div class="popper--popper--19faV">
+              <a class="course-card" href="/product/detail/{{id}}">
+                <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
+                  <div class="course-card--image-wrapper--Sxd90">
+                    <img
+                      alt=""
+                      width="240"
+                      height="135"
+                      class="course-card--course-image--2sjYP browse-course-card--image--35hYN"
+                      src={{imagePath}}
+                    >
+                  </div>
+                  <div class="course-card--main-content--3xEIw course-card--has-price-text--1Ikr0">
+                    <div class="udlite-heading-md course-card--course-title--2f7tE">
+                      {{title}}
+                    </div>
+                    <div class="udlite-text-xs course-card--instructor-list--lIA4f" data-purpose="safely-set-inner-html:course-card:visible-instructors">
+                      {{LecturerName}}
+                    </div>
+                    <div class="course-card--row--1OMjg">
+                      <span class="star-rating--star-wrapper--2eczq">
+                        <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                        <span
+                          class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                          aria-hidden="true"
+                          data-purpose="rating-number"
+                        >
+                          {{likes}}
+                        </span>
+                      </span>
+                      <span  class="udlite-text-xs course-card--reviews-text--12UpL">
+                        ({{format_number view}} views)
+                      </span>
+                    </div>
+                    <div
+                      class="price-text--container--Ws-fP course-card--price-text-container--2sb8G"
+                      data-purpose="price-text-container"
+                    >
+                      <div
+                        class="price-text--price-part--Tu6MH course-card--discount-price--3TaBk udlite-heading-md"
+                        data-purpose="course-price-text"
+                      >
+                        ${{price}}
+                      </div>
+                    </div>
+                    <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
+                      Bestseller
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+
+        <div class="component-margin">
+          <div class="unit-title--container--EH-Rf">
+            <h2 class="udlite-heading-xl unit-title--title--2TQwd">
+              New courses
+            </h2>
+          </div>
+          <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
+            {{#each newViewedCourses}}
+            <div class="carousel--scroll-item--3Wciz">
+              <div class="popper--popper--19faV">
+                <a class="course-card" href="/product/detail/{{id}}">
+                  <div class="course-card--container--3w8Zm course-card--medium--iRtVR">
+                    <div class="course-card--image-wrapper--Sxd90">
+                      <img
+                        alt=""
+                        width="240"
+                        height="135"
+                        class="course-card--course-image--2sjYP browse-course-card--image--35hYN"
+                        src={{imagePath}}
+                      >
+                    </div>
+                    <div class="course-card--main-content--3xEIw course-card--has-price-text--1Ikr0">
+                      <div class="udlite-heading-md course-card--course-title--2f7tE">
+                        {{title}}
+                      </div>
+                      <div class="udlite-text-xs course-card--instructor-list--lIA4f" data-purpose="safely-set-inner-html:course-card:visible-instructors">
+                        {{LecturerName}}
+                      </div>
+                      <div class="course-card--row--1OMjg">
+                        <span class="star-rating--star-wrapper--2eczq">
+                          <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                          <span
+                            class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                            aria-hidden="true"
+                            data-purpose="rating-number"
+                          >
+                            {{likes}}
+                          </span>
+                        </span>
+                        <span  class="udlite-text-xs course-card--reviews-text--12UpL">
+                          ({{format_number view}} views)
+                        </span>
+                      </div>
+                      <div
+                        class="price-text--container--Ws-fP course-card--price-text-container--2sb8G"
+                        data-purpose="price-text-container"
+                      >
+                        <div
+                          class="price-text--price-part--Tu6MH course-card--discount-price--3TaBk udlite-heading-md"
+                          data-purpose="course-price-text"
+                        >
+                          ${{price}}
+                        </div>
+                      </div>
+                      <div class="udlite-badge udlite-heading-xs udlite-badge-bestseller hidden">
+                        Bestseller
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav style="display: flex; justify-content: center;">
+
       <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">Previous</span>
+        <li class="page-item" id="previousPage">
+          <a class="page-link" href="javascript:PreviousPage();" class="disable">&laquo;</a>
         </li>
-        {{#each this.page_numbers}}
-        {{#if isCurrentPage}}
-        <li class="page-item active">
-          <a class="page-link" href="javascript:;">{{value}}</a>
+          {{#each this.page_numbers}}
+          {{#if isCurrentPage}}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{value}}">
+                {{value}} <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {{else}}
+            <li id="nextPage" class="page-item">
+              <a class="page-link" href="?page={{value}}">{{value}}</a>
+            </li>
+          {{/if}}
+          {{/each}}
+        <li class="page-item" id="nextPage">
+          <a class="page-link" href="javascript:NextPage();">&raquo;</a>
         </li>
-        {{else}}
-        <li class="page-item">
-          <a class="page-link" href="?page={{value}}">{{value}}</a>
-        </li>
-        {{/if}}
-        {{/each}}
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
+        
       </ul>
     </nav>
     {{/if}}
   </div>
 </div>
+
+<script>
+  function NextPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) + 1;
+    const maxPage = jQuery(".pagination")[0].querySelectorAll("li").length - 2;
+    if (pageActive - 1 >= maxPage) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+
+  function PreviousPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) - 1;
+    if (pageActive + 1 <= 1) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+</script>
