@@ -149,23 +149,24 @@ module.exports = {
                 c.price as Price, lt.id as LectID, lt.name as LecturerName, lt.phone_number as PhoneNumber, lt.university as University, lt.email
                 from course as c
                 join lecturer as lt on c.lecturerId = lt.id
-                where c.id = ${courseID}
+                where c.id =  ?
                 and c.ban=false`;
 
-    const [rows, f0] = await db.load(sql);
+    const condition=[courseID];
+    const [rows, f0] = await db.load(sql, condition);
 
     if (rows.length === 0) {
       return null;
     }
 
-    sql = `select count(*) as nSections from section where section.courseId = ${courseID};`;
-    const [rowsSections, f1] = await db.load(sql);
+    sql1 = `select count(*) as nSections from section where section.courseId = ?;`;
+    const [rowsSections, f1] = await db.load(sql1, condition);
 
-    sql = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ${courseID}`;
-    const [rowsField, f2] = await db.load(sql);
+    sql2 = `select sf.fieldName, sf.name as subFieldName from course as c join subfield as sf on c.subFieldId = sf.id where c.id = ?`;
+    const [rowsField, f2] = await db.load(sql2, condition);
 
-    sql = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ${courseID}`;
-    const [rowsStudents, f3] = await db.load(sql);
+    sql3 = `select count(*) as nStudents from enroll as er join course as c on er.courseId = c.id where c.id = ?`;
+    const [rowsStudents, f3] = await db.load(sql3, condition);
 
     return {
       CourseID: rows[0].CourseID,

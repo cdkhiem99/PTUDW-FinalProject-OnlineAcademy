@@ -106,14 +106,16 @@ router.post("/login", async function (req, res) {
     return;
   }
 
-  user = await lecturerModel.singleByLecturerID(req.body.username);
-  if (user !== null && bcrypt.compareSync(req.body.password, user.password) && user.block === 0){
-    req.session.auth = true;
-    req.session.authUser = user;
+  if (user === null){
+    user = await lecturerModel.singleByLecturerID(req.body.username);
+    if (user !== null && bcrypt.compareSync(req.body.password, user.password) && user.block === 0){
+      req.session.auth = true;
+      req.session.authUser = user;
 
-    const url = req.session.retUrl || "/";
-    res.redirect(url);
-    return;
+      const url = req.session.retUrl || "/";
+      res.redirect(url);
+      return;
+    }
   }
 
   if (user === null){
@@ -127,6 +129,7 @@ router.post("/login", async function (req, res) {
       return;
     }
   }
+
   if (user === null) {
     return res.render("vwAccount/login", {
       layout: false,
