@@ -49,28 +49,48 @@ module.exports = {
     return rows[0];
   },
 
-  async add(category) {
-    const [result, fields] = await db.add(category, 'fields');
-    // console.log(result);
-    return result;
+  async add(name) {
+    const obj ={
+      name: name
+    }
+
+    try{
+      const [result, fields] = await db.add(obj, 'fields');
+      return true;
+    } catch(e){
+      return false;
+    }
   },
 
-  async del(id) {
-    const condition = {
-      fieldsID: id
-    };
-    const [result, fields] = await db.del(condition, 'fields');
-    return result;
+  async del(name) {
+    const sql1 = `delete from fields where name=?`;
+    const sql2 = `delete from subField where fieldName=?`
+    const condition=[name];
+
+    const [r1, f1] = await db.load(sql1, condition);
+    const [r2, f2] = await db.load(sql2, condition);
+
+    return;
   },
 
-  async patch(entity) {
-    const condition = {
-      fieldsID: entity.fieldsID
-    };
-    delete (entity.fieldsID);
+  async patch(obj) {
+    try{
+      const sql1 = `update fields set name=? where name=?`;
+      const condition = [obj.name, obj.old];
 
-    const [result, fields] = await db.patch(entity, condition, 'fields');
-    return result;
+      const sql2 = `update subField set fieldName=? where fieldName=?`;
+
+      const [r1, f1] = await db.load(sql1, condition);
+      const [r2, f2] = await db.load(sql2, condition);
+
+      if (r1.length===0 || r2.length===0){
+        return false;
+      }
+
+      return true;
+    } catch(e){
+      return false;
+    }
   },
 
   async mostPopularField(){
@@ -84,6 +104,23 @@ module.exports = {
       return null;
 
     return rows;
+  },
+
+  async haveCourse(name){
+    const sql = `select count(f.name) as count
+                  from fields as f join subField as sf on f.name=sf.fieldName
+                                    join course as c on sf.id=c.subFieldId
+                  where f.name=?
+                  group by f.name`;
+
+    const condition=[name];
+    const [rows, fields] = await db.load(sql, condition);
+
+    if (rows.length === 0){
+      return true;
+    }
+
+    return false;
   },
 
   async getAllFieldName() {

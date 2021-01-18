@@ -147,7 +147,6 @@ router.get("/detail/:courseID", async function (req, res, next) {
   // res.locals.courseContent = courseContent;
   // res.locals.courseContentempty = courseContent === 0;
 
-  console.log(res.locals.authUser);
   res.render("vwProducts/detail", {
     course,
     feedbackList,

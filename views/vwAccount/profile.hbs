@@ -131,11 +131,8 @@
 
     const url = `/${check}/edit/profile`;
 
-    console.log(url);
-
     if (newData !== false){
       $.post(url, newData, function(data,status){
-        console.log(data);
         if(data === true){
           swal("Success!", "Your change has been done! Please confirm your email again!", "success").then((value)=>{
             if (value === true){
@@ -302,4 +299,5 @@
 
         </div><!--/col-9-->
     </div><!--/row-->
-    {{/if}}                                              
+    {{/if}}
+</div>

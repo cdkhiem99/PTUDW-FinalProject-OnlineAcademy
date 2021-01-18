@@ -11,7 +11,29 @@ module.exports = {
           return null;
     
         return rows[0];
-      },
+    },
+
+    async checkIdExist(id){
+      const sql = `select * from lecturer where id = ?`;
+      const condition = [id];
+      const [rows, fields] = await db.load(sql, condition);
+      
+      if (rows.length === 0)
+        return true;
+  
+      return false;
+    },
+
+    async singleEmailByID(email){
+      const sql = `select id from lecturer where email = ?`;
+      const condition = [email];
+      const [rows, fields] = await db.load(sql, condition);
+      
+      if (rows.length === 0)
+        return true;
+  
+      return false;
+    },
 
     async allCourseByID(id){
       const sql = `select *
