@@ -326,7 +326,7 @@ module.exports = {
             where 
             Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) or 
             Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE) and 
-            c.ban=false limit = ${paginate.limit} offset = ${offset}`;
+            c.ban=false limit ${paginate.limit} offset ${offset}`;
     const condition = [match, match];
     const [rows, fields] = await db.load(sql, condition);
 

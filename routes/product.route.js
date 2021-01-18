@@ -113,9 +113,25 @@ router.get("/field/:Field", async function (req, res, next) {
 });
 
 router.get("/:Field", async function (req, res, next) {
-  const listByFields = await courseModel.getAllCourseByField(req.params.Field);
-  res.locals.listByFields = listByFields;
+  const page = req.query.page || 1;
+  if (page < 1) page = 1;
 
+  const total = await courseModel.countCourseByField(req.params.Field);
+  let nPages = Math.floor(total / paginate.limit);
+  if (total % paginate.limit > 0) nPages++;
+
+  const page_numbers = [];
+  for (i = 1; i <= nPages; i++) {
+    page_numbers.push({
+      value: i,
+      isCurrentPage: i === +page
+    });
+  }
+
+  const offset = (page - 1) * paginate.limit;
+  const listByFields = await courseModel.getAllCourseByField(req.params.Field, offset);
+  res.locals.listByFields = listByFields;
+  res.locals.page_numbers = page_numbers;
   res.locals.empty = listByFields === 0;
   res.render("vwProducts/byFields");
 });
@@ -194,8 +210,9 @@ router.get("/detail/:courseID", async function (req, res, next) {
   });
 });
 
-router.get("/search", async function (req, res, next) {
-  const fulltext = req.query.search;
+router.get("/search/:searchStr", async function (req, res, next) {
+  console.log(req.params.searchStr);
+  const fulltext = req.params.searchStr;
 
   const page = req.query.page || 1;
   if (page < 1) page = 1;

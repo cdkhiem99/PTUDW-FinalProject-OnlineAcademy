@@ -24,7 +24,7 @@
     {{{_sections.headUdemy1}}}
 
     <link rel="preconnect" href="https://s.udemycdn.com/" crossorigin />
-    <link rel="dns-prefetch" href="https://s.udemycdn.com/" crossorigin />
+    <link rel="dns-prefetch" href="https://s.udemycdn.com/" crossorigin /> 
 
     {{{_sections.headUdemy2}}}
 
@@ -106,24 +106,16 @@
             </symbol>
           </svg>
           <form
-            method="GET"
-            action="/product/search/"
-            novalidate="novalidate"
-            onsubmit="/product/search/"
+            id = "search-form"
             class="searchbox sbx-twitter"
             style="margin-left: 15px;"
           >
             <div role="search" class="sbx-twitter__wrapper">
-              <input type="search" name="search" placeholder="Search your website" autocomplete="off" required="required"
+              <input id="_search" type="search" name="search" placeholder="Search your website" required="required"
                 class="sbx-twitter__input">
-              <button type="submit" title="Submit your search query." class="sbx-twitter__submit">
+              <button onclick="Search()" title="Submit your search query." class="sbx-twitter__submit">
                 <svg role="img" aria-label="Search">
                   <use xlink:href="#sbx-icon-search-8"></use>
-                </svg>
-              </button>
-              <button type="reset" title="Clear the search query." class="sbx-twitter__reset">
-                <svg role="img" aria-label="Reset">
-                  <use xlink:href="#sbx-icon-clear-3"></use>
                 </svg>
               </button>
             </div>
@@ -172,11 +164,11 @@
           {{/if}}
           {{/unless}}
 
-          <script type="text/javascript">
+          {{!-- <script type="text/javascript">
             document.querySelector('.searchbox [type="reset"]').addEventListener('click', function () {
               this.parentNode.querySelector('input').focus();
             });
-          </script>
+          </script> --}}
         </div>
       </div>
 
@@ -221,7 +213,7 @@
     </div>
 
     {{!-- for Bootstrap --}}
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"></script>
 
@@ -294,6 +286,14 @@
         );
         ajax.send();
       })();
+      jQuery("#search-form").on("submit",function(){
+        event.preventDefault();
+        Search();
+      })
+      function Search(){
+        const search = jQuery("#_search").val();
+        location.replace(`/product/search/${search}`);
+      }
     </script>
 
     {{{_sections.js}}}
