@@ -4,71 +4,6 @@
   </div>
   <div class="card-body">
 
-    {{!-- Drop down Filter --}}
-    <div class="dropdown">
-        <a
-            id="main-menu"
-            data-toggle="dropdown"
-            aria-expanded="false"
-            class="dropdown-toggle nav-link"
-            href="javascript:;"
-        >
-            Filter
-        </a>
-
-        <div
-            id="main-menu"
-            class="dropdown-menu"
-            aria-labelledby="main-menu"
-        >
-            <div class="nav-item dropright">
-                <a
-                    data-toggle="dropdown-submenu"
-                    class="dropdown-toggle nav-link"
-                    href=""
-                    style="font-size: 1.4rem;"
-                >
-                    Lecturer Name
-                </a>
-
-                <div id="sub-menu" class="dropdown-menu">
-                    {{#each listLecturersName}}
-                    <a
-                    class="dropdown-item"
-                    href="/product/{{this.name}}"
-                    aria-expanded="false"
-                    style="font-size: 1.4rem;"
-                    >
-                        {{this.name}}
-                    </a>
-                    {{/each}}
-                </div>
-
-                <a
-                    data-toggle="dropdown-submenu"
-                    class="dropdown-toggle nav-link"
-                    href=""
-                    style="font-size: 1.4rem;"
-                >
-                    Fields
-                </a>
-                
-                <div id="sub-menu" class="dropdown-menu">
-                    {{#each listFieldsName}}
-                    <a
-                    class="dropdown-item"
-                    href="/product/{{this.name}}"
-                    aria-expanded="false"
-                    style="font-size: 1.4rem;"
-                    >
-                        {{this.name}}
-                    </a>
-                    {{/each}}
-                </div>
-            </div>
-        </div>
-    </div>
-
     {{#if empty}}
     <h5 class="card-title">Không có dữ liệu!</h5>
     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
@@ -78,13 +13,24 @@
       <div class="col-sm-4 mb-3">
         <div class="card h-100">
           <img src="{{imagePath}}" alt="{{this.CourseName}}" title="{{this.CourseName}}"
-            class="card-img-top">
+            class="card-img-top" height="135px">
           <div class="card-body">
             <h2 class="card-title">{{this.CourseName}}</h2>
             <h4 class="card-title">Field: {{this.fieldName}}</h4>
             <h4 class="card-title">Lecturer Name: {{this.LecturerName}}</h4>
             <h5 class="card-title text-danger"><i class="fas fa-dollar-sign "></i> Price: {{Price}}</h5>
-            <h5 class="card-title">Rating: {{this.Rating}}</h5>
+            <h5 class="card-title">Rating: 
+              <span class="star-rating--star-wrapper--2eczq">
+                    <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                    <span
+                      class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                      aria-hidden="true"
+                      data-purpose="rating-number"
+                    >
+                      {{this.Rating}}
+                    </span>
+                  </span>
+            </h5>
             <p class="card-text">{{this.briefDescription}}</p>
           </div>
           <div class="card-footer text-muted">
@@ -103,27 +49,51 @@
       </div>
       {{/each}}
     </div>
-    <nav>
+
+    <nav style="display: flex; justify-content: center;">
+
       <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">Previous</span>
+        <li class="page-item" id="previousPage">
+          <a class="page-link" href="javascript:PreviousPage();" class="disable">&laquo;</a>
         </li>
-        {{#each this.page_numbers}}
-        {{#if isCurrentPage}}
-        <li class="page-item active">
-          <a class="page-link" href="javascript:;">{{value}}</a>
+          {{#each this.page_numbers}}
+          {{#if isCurrentPage}}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{value}}">
+                {{value}} <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {{else}}
+            <li id="nextPage" class="page-item">
+              <a class="page-link" href="?page={{value}}">{{value}}</a>
+            </li>
+          {{/if}}
+          {{/each}}
+        <li class="page-item" id="nextPage">
+          <a class="page-link" href="javascript:NextPage();">&raquo;</a>
         </li>
-        {{else}}
-        <li class="page-item">
-          <a class="page-link" href="?page={{value}}">{{value}}</a>
-        </li>
-        {{/if}}
-        {{/each}}
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
+        
       </ul>
     </nav>
     {{/if}}
   </div>
 </div>
+
+<script>
+  function NextPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) + 1;
+    const maxPage = jQuery(".pagination")[0].querySelectorAll("li").length - 2;
+    if (pageActive - 1 >= maxPage) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+
+  function PreviousPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) - 1;
+    if (pageActive + 1 <= 1) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+</script>

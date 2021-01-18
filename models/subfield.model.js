@@ -1,4 +1,5 @@
 const db = require('../utils/db');
+const { haveCourse } = require('./fields.model');
 
 module.exports = {
   async all() {
@@ -38,27 +39,55 @@ module.exports = {
     return rows[0];
   },
 
+  async haveCourse(id){
+    const sql = `select *
+                  from course as c join subField as sf on sf.id=c.subFieldId
+                  where sf.id=?`;
+    const condition=[id];
+    const [rows, fields] = await db.load(sql, condition);
+
+    if (rows.length===0){
+      return true;
+    }
+
+    return false;
+  },
+
   async add(category) {
-    const [result, fields] = await db.add(category, 'fields');
-    // console.log(result);
-    return result;
+    console.log(category);
+    const obj = {
+      fieldName: category.fname,
+      name: category.sname
+    }
+
+    try{
+      console.log(obj);
+      const [result, fields] = await db.add(obj, 'subField');
+      console.log(result);
+      return true;
+    } catch(e){
+      return false;
+    }
   },
 
   async del(id) {
     const condition = {
-      fieldsID: id
+      id: id
     };
-    const [result, fields] = await db.del(condition, 'fields');
+    const [result, fields] = await db.del(condition, 'subField');
     return result;
   },
 
-  async patch(entity) {
-    const condition = {
-      fieldsID: entity.fieldsID
-    };
-    delete (entity.fieldsID);
+  async patch(name, id) {
+    try{
+      const sql = `update subField set name=? where id=?`;
+      const condition = [name, id];
 
-    const [result, fields] = await db.patch(entity, condition, 'fields');
-    return result;
+      const [result, fields] = await db.load(sql, condition);
+
+      return true;
+    } catch(e){
+      return false;
+    }
   }
 };

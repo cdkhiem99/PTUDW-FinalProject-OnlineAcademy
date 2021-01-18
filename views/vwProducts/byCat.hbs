@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-header">
-    <h4>Course</h4>
+    <h4>Course by Sub Field</h4>
   </div>
   <div class="card-body">
     {{#if empty}}
@@ -18,7 +18,18 @@
             <h4 class="card-title">Field: {{this.fieldName}}</h4>
             <h4 class="card-title">Lecturer Name: {{this.LecturerName}}</h4>
             <h5 class="card-title text-danger"><i class="fas fa-dollar-sign "></i> Price: {{Price}}</h5>
-            <h5 class="card-title">Rating: {{this.Rating}}</h5>
+            <h5 class="card-title">Rating: 
+              <span class="star-rating--star-wrapper--2eczq">
+                    <i class="fa fa-thumbs-o-up fa-lg mr-1 text-info" aria-hidden="true"></i>
+                    <span
+                      class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                      aria-hidden="true"
+                      data-purpose="rating-number"
+                    >
+                      {{this.Rating}}
+                    </span>
+                  </span>
+            </h5>
             <p class="card-text">{{this.briefDescription}}</p>
           </div>
           <div class="card-footer text-muted">
@@ -37,27 +48,6 @@
       </div>
       {{/each}}
     </div>
-    <nav>
-      <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">Previous</span>
-        </li>
-        {{#each this.page_numbers}}
-        {{#if isCurrentPage}}
-        <li class="page-item active">
-          <a class="page-link" href="javascript:;">{{value}}</a>
-        </li>
-        {{else}}
-        <li class="page-item">
-          <a class="page-link" href="?page={{value}}">{{value}}</a>
-        </li>
-        {{/if}}
-        {{/each}}
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
-      </ul>
-    </nav>
     {{/if}}
   </div>
 </div>

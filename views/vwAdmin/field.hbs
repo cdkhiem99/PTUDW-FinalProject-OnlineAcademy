@@ -1,0 +1,263 @@
+{{#section 'js'}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+        window.location = $(this).data("href");
+    });
+  });
+
+  function DisplayError(string){
+    swal("Error!", string, "error");
+  }
+
+  function onClickAddField(){
+      var fieldname = jQuery("#name1").val();
+      var subfieldname = jQuery("#name2").val();
+
+      if (fieldname==="" && subfieldname===""){
+          return
+      }
+      else{
+        if (fieldname==="" && subfieldname!==""){
+            DisplayError("Subfield need a field!");
+        }
+        else{
+            var url;
+            if (subfieldname===""){
+                url = "/admin/add/field";
+            }
+            else{
+                url = "/admin/add/subfield";
+            }
+
+            const newData={
+                fname: fieldname,
+                sname: subfieldname
+            }
+            console.log(newData);
+
+            $.post(url, newData, function(data,status){
+                if(data === true){
+                    swal("Success!", "Add success!", "success").then((value)=>{
+                        if (value === true){
+                        location.reload();
+                        }
+                    });
+                    }
+                    else{
+                    DisplayError(data);
+                    }
+                });
+        }
+      }
+  }
+
+  function onClickEditField(element){
+    var name = jQuery(element).data("fieldname");
+    var oldName = jQuery(element.parentNode).prev().find("#fieldname").val();
+    console.log(oldName);
+    console.log(name);
+
+      if (oldName===""){
+          DisplayError("Can not be blank");   
+          return;
+      }
+
+      const newData = {
+          name: oldName,
+          old: name
+      }
+
+      $.post("/admin/edit/field", newData, function(data,status){
+        if(data === true){
+          swal("Success!", "Your change has been done!", "success").then((value)=>{
+            if (value === true){
+              location.reload();
+            }
+          });
+        }
+        else{
+          DisplayError(data);
+        }
+      });
+  }
+
+  function onClickEditSubField(element){
+      var name = jQuery(element.parentNode).prev().find("#subfieldname").val();
+      const id = jQuery(element).data("subid");
+
+      if (name===""){
+          DisplayError("Subfield name can not be blank!");
+          return;
+      }
+
+      const newData = {
+          id: id,
+          name: name
+      }
+
+      console.log(newData);
+
+      $.post("/admin/edit/subfield", newData, function(data,status){
+        if(data === true){
+          swal("Success!", "Your change has been done!", "success").then((value)=>{
+            if (value === true){
+              location.reload();
+            }
+          });
+        }
+        else{
+          DisplayError(data);
+        }
+      });
+  }
+
+  function onClickDelField(element){
+      const name = jQuery(element).data("fieldname");
+      const newData={
+          name: name
+      }
+
+      console.log(name);
+
+      $.post("/admin/del/fields", newData, function(data,status){
+        if(data === true){
+          swal("Done!", "Deleted!", "success").then((value)=>{
+            if (value === true){
+              location.reload();
+            }
+          });
+        }
+        else{
+          DisplayError(data);
+        }
+      });
+  }
+
+  function onClickDelSubField(element){
+      const name = jQuery(element).data("subname");
+      const id = jQuery(element).data("subid");
+
+      const newData = {
+          id: id,
+          name: name
+      }
+
+      console.log(newData);
+
+      $.post("/admin/del/subfield", newData, function(data,status){
+        if(data === true){
+          swal("Done!", "Deleted!", "success").then((value)=>{
+            if (value === true){
+              location.reload();
+            }
+          });
+        }
+        else{
+          DisplayError(data);
+        }
+      });
+  }
+</script>
+{{/section}}
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between" style="font-size: xx-large;">
+    List of Fields/Sub Fields on the Server
+  </div>
+  <div class="card-body">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#ID</th>
+          <th scope="col">Field Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each listFields}}
+            <tr>
+            <th class="clickable-row" scope="row">{{id}}</th>
+            <td class="text-left">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control-lg" name="name" id="fieldname" placeholder="{{name}}" title="Enter name">
+                    </div>
+                </div>
+            </td>
+            <td class="text-right">
+                <a name="" id="editfield" class="btn btn-lg btn-primary" role="button" data-fieldname="{{name}}" onclick="onClickEditField(this)">
+                    <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            <td class="text-right">
+                <a name="" id="deletefield" class="btn btn-lg btn-primary" role="button" data-fieldname="{{name}}" onclick="onClickDelField(this)">
+                    <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            </tr>
+        {{/each}}
+      </tbody>
+      <thead>
+        <tr>
+          <th scope="col">#ID</th>
+          <th scope="col">Subfield Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each listSubFields}}
+            <tr>
+            <th class="clickable-row" scope="row">{{id}}</th>
+            <td class="text-left">
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <input type="text" class="form-control-lg" name="name" id="subfieldname" placeholder="{{name}}" title="Enter name">
+                    </div>
+                </div>
+            </td>
+            <td class="text-right">
+                <a name="" id="editsub" class="btn btn-lg btn-primary" role="button" data-subid="{{id}}" data-subname="{{name}}" onclick="onClickEditSubField(this)">
+                <i class="fa fa-pencil fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            <td class="text-right">
+                <a name="" id="deletesub" class="btn btn-lg btn-primary" role="button" data-subid="{{id}}" data-subname="{{name}}" onclick="onClickDelSubField(this)">
+                <i class="fa fa-trash-o fa-lg" aria-hidden="true"></i>
+                </a>
+            </td>
+            </tr>
+        {{/each}}
+      </tbody>
+      <thead>
+        <tr>
+          <th scope="col">Field name</th>
+          <th scope="col">Subfield name</th>
+        </tr>
+        <tbody>
+            <tr>
+                <td class="text-left">
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control-lg" name="name" id="name1" placeholder="Enter field name" title="Enter name">
+                        </div>
+                    </div>
+                </td>
+                <td class="text-left">
+                    <div class="form-group">
+                        <div class="col-xs-6">
+                            <input type="text" class="form-control-lg" name="name" id="name2" placeholder="Enter subfield name" title="Enter name">
+                        </div>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <a name="" id="addfield" class="btn btn-lg btn-primary" role="button" onclick="onClickAddField()" style="background-color: goldenrod;">
+                        <i class="fa fa-plus-circle fa-lg" aria-hidden="true"></i>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+      </thead>
+    </table>
+  </div>
+</div>

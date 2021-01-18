@@ -325,4 +325,18 @@
     </div>
   </div>
 
+  {{!-- Lĩnh vực được xem nhiều nhất --}}
+  <div class="component-margin">
+    <div class="unit-title--container--EH-Rf">
+      <h2 class="udlite-heading-xl unit-title--title--2TQwd">
+        Most enrolled fields
+      </h2>
+    </div>
+
+    <div class="target-courses carousel--container--22Ab7 owl-carousel owl-theme">
+      {{#each mostPopularField}}
+        <a href="/product/field/{{fieldName}}" class="sign_up_container sign_up">{{fieldName}}</a>
+      {{/each}}
+    </div>
+  </div>
 </div>
