@@ -49,27 +49,51 @@
       </div>
       {{/each}}
     </div>
+
     <nav style="display: flex; justify-content: center;">
+
       <ul class="pagination">
-        <li class="page-item disabled">
-          <span class="page-link">Previous</span>
+        <li class="page-item" id="previousPage">
+          <a class="page-link" href="javascript:PreviousPage();" class="disable">&laquo;</a>
         </li>
-        {{#each this.page_numbers}}
-        {{#if isCurrentPage}}
-        <li class="page-item active">
-          <a class="page-link" href="javascript:;">{{value}}</a>
+          {{#each this.page_numbers}}
+          {{#if isCurrentPage}}
+            <li class="page-item active">
+              <a class="page-link" href="?page={{value}}">
+                {{value}} <span class="sr-only">(current)</span>
+              </a>
+            </li>
+          {{else}}
+            <li id="nextPage" class="page-item">
+              <a class="page-link" href="?page={{value}}">{{value}}</a>
+            </li>
+          {{/if}}
+          {{/each}}
+        <li class="page-item" id="nextPage">
+          <a class="page-link" href="javascript:NextPage();">&raquo;</a>
         </li>
-        {{else}}
-        <li class="page-item">
-          <a class="page-link" href="?page={{value}}">{{value}}</a>
-        </li>
-        {{/if}}
-        {{/each}}
-        <li class="page-item">
-          <a class="page-link" href="#">Next</a>
-        </li>
+        
       </ul>
     </nav>
     {{/if}}
   </div>
 </div>
+
+<script>
+  function NextPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) + 1;
+    const maxPage = jQuery(".pagination")[0].querySelectorAll("li").length - 2;
+    if (pageActive - 1 >= maxPage) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+
+  function PreviousPage() {
+    const pageActive = parseInt(jQuery(".pagination")[0].querySelector(".active").textContent) - 1;
+    if (pageActive + 1 <= 1) 
+      return;
+    const url = `?page=${pageActive}`;
+    location.replace(url);
+  }
+</script>
