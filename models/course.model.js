@@ -318,7 +318,17 @@ module.exports = {
   },
 
   async searchCourse(match, offset) {
-    const sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
+    let sql = ``;
+    if (match.trim() === "IT") {
+      sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
+            lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
+            from course as c 
+            join subfield as sf on c.subFieldId = sf.id
+            join lecturer as lt on lt.id = c.lecturerId
+            where c.title LIKE '%IT' or sf.fieldname LIKE '%IT' and
+            c.ban=false limit ${paginate.limit} offset ${offset}`;
+    } else {
+      sql = `select c.id as CourseID, c.title as CourseName, sf.fieldname as FieldName, c.imagePath as imagePath,
             lt.name as LecturerName, c.likes as Rating, c.price as CoursePrice, c.briefDescription as briefDes, c.description as FullDes
             from course as c 
             join subfield as sf on c.subFieldId = sf.id
@@ -327,6 +337,7 @@ module.exports = {
             Match (c.title, c.description) AGAINST (? IN NATURAL LANGUAGE MODE) or 
             Match (sf.fieldname, sf.name) AGAINST (? IN NATURAL LANGUAGE MODE) and 
             c.ban=false limit ${paginate.limit} offset ${offset}`;
+    } 
     const condition = [match, match];
     const [rows, fields] = await db.load(sql, condition);
 

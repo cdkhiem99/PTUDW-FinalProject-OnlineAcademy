@@ -231,10 +231,12 @@ router.get("/search/:searchStr", async function (req, res, next) {
 
   const offset = (page - 1) * paginate.limit;
   const searchResult = await courseModel.searchCourse(fulltext, offset);
+  const highlightedCourses = await courseModel.get4HighlightedCourse();
 
   res.render("vwProducts/search", {
     searchResult,
     page_numbers,
+    highlightedCourses,
     empty: searchResult.length === 0,
   });
 });
