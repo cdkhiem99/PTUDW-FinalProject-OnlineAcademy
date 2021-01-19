@@ -1,3 +1,1393 @@
-{{#section css}}
-
+{{#section 'headUdemy1'}}
+<link type="text/css" rel="stylesheet" href="https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-server-side.097cfb05f5c882a828c9.css" />
+<script type="text/javascript" src="https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-server-side.f4ee2054ac3996ba1084.js" defer=""></script>
+<link type="text/css" rel="stylesheet" href="https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-udlite-app.6ca52f12cd377fdc8bfe.css" />
 {{/section}}
+
+{{#section 'headUdemy2'}}
+<link rel="preload" as="script" href="https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-udlite-app.078b243797ce37a7a480.js">
+{{/section}}
+
+{{#section 'headUdemy3'}}
+<link rel="prefetch" as="style" href="https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-lazy.ab4e53df621202169bb3.css">
+<link rel="prefetch" as="script" href="https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-lazy.9ee9735e34302745d499.js">
+{{/section}}
+
+{{#section 'css'}}
+<style>
+  hr.new4 {
+    border: 1px solid red;
+  }
+
+  .feedback--stars-container {
+    width: auto;
+    display: inline-block;
+  }
+
+  input.feedback--stars-item {
+    display: none;
+  }
+
+  label.feedback--stars-item {
+    float: right;
+    padding: 1rem;
+    font-size: 2.5rem;
+    color: #4a148c;
+    transition: all 0.2s;
+  }
+
+  input.feedback--stars-item:checked ~ label.feedback--stars-item:before {
+    color: #ffad22;
+    transition: all 0.25s;
+    font-weight: 900;
+  }
+
+  input.feedback--stars-item-5:checked ~ label.feedback--stars-item:before {
+    color: #fcf300;
+    text-shadow: 0 0 20px #5c0099;
+  }
+
+  input.feedback--stars-item-2:checked ~ label.feedback--stars-item:before,
+  input.feedback--stars-item-1:checked ~ label.feedback--stars-item:before {
+    color: #ff6622;
+  }
+
+  label.feedback--stars-item:hover {
+    transform: rotate(-15deg) scale(1.3);
+  }
+
+  label.feedback--stars-item:before {
+    content: "\f005";
+    font-family: "Font Awesome 5 Free";
+    font-weight: 200;
+  }
+</style>
+{{/section}}
+
+{{#section 'js'}}
+{{!-- for Udemy --}}
+<script>
+  (function () {
+    // Loading spritemap for bundle course-landing-page-udlite-udlite-app.
+    var ajax = new XMLHttpRequest();
+    ajax.onload = function () {
+      var div = document.createElement("div");
+      div.innerHTML = ajax.responseText;
+      document.body.appendChild(div.firstChild);
+    };
+    ajax.open(
+      "GET",
+      "https://www.udemy.com/staticx/udemy/js/webpack/course-landing-page-udlite-udlite-app-spritemap.e13f2249dd6d13e9.svg",
+      true
+    );
+    ajax.send();
+  })();
+</script>
+
+{{!-- Le Huynh --}}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  function DisplayError(string, callback) {
+    swal("Error!", string, "error").then(() => {
+      callback();
+    });
+  }
+
+  function onClickEnroll() {
+    const onUsing = "{{auth}}";
+    if (onUsing === "true") {
+      const newData = {
+        courseId: "{{course.CourseID}}",
+      };
+      $.post("/student/enroll", newData, function (data, status) {
+        console.log(data);
+        if (data === true) {
+          swal(
+            "Success!",
+            "Your have enrolled successfully!",
+            "success"
+          ).then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        } else {
+          DisplayError(data);
+        }
+      });
+    } else {
+      location.replace("/account/login");
+    }
+    console.log("onClickEnroll");
+  }
+
+  function onAddtoWatchList() {
+    const onUsing = "{{auth}}";
+    if (onUsing === "true") {
+      const newData = {
+        courseId: "{{course.CourseID}}",
+      };
+      $.post("/student/watchlist", newData, function (data, status) {
+        console.log(data);
+        if (data === true) {
+          swal("Success!", "Added!", "success").then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        } else {
+          DisplayError(data);
+        }
+      });
+    } else {
+      location.replace("/account/login");
+    }
+    console.log("onAddtoWatchList");
+  }
+
+  function onClickPostCommit() {
+    var count = 0;
+    if (jQuery("#feedback--stars-item-1")[0].checked === true) count = 1;
+    if (jQuery("#feedback--stars-item-2")[0].checked === true) count = 2;
+    if (jQuery("#feedback--stars-item-3")[0].checked === true) count = 3;
+    if (jQuery("#feedback--stars-item-4")[0].checked === true) count = 4;
+    if (jQuery("#feedback--stars-item-5")[0].checked === true) count = 5;
+
+    const comment = jQuery("#comment").val();
+
+    const onUsing = "{{auth}}";
+    if (onUsing === "true") {
+      const newData = {
+        studentId: "{{authUser.id}}",
+        courseId: "{{course.CourseID}}",
+        star: count,
+        comment: comment,
+      };
+      $.post("/student/rate/detail", newData, function (data, status) {
+        console.log(data);
+        if (data === true) {
+          swal("Success!", "Added!", "success").then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        } else {
+          DisplayError(data);
+        }
+      });
+    } else {
+      DisplayError(
+        "You have to login before posting a comment or rating",
+        () => {
+          location.replace("/account/login");
+        }
+      );
+    }
+  }
+
+  function onClickFinish(element) {
+    const onUsing = "{{auth}}";
+    console.log(element);
+    if (onUsing === "true") {
+      const newData = {
+        studentId: "{{authUser.id}}",
+        courseId: "{{course.CourseID}}",
+        sectionId: jQuery(element).data("sectionid"),
+      };
+      $.post("/student/finish", newData, function (data, status) {
+        console.log(data);
+        if (data === true) {
+          swal(
+            "Thank you!",
+            "Thank you for finished this section!",
+            "success"
+          ).then((value) => {
+            if (value === true) {
+              location.reload();
+            }
+          });
+        } else {
+          DisplayError(data);
+        }
+      });
+    } else {
+      location.replace("/account/login");
+    }
+  }
+</script>
+
+{{!-- Khiem Cao --}}
+<script>
+const scrollHeight_ = Math.max(
+  document.body.scrollHeight, document.documentElement.scrollHeight,
+  document.body.offsetHeight, document.documentElement.offsetHeight,
+  document.body.clientHeight, document.documentElement.clientHeight
+);
+
+const innerHeight_ = window.innerHeight;
+
+const enrollStatus = document.querySelector(".udlite-sr-only.group4-check-isEnrolled").innerText;
+const inwatchlistStatus = document.querySelector(".udlite-sr-only.group4-check-isInWatchList").innerText;
+console.log("isEnrolled =", enrollStatus);
+console.log("isInWatchList =", inwatchlistStatus);
+let factorScrollToBottom = 1.4;
+if (enrollStatus !== inwatchlistStatus) {
+  factorScrollToBottom = 1.5;
+}
+else if (enrollStatus === "false" &&
+    inwatchlistStatus === "false") {
+  factorScrollToBottom = 1.6;
+}
+
+window.addEventListener("scroll", function(){
+  const scrollTop_ = innerHeight_ * 1.6;
+  const sidebar = document.querySelector(".course-landing-page_sidebar-container");
+  if (scrollTop_ < window.pageYOffset &&
+      window.pageYOffset < (scrollHeight_ - innerHeight_ * factorScrollToBottom))
+  {
+    sidebar.classList.add("sidebar-container--fixed--2xu7a");
+    sidebar.classList.remove("sidebar-container--inflow-bottom--2vTz_");
+  }
+  else if (window.pageYOffset < scrollTop_) {
+    sidebar.classList.remove("sidebar-container--fixed--2xu7a");
+    sidebar.classList.remove("sidebar-container--inflow-bottom--2vTz_");
+  }
+  else {
+    sidebar.classList.remove("sidebar-container--fixed--2xu7a");
+    sidebar.classList.add("sidebar-container--inflow-bottom--2vTz_");
+  }
+  {{!-- console.log(window.pageYOffset,
+              scrollHeight_ - innerHeight_ * factorScrollToBottom,
+              factorScrollToBottom
+            ); --}}
+});
+
+document.querySelector(".course-landing-page__main-content.component-margin").style.marginTop = 0;
+
+const firstSection = document.querySelector(".section--panel--1tqxC.panel--panel--3NYBX");
+if (firstSection) {
+  firstSection.classList.add("section--first-panel--2fbBU");
+}
+
+const starWrappers = document.querySelectorAll(".star-rating--star-wrapper--2eczq.star-rating--large--3T9Yf");
+for (let i = 0; i < starWrappers.length; ++i) {
+  const rating = starWrappers[i].querySelector("span.udlite-sr-only").innerText;
+  const stars = parseInt(rating.match(/(\d+)/));
+
+  let j = 0;
+  while (j++ < stars) {
+    starWrappers[i].innerHTML +=
+      `<i class="fas fa-star" style="color: #eb8a2f;"></i>`;
+  }
+  do {
+    starWrappers[i].innerHTML +=
+      `<i class="far fa-star" style="color: #eb8a2f;"></i>`;
+  } while (j++ < 5);
+}
+</script>
+{{/section}}
+
+{{#with course as | course |}}
+<div
+  style="
+    width: 100vw;
+    height: 100vh;
+    background-image: url({{course.imagePath}});
+    background-size: cover;
+  "
+>
+</div>
+<div class="paid-course-landing-page__container">
+
+  <div class="sidebar-container-position-manager">
+    <div class="clp-component-render">
+      <div class="clp-component-render">
+        <div
+          class="ud-component--course-landing-page-udlite--sidebar-container"
+
+        >
+          <div
+            data-purpose="sidebar-container"
+            class="course-landing-page_sidebar-container"
+          >
+            <div class="sidebar-container--content--gsvyJ">
+              <div class="sidebar-container--content-group--1upV8">
+                <div class="sidebar-container--introduction-asset--5ckuC">
+                  <div class="intro-asset--wrapper--zDTjg">
+                    <div
+                      class="intro-asset--asset--1eSsi"
+                      data-purpose="introduction-asset"
+                    >
+                      {{!-- {{log course.CourseIntro}} --}}
+                      <a
+                        href="{{course.CourseIntro}}"
+                      >
+                        <button
+                          type="button"
+                          class="udlite-btn udlite-btn-large udlite-btn-ghost udlite-heading-md udlite-custom-focus-visible intro-asset--placeholder--16yPA"
+                          aria-label="Play course preview"
+                        >
+                          <span class="intro-asset--img-aspect--1UbeZ">
+
+                            <img
+                              style="
+                                width: 24 rem;
+                                height: 13.5 rem;
+                                background-image: url({{course.imagePath}});
+                                background-size: cover;
+                              "
+                            />
+                          </span
+                          ><span
+                            class="intro-asset--overlay--3Z3co intro-asset--gradient--Od7zs"
+                          ></span
+                          ><span class="udlite-play-overlay"
+                            ><svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xxlarge udlite-focus-visible-target"
+                            >
+                              <use
+                                xlink:href="#icon-play-overlay"
+                              ></use></svg></span
+                          ><span
+                            class="udlite-heading-md intro-asset--overlay--3Z3co intro-asset--text--2vUCP"
+                            >Preview this course</span
+                          >
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="sidebar-container--purchase-section--17KRp">
+                  <div
+                    class="main-cta-container"
+                    data-purpose="purchase-section"
+                  >
+                    <div class="buy-box-main">
+                      <div
+                        class="buy-box--buy-box--3d_i8"
+                        data-purpose="buy-box"
+                      >
+                        <div class="buy-box--buy-box-item--1Qbkl"></div>
+                        <div class="buy-box--buy-box-item--1Qbkl">
+                          <div>
+                            <div
+                              class="price-text--container--Ws-fP udlite-clp-price-text"
+                              data-purpose="price-text-container"
+                            >
+                              <div
+                                class="price-text--price-part--Tu6MH udlite-clp-discount-price udlite-heading-xxl"
+                                data-purpose="course-price-text"
+                              >
+                                <span class="udlite-sr-only"
+                                  >Current price</span
+                                >
+                                {{#unless ../isEnrolled}}
+                                <span>${{course.Price}}</span>
+                                {{/unless}}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="buy-box--buy-box-item--1Qbkl buy-box--discount-expiration--3fpNT"
+                        ></div>
+                        <span class="udlite-sr-only group4-check-isEnrolled">{{../isEnrolled}}</span>
+                        <span class="udlite-sr-only group4-check-isInWatchList">{{../isInWatchList}}</span>
+
+                        {{log "(sidebar) authUser.role === 'student':" (cs ../authUser.role 'student')}}
+                        {{#if (cs ../authUser.role 'student')}}
+
+                          {{log "(sidebar) isFinish:" ../isFisnish}}
+                          {{#unless ../isFisnish}}
+
+                            {{#unless ../isEnrolled}}
+                            <div
+                              class="buy-box--buy-box-item--1Qbkl buy-box--add-to-cart-button--u5kCJ"
+                            >
+                              <div data-purpose="add-to-cart">
+                                <button
+                                  type="button"
+                                  class="udlite-btn udlite-btn-large udlite-btn-brand udlite-heading-md add-to-cart"
+                                  style="width: 100%"
+                                  onclick="onClickEnroll()"
+                                >
+                                  {{!-- Add to cart --}}
+                                  Enroll
+                                </button>
+                              </div>
+                            </div>
+                            {{/unless}}
+                            {{#unless ../isInWatchList}}
+                            <div
+                              class="udlite-clp-buy-button buy-box--buy-box-item--1Qbkl buy-box--buy-button--1mpz_"
+                            >
+                              <div>
+                                <button
+                                  type="button"
+                                  data-purpose="buy-this-course-button"
+                                  class="udlite-btn udlite-btn-large udlite-btn-primary udlite-heading-md styles--btn--express-checkout--28jN4"
+                                  onclick="onAddtoWatchList()"
+                                >
+                                  <span>Add to Watchlist</span>
+                                </button>
+                              </div>
+                            </div>
+                            {{/unless}}
+
+                          {{/unless}}
+                        {{/if}}
+                      </div>
+                    </div>
+
+                    <div class="incentives--incentives-container--CUQ8q">
+                      <h2
+                        class="udlite-heading-md incentives--header--3O_-f"
+                        data-purpose="header"
+                      >
+                        This course includes:
+                      </h2>
+                      <ul class="unstyled-list udlite-block-list">
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                            >
+                              <use xlink:href="#icon-video"></use>
+                            </svg>
+                            <div class="udlite-block-list-item-content">
+                              <span data-purpose="video-content-length"
+                                >{{course.totalHours}} hours on-demand video</span
+                              >
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                            >
+                              <use xlink:href="#icon-article"></use>
+                            </svg>
+                            <div class="udlite-block-list-item-content">
+                              <span data-purpose="num-articles"
+                                >{{course.nSections}} sections</span
+                              >
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                            >
+                              <use xlink:href="#icon-code"></use>
+                            </svg>
+                            <div class="udlite-block-list-item-content">
+                              <span data-purpose="num-coding-exercises"
+                                >Plenty coding exercises</span
+                              >
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                            >
+                              <use xlink:href="#icon-lifetime"></use>
+                            </svg>
+                            <div class="udlite-block-list-item-content">
+                              <span data-purpose="has-lifetime-access"
+                                >Full lifetime access</span
+                              >
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                            >
+                              <use xlink:href="#icon-mobile"></use>
+                            </svg>
+                            <div class="udlite-block-list-item-content">
+                              <span data-purpose="devices-access-incentive"
+                                >Access on mobile and TV</span
+                              >
+                            </div>
+                          </div>
+                        </li>
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                          >
+                            <svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                            >
+                              <use xlink:href="#icon-certificate"></use>
+                            </svg>
+                            <div class="udlite-block-list-item-content">
+                              <span data-purpose="incentive-certificate"
+                                >Certificate of completion</span
+                              >
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="top-container dark-background">
+        <div class="dark-background-inner-position-container">
+          <div class="">
+            <div
+              class="course-landing-page__main-content course-landing-page__topic-menu dark-background-inner-text-container"
+            >
+              <div class="clp-component-render">
+                <div class="topic-menu udlite-breadcrumb">
+                  <a class="udlite-heading-sm" href="/product/field/{{course.fieldName}}"
+                    >{{course.fieldName}}</a
+                  >
+                  <svg
+                    aria-hidden="true"
+                    class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-breadcrumb-icon"
+                  >
+                    <use xlink:href="#icon-next"></use>
+                  </svg>
+                  <a
+                    class="udlite-heading-sm"
+                    href="/product/courseBySubField/{{course.subFieldName}}"
+                    >{{course.subFieldName}}</a
+                  >
+
+                </div>
+              </div>
+            </div>
+            <div
+              class="course-landing-page__main-content dark-background-inner-text-container"
+            ></div>
+            <div class="course-landing-page__introduction-asset__main">
+              <div class="clp-component-render">
+                <div class="clp-component-render">
+                  <div
+                    class="ud-component--course-landing-page-udlite--introduction-asset"
+
+                  >
+                    <div class="intro-asset--wrapper--zDTjg">
+                      <div
+                        class="intro-asset--asset--1eSsi"
+                        data-purpose="introduction-asset"
+                      >
+                        <button
+                          type="button"
+                          class="udlite-btn udlite-btn-large udlite-btn-ghost udlite-heading-md udlite-custom-focus-visible intro-asset--placeholder--16yPA"
+                          aria-label="Play course preview"
+                        >
+                          <span class="intro-asset--img-aspect--1UbeZ"
+                            ><img
+                              src="https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?gaCwdj5f-kvC3v7Yf5erldpsO69-1CyvnzymxTXOS8c2NczgPVpSemfZ1j9PzS3vZhczWi79r0aD1_JKyK3sAcHN42XTevlEXV8dCvh9nHgAd7eaESKl314lE1xO"
+                              srcset="
+                                https://img-a.udemycdn.com/course/240x135/567828_67d0.jpg?gaCwdj5f-kvC3v7Yf5erldpsO69-1CyvnzymxTXOS8c2NczgPVpSemfZ1j9PzS3vZhczWi79r0aD1_JKyK3sAcHN42XTevlEXV8dCvh9nHgAd7eaESKl314lE1xO 1x,
+                                https://img-a.udemycdn.com/course/480x270/567828_67d0.jpg?_0sLKUkMzPzsmoE-ugkdO8XnvrXPAFHmez0ZeLwhe1WT-AW4Yw6gWbsYtISjgJ9h8mxHiRS43dDJMUHxPauA4AufaLcEIL6JezuCAOPq5ucMqq9S78BVQY04q58X 2x
+                              "
+                              alt=""
+                              width="240"
+                              height="135" /></span
+                          ><span
+                            class="intro-asset--overlay--3Z3co intro-asset--gradient--Od7zs"
+                          ></span
+                          ><span class="udlite-play-overlay"
+                            ><svg
+                              aria-hidden="true"
+                              focusable="false"
+                              class="udlite-icon udlite-icon-xxlarge udlite-focus-visible-target"
+                            >
+                              <use
+                                xlink:href="#icon-play-overlay"
+                              ></use></svg></span
+                          ><span
+                            class="udlite-heading-md intro-asset--overlay--3Z3co intro-asset--text--2vUCP"
+                            >Preview this course</span
+                          >
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="course-landing-page__main-content dark-background-inner-text-container"
+            >
+              <div class="clp-component-render">
+                <div class="udlite-text-sm clp-lead">
+                  <div class="clp-component-render">
+                    <h1
+                      class="udlite-heading-xl clp-lead__title clp-lead__title--small"
+                      data-purpose="lead-title"
+                    >
+                      {{course.CourseName}}
+                    </h1>
+                    <div
+                      class="udlite-text-md clp-lead__headline"
+                      data-purpose="lead-headline"
+                    >
+                      {{course.briefDescription}}
+                    </div>
+                  </div>
+                  <div class="clp-lead__badge-ratings-enrollment">
+
+                    <div
+                      class="clp-lead__element-item clp-lead__element-item--row"
+                    >
+                      <div class="clp-component-render">
+                        <div class="clp-component-render">
+                          <div
+                            class="ud-component--course-landing-page-udlite--rating"
+
+                          >
+                            <div
+                              class="styles--rating-wrapper--5a0Tr"
+                              data-purpose="rating"
+                            >
+                              <span
+                                class="star-rating--star-wrapper--2eczq star-rating--dark-background--Rqadv mr-3"
+                                ><span class="udlite-sr-only"
+                                  >
+                                  Rating: 4.6 out of 5
+                                  </span>
+
+                                  <span
+                                  class="udlite-heading-sm star-rating--rating-number--3lVe8"
+                                  aria-hidden="true"
+                                  data-purpose="rating-number"
+                                  >
+                                  <i class="fas fa-thumbs-up fa-2x mr-1"></i>
+                                  {{course.nLikes}}
+                                  </span>
+
+                              </span>
+                              <span class="mr-3">
+                                ({{format_number course.nViews}} views)
+                              </span>
+                              <span>
+                                {{format_number course.nStudents}} students
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                  <div class="clp-lead__element-item">
+                    <div class="clp-component-render">
+                      <div class="clp-component-render">
+                        <div
+                          class="ud-component--course-landing-page-udlite--instructor-links"
+
+                        >
+                          <div
+                            class="instructor-links--instructor-links--3d8_F"
+                            data-purpose="instructor-name-top"
+                          >
+                            <span class="instructor-links--names--7UPZj"
+                              ><span class="udlite-text-sm">Created by</span>
+                              <a
+                                class="udlite-btn udlite-btn-large udlite-btn-link udlite-heading-md udlite-text-sm udlite-instructor-links"
+                                data-position="1"
+                                href="#instructor-1"
+                                ><span>{{course.LecturerName}}</span></a
+                              ></span
+                            >
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="clp-lead__element-meta">
+                    <div class="clp-lead__element-item">
+                      <div class="clp-component-render">
+                        <div
+                          class="last-update-date"
+                          data-purpose="last-update-date"
+                          style="display: flex; align-items: center;"
+                        >
+                          <span class="last-update-date__icon" style="margin-top: 0; line-height: 1.4rem">
+                            <svg
+                              aria-hidden="true"
+                              class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral"
+                            >
+                              <use xlink:href="#icon-new"></use>
+                            </svg>
+                          </span>
+                          <span> Last updated {{course.lastUpdate}} days ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div
+                      class="clp-lead__element-item clp-lead__locale"
+                      data-purpose="lead-course-locale"
+                      style="display: flex; align-items: center;"
+                    >
+                      <span class="icon" style="margin-top: 0; line-height: 1.4rem">
+                        <svg
+                          aria-hidden="true"
+                          class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral"
+                        >
+                          <use xlink:href="#icon-language"></use>
+                        </svg>
+                      </span>
+                      <span>English</span>
+                    </div>
+
+                  </div>
+                  <div class="clp-lead__element-row">
+                    <div class="clp-lead__element-item">
+                      <div
+                        class="ud-component--course-landing-page-udlite--course-context-menu-clp"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="lead-share-cta">
+                  <div class="clp-component-render">
+                    <div
+                      class="share-and-gift"
+                      style="display: flex; align-items: center;"
+                    >
+                      {{log "authUser.role === 'student':" (cs ../authUser.role 'student')}}
+                      {{#if (cs ../authUser.role 'student')}}
+                        {{log "isFinish:" ../isFisnish}}
+                        {{#if ../isFisnish}}
+                          <a
+                            name="finish-course"
+                            class="btn btn-lg"
+                            role="button"
+                            disabled
+                          >
+                            <i class="fas fa-graduation-cap fa-3x text-white"></i>
+                          </a>
+                        {{else}}
+                          {{#unless ../isInWatchList}}
+                          <div class="clp-component-render">
+                            <div
+                              class="ud-component--course-landing-page-udlite--wishlist"
+                              data-skip-hydration="true"
+
+                            >
+                              <div>
+                                <button
+                                  type="button"
+                                  data-purpose="toggle-wishlist"
+                                  class="udlite-btn udlite-btn-medium udlite-btn-secondary udlite-heading-sm"
+                                  style="width: 100%"
+                                  onclick="onAddtoWatchList()"
+                                >
+                                  <span>Watchlist</span
+                                  ><svg
+                                    aria-hidden="true"
+                                    focusable="false"
+                                    class="udlite-icon udlite-icon-small"
+                                    style="
+                                      fill: transparent;
+                                      padding: 1px;
+                                      stroke: currentcolor;
+                                      stroke-width: 2;
+                                    "
+                                  >
+                                    <use xlink:href="#icon-wishlisted"></use>
+                                  </svg>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          {{/unless}}
+
+                          <a
+                            name="ongoing"
+                            class="btn btn-lg"
+                            role="button"
+                            disabled
+                          >
+                            <i class="fas fa-pencil-alt fa-3x text-white"></i>
+                          </a>
+                        {{/if}}
+                      {{/if}}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="course-landing-page__main-content course-landing-page__draft-warning"
+            ></div>
+            <div
+              class="ud-component--course-landing-page-udlite--sidebar-container-top-mark"
+            >
+              <span style="position: relative"></span>
+            </div>
+          </div>
+        </div>
+  </div>
+  <div class="bottom-container">
+    <div class="clp-component-render">
+      <div
+        class="ud-component--course-landing-page-udlite--floating-buttons"
+      >
+        <span class="floating-buttons--mark--3cQTz"></span>
+        {{!-- !!! should not remove this --}}
+        {{!-- <div
+          class="floating-buttons--floating-buttons--3-ftH floating-buttons--visible--2c6sk"
+        >
+          <button
+            type="button"
+            data-target="incentives"
+            class="udlite-btn udlite-btn-medium udlite-btn-ghost udlite-heading-sm"
+          >
+            <span>Overview</span></button
+          ><button
+            type="button"
+            data-target="objective"
+            class="udlite-btn udlite-btn-medium udlite-btn-ghost udlite-heading-sm"
+          >
+            <span>Curriculum</span></button
+          ><button
+            type="button"
+            data-target="instructor"
+            class="udlite-btn udlite-btn-medium udlite-btn-ghost udlite-heading-sm"
+          >
+            <span>Instructor</span></button
+          ><button
+            type="button"
+            data-target="reviews"
+            class="udlite-btn udlite-btn-medium udlite-btn-ghost udlite-heading-sm"
+          >
+            <span>Reviews</span>
+          </button>
+        </div> --}}
+      </div>
+    </div>
+
+
+    <div class="course-landing-page__main-content component-margin">
+      <div class="clp-component-render">
+        <div class="clp-component-render">
+          <div
+            class="ud-component--course-landing-page-udlite--description"
+
+          >
+            <div
+              class="udlite-text-sm styles--description--3y4KY"
+              data-purpose="course-description"
+            >
+              <h2
+                class="udlite-heading-xl styles--description__header--3SNsO"
+              >
+                Description
+              </h2>
+              <div class="show-more--container--1QLmn">
+                <span
+                  id="u516-show-more--1"
+                  data-type="checkbox"
+                  data-checked=""
+                  style="display: none"
+                ></span>
+                <div
+                  style="max-height: 221px"
+                  class="show-more--content--isg5c show-more--with-gradient--2abmN"
+                >
+
+
+                  {{{course.fullDescription}}}
+
+                </div>
+                <button
+                  type="button"
+                  class="udlite-btn udlite-btn-medium udlite-btn-ghost udlite-heading-sm show-more--focusable-label--14fP5"
+                  data-css-toggle-id="u516-show-more--1"
+                >
+                  <span
+                    ><span class="show-more--show-more--3ve3e"
+                      >Show more</span
+                    ><span class="show-more--show-less--3eSCX"
+                      >Show less</span
+                    ></span
+                  ><svg
+                    aria-hidden="true"
+                    focusable="false"
+                    class="udlite-icon udlite-icon-small udlite-icon-color-neutral show-more--show-more--3ve3e"
+                  >
+                    <use xlink:href="#icon-expand"></use></svg
+                  ><svg
+                    aria-hidden="true"
+                    focusable="false"
+                    class="udlite-icon udlite-icon-small udlite-icon-color-neutral show-more--show-less--3eSCX"
+                  >
+                    <use xlink:href="#icon-collapse"></use>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="course-landing-page__main-content component-margin"
+      data-purpose="curriculum-development"
+    >
+      <div class="clp-component-render">
+        <div class="clp-component-render">
+          <div
+            class="ud-component--course-landing-page-udlite--curriculum"
+          >
+            <div data-purpose="course-curriculum">
+              <h2
+                class="udlite-heading-xl curriculum--header--1d_Nv"
+                data-purpose="curriculum-header"
+              >
+                Course content
+              </h2>
+              <div class="curriculum--sub-header--23ncD">
+                <div class="udlite-text-sm" data-purpose="curriculum-stats">
+                  <span class="curriculum--content-length--1XzLS"
+                    >{{course.nSections}} sections •
+                    <span><span>{{course.totalHours}}h</span> total length</span></span
+                  >
+                </div>
+
+              </div>
+              <div>
+
+
+                {{#each ../courseContent as | section_ |}}
+                <div class="section--panel--1tqxC panel--panel--3NYBX">
+                  <span
+                    id="u13-accordion-panel--{{section_.panelID}}"
+                    data-type="checkbox"
+                    data-checked=""
+                    style="display: none"
+                  ></span>
+                  <div
+                    class="udlite-btn udlite-btn-large udlite-btn-link udlite-heading-md udlite-accordion-panel-toggler panel--panel-toggler--39q84 panel--outer-panel-toggler--2Xmux"
+                    data-css-toggle-id="u13-accordion-panel--{{section_.panelID}}"
+                    style="display: flex; align-items: center;"
+                  >
+                    <h3 class="udlite-accordion-panel-heading">
+                      <button
+                        type="button"
+                        aria-expanded="false"
+                        class="udlite-btn udlite-btn-large udlite-btn-link udlite-heading-md js-panel-toggler panel--panel-toggler--39q84"
+                        id="u13-accordion-panel-title--{{section_.paneltitleID}}"
+                      >
+                        <span class="udlite-accordion-panel-title">
+                          <span class="section--section-title--8blTh" style="margin: auto;">
+                            {{section_.Title}}
+                          </span>
+
+                          {{log "(section) auth:" ../../auth}}
+                          {{#if ../../auth}}
+                            {{#if ../../isEnrolled}}
+                              {{#unless section_.isComplete}}
+                              <a name="finish-section" class="btn btn-lg" role="button" data-sectionId="{{ID}}" onclick="onClickFinish(this)">
+                                <i class="far fa-square fa-2x"></i>
+                              </a>
+                              {{else}}
+                              <a name="finish-section" class="btn btn-lg" role="button" disabled>
+                                <i class="fas fa-check-square fa-2x"></i>
+                              </a>
+                              {{/unless}}
+                            {{/if}}
+                          {{/if}}
+
+                        </span>
+                      </button>
+                    </h3>
+                    <svg
+                      aria-hidden="true"
+                      focusable="false"
+                      class="udlite-icon udlite-icon-small udlite-icon-color-neutral panel--expand-icon--cRV8x"
+                    >
+                      <use xlink:href="#icon-expand"></use>
+                    </svg>
+                  </div>
+                  <div
+                    class="panel--content-wrapper--1yFBX"
+                    aria-labelledby="u13-accordion-panel-title--{{section_.paneltitleID}}"
+                    aria-hidden="true"
+                    role="region"
+                  >
+                    <div
+                      class="udlite-accordion-panel-content panel--content--18-7N"
+                    >
+                      <ul class="unstyled-list udlite-block-list">
+
+                        <li>
+                          <div
+                            class="udlite-block-list-item udlite-block-list-item-small udlite-text-sm"
+                          >
+                            {{!-- {{log course.CourseName ": isEnrolled = " ../../isEnrolled}} --}}
+                            {{#if ../../isEnrolled}}
+
+                            <a
+                              href="{{section_.videoPath}}"
+                              target="_blank"
+                              class="section--previewable-item--3C8nb udlite-block-list-item-link"
+                              style="display: flex;"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                              >
+                                <use xlink:href="#icon-play"></use>
+                              </svg>
+                              <div class="udlite-block-list-item-content">
+                                <div>
+                                  <div class="section--row--3PNBT">
+                                    <button
+                                      type="button"
+                                      class="udlite-btn udlite-btn-large udlite-btn-link udlite-text-sm section--item-title--2k1DQ"
+                                    >
+                                      <span>{{section_.Title}}</span>
+                                    </button
+                                    >
+
+                                  </div>
+                                </div>
+                                <span
+                                  class="section--hidden-on-mobile--171Q9"
+                                  style="flex: 1"
+                                ></span>
+
+                              </div>
+                            </a>
+
+                            {{else}}
+
+                            <div
+                              class="udlite-block-list-item-neutral"
+                              style="display: flex;"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                focusable="false"
+                                class="udlite-icon udlite-icon-xsmall udlite-icon-color-neutral udlite-block-list-item-icon"
+                              >
+                                <use xlink:href="#icon-play"></use>
+                              </svg>
+                              <div class="udlite-block-list-item-content">
+                                <div>
+                                  <div class="section--row--3PNBT">
+                                    <button
+                                      type="button"
+                                      class="udlite-btn udlite-btn-large udlite-btn-link udlite-text-sm section--item-title--2k1DQ"
+                                    >
+                                      <span>{{section_.Title}}</span>
+                                    </button
+                                    >
+
+                                  </div>
+                                </div>
+                                <span
+                                  class="section--hidden-on-mobile--171Q9"
+                                  style="flex: 1"
+                                ></span>
+
+                              </div>
+                            </div>
+
+                            {{/if}}
+
+                            {{#if section_.preview}}
+                            <a
+                              href="{{section_.preview}}"
+                              target="_blank"
+                              class="section--hidden-on-mobile--171Q9 section--preview-text--38nT0"
+                              style="margin-left: auto;"
+                            >
+                              Preview
+                            </a>
+                            {{/if}}
+                          </div>
+                        </li>
+
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-landing-page__main-content component-margin">
+      <div class="clp-component-render">
+        <div class="instructor">
+          <span id="instructor" class="in-page-offset-anchor"></span>
+          <div class="clp-component-render">
+            <div
+              class="ud-component--course-landing-page-udlite--instructors"
+
+            >
+              <div class="styles--instructors--2JsS3">
+                <h2
+                  class="udlite-heading-xl styles--instructors__header--16F_8"
+                >
+                  Instructor
+                </h2>
+                <div
+                  class="instructor--instructor--1wSOF"
+                  data-purpose="instructor-bio"
+                >
+                  <span
+                    class="in-page-offset-anchor"
+                    id="instructor-1"
+                  ></span>
+                  <div>
+                    <div
+                      class="udlite-heading-lg instructor--instructor__title--34ItB"
+                    >
+                      <a href="javascript:;">{{course.LecturerName}}</a>
+                    </div>
+                    <div
+                      class="udlite-text-md instructor--instructor__job-title--1HUmd"
+                    >
+                      {{course.LecturerUniversity}}
+                    </div>
+                  </div>
+                  <div
+                    class="instructor--instructor__image-and-stats--1IqE7"
+                  >
+
+                    <ul class="unstyled-list udlite-block-list">
+                      <li>
+                        <div
+                          data-purpose="stat"
+                          class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                        >
+
+                          <i
+                            class="
+                            fas fa-phone
+                            udlite-icon udlite-icon-xsmall udlite-icon-color-warning udlite-block-list-item-icon
+                            "
+                          ></i>
+                          <div class="udlite-block-list-item-content">
+                            {{course.LecturerPhone}}
+                          </div>
+                        </div>
+                      </li>
+                      <li>
+                        <div
+                          data-purpose="stat"
+                          class="udlite-block-list-item udlite-block-list-item-small udlite-block-list-item-tight udlite-block-list-item-neutral udlite-text-sm"
+                        >
+
+                          <i
+                            class="
+                            fas fa-envelope
+                            udlite-icon udlite-icon-xsmall udlite-icon-color-warning udlite-block-list-item-icon
+                            "
+                          ></i>
+                          <div class="udlite-block-list-item-content">
+                            {{course.LecturerEmail}}
+                          </div>
+                        </div>
+                      </li>
+
+                    </ul>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="course-landing-page__main-content component-margin">
+      <span id="reviews" class="in-page-offset-anchor"></span>
+      <div class="clp-component-render">
+        <div class="clp-component-render">
+          <div
+            class="ud-component--course-landing-page-udlite--reviews"
+
+            data-skip-hydration="true"
+          >
+            <div data-purpose="course-reviews">
+              <h2 class="udlite-heading-xl reviews-section--title--sOfZR">
+                Student feedback
+              </h2>
+              <div data-purpose="ratings-and-reviews">
+                <div class="reviews-section--stats-container--1AhaT">
+                  <div data-purpose="ratings-and-reviews">
+
+
+                    {{!-- student rating stars --}}
+                    {{#unless ../isEnrolled}}
+                    <hr class="new4">
+                    <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: center;">Enroll on this course to give feedback and rating</h1>
+                    <hr class="new4">
+                    {{else}}
+                    {{!-- <h1 class="udlite-heading-xl styles--audience__title--1Sob_" style="text-align: left;">Feedback</h1> --}}
+                    <div class="input-group input-group-lg">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text">Your comment</span>
+                      </div>
+                      <textarea class="form-control" aria-label="With textarea" id="comment"></textarea>
+                      <button type="button" class="btn btn-primary" onclick="onClickPostCommit()">Post comment</button>
+                    </div>
+                    <div class="container d-flex justify-content-center mt-3">
+                          <div class="row">
+                              <div class="col-md-12">
+                                <div class="feedback--stars-container">
+                                    <form action="/student/rate/detail" method="POST" id="countingStar">
+                                      <input class="feedback--stars-item feedback--stars-item-5" id="feedback--stars-item-5" type="radio" name="feedback--stars-item" />
+                                        <label class="feedback--stars-item feedback--stars-item-5" for="feedback--stars-item-5"></label>
+                                      <input class="feedback--stars-item feedback--stars-item-4" id="feedback--stars-item-4" type="radio" name="feedback--stars-item" />
+                                        <label class="feedback--stars-item feedback--stars-item-4" for="feedback--stars-item-4"></label>
+                                      <input class="feedback--stars-item feedback--stars-item-3" id="feedback--stars-item-3" type="radio" name="feedback--stars-item" />
+                                        <label class="feedback--stars-item feedback--stars-item-3" for="feedback--stars-item-3"></label>
+                                      <input class="feedback--stars-item feedback--stars-item-2" id="feedback--stars-item-2" type="radio" name="feedback--stars-item" />
+                                        <label class="feedback--stars-item feedback--stars-item-2" for="feedback--stars-item-2"></label>
+                                      <input class="feedback--stars-item feedback--stars-item-1" id="feedback--stars-item-1" type="radio" name="feedback--stars-item" />
+                                        <label class="feedback--stars-item feedback--stars-item-1" for="feedback--stars-item-1"></label>
+                                    </form>
+                                </div>
+                              </div>
+                          </div>
+                      </div>
+                    {{/unless}}
+                  </div>
+                </div>
+                <div class="reviews-section--sub-title--3Lxry">
+                  <h2 class="udlite-heading-xl">Reviews</h2>
+
+                </div>
+                    <div data-purpose="landing-page-review-list">
+
+                      {{#each ../feedbackList as | feedback |}}
+                      {{!-- {{log "feedback:" feedback}} --}}
+                      <div class="reviews-section--review-container--3F3NE">
+                        <div
+                          class="individual-review--individual-review--1AJi4"
+                          data-purpose="individual-review"
+                        >
+
+                          <div
+                            class="individual-review--individual-review-content--en4c7"
+                          >
+                            <div
+                              class="individual-review--individual-review__name-container--YY9yu"
+                            >
+                              <div
+                                class="udlite-heading-md individual-review--individual-review__name--3slEE"
+                                data-purpose="review-detail-user-name"
+                              >
+                                {{feedback.StudentName}}
+                              </div>
+                            </div>
+                            <div
+                              class="individual-review--individual-review__detail--3qCWi"
+                            >
+                              <span
+                                class="star-rating--star-wrapper--2eczq star-rating--large--3T9Yf"
+                              >
+                                <span class="udlite-sr-only"
+                                  >Rating: {{feedback.Star}} out of 5
+                                </span>
+
+
+                                {{!-- rating star here --}}
+                              </span>
+                              <span
+                                class="udlite-text-sm individual-review--individual-review__detail-date--DEkVn"
+                                >{{feedback.datePost}}</span
+                              >
+                            </div>
+                            <div class="show-more--container--1QLmn">
+                              <span
+                                id="u141-show-more--11"
+                                data-type="checkbox"
+                                data-checked=""
+                                style="display: none"
+                              ></span>
+                              <div
+                                class="show-more--content--isg5c"
+                                style="max-height: 100px"
+                              >
+                                <div>
+                                  <div
+                                    class="udlite-text-sm individual-review--individual-review__comment--2o94n"
+                                    data-purpose="review-comment-content"
+                                  >
+                                    {{{feedback.StudentComment}}}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      {{/each}}
+
+
+                    </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{{/with}}
