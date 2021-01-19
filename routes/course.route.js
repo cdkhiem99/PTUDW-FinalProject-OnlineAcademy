@@ -42,15 +42,20 @@ router.get("/detail/:courseID", async function (req, res) {
 
   let panelID = 2;
   let paneltitleID = 3;
+  let firstPreview = "javascript:;";
   for (const section_ of courseContent) {
     section_.panelID = panelID;
     section_.paneltitleID = paneltitleID;
 
     panelID += 4;
     paneltitleID += 4;
-  }
 
-  debug(courseContent);
+    if (section_.preview && firstPreview === "javascript:;") {
+      firstPreview = section_.preview;
+      debug("firstPreview: ", firstPreview);
+    }
+  }
+  course.CourseIntro = firstPreview;
 
   let isEnrolled = false;
   if (res.locals.auth && res.locals.authUser.role === "student") {
@@ -67,16 +72,6 @@ router.get("/detail/:courseID", async function (req, res) {
       course.CourseID
     );
   }
-
-  let firstPreview = "javascript:;";
-  for (const section of courseContent) {
-    if (section.preview) {
-      firstPreview = section.preview;
-      debug("firstPreview: ", firstPreview);
-      break;
-    }
-  }
-  course.CourseIntro = firstPreview;
 
   res.render("vwCourses/details2", {
     course,
