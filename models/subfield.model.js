@@ -1,9 +1,8 @@
-const db = require('../utils/db');
-const { haveCourse } = require('./fields.model');
+const db = require("../utils/db");
 
 module.exports = {
   async all() {
-    const sql = 'select * from subField';
+    const sql = "select * from subField";
     const [rows, fields] = await db.load(sql);
     return rows;
   },
@@ -24,8 +23,7 @@ module.exports = {
     const sql = `select name from subField where fieldName = ?`;
     const condition = [fieldName];
     const [rows, fields] = await db.load(sql, condition);
-    if (rows.length === 0)
-      return null;
+    if (rows.length === 0) return null;
     return rows;
   },
 
@@ -39,14 +37,14 @@ module.exports = {
     return rows[0];
   },
 
-  async haveCourse(id){
+  async haveCourse(id) {
     const sql = `select *
                   from course as c join subField as sf on sf.id=c.subFieldId
                   where sf.id=?`;
-    const condition=[id];
+    const condition = [id];
     const [rows, fields] = await db.load(sql, condition);
 
-    if (rows.length===0){
+    if (rows.length === 0) {
       return true;
     }
 
@@ -57,37 +55,37 @@ module.exports = {
     console.log(category);
     const obj = {
       fieldName: category.fname,
-      name: category.sname
-    }
+      name: category.sname,
+    };
 
-    try{
+    try {
       console.log(obj);
-      const [result, fields] = await db.add(obj, 'subField');
+      const [result, fields] = await db.add(obj, "subField");
       console.log(result);
       return true;
-    } catch(e){
+    } catch (e) {
       return false;
     }
   },
 
   async del(id) {
     const condition = {
-      id: id
+      id: id,
     };
-    const [result, fields] = await db.del(condition, 'subField');
+    const [result, fields] = await db.del(condition, "subField");
     return result;
   },
 
   async patch(name, id) {
-    try{
+    try {
       const sql = `update subField set name=? where id=?`;
       const condition = [name, id];
 
       const [result, fields] = await db.load(sql, condition);
 
       return true;
-    } catch(e){
+    } catch (e) {
       return false;
     }
-  }
+  },
 };
