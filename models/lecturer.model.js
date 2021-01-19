@@ -126,5 +126,50 @@ module.exports = {
       }
 
       return rows;
+    },
+
+    async getCourseOfLecturer(id){
+      const sql = `select c.title as CourseName, c.id as CourseID
+                    from lecturer as l join course as c on l.id=c.lecturerId
+                    where l.id=?`;
+      const condition = [id];
+      const [rows, fields] = await db.load(sql, condition);
+
+      const listByFields = [];
+
+      if (rows.length !== 0) {
+        for (let index = 0; index < rows.length; index++) {
+          const element = rows[index];
+          listByFields.push({
+            id: element.CourseID,
+            title: element.CourseName
+          });
+        }
+      }
+      return listByFields;
+    },
+
+    async AddCourse(newCourse, lecturerId, courseId, sfId, date){
+      try {
+        const newData = {
+            subFieldId: sfId,
+            title: newCourse.courseName,
+            lecturerId: lecturerId,
+            description: newCourse.description,
+            briefDescription: newCourse.shortDescription,
+            price: newCourse.price,
+            status: newCourse.status,
+            imagePath: `/resource/public/course/${courseId}/photo.png`,
+            date: date
+        }
+
+        console.log(newData);
+        const [result, fields] = await db.add(newData, 'course');
+        console.log(result);
+        
+    } catch (e) {
+        return e;
+    }
+    return null;
     }
 }
