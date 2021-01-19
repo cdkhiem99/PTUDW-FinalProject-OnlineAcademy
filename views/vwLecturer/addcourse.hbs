@@ -1,0 +1,431 @@
+{{#section 'css'}}
+
+{{!-- ----------- --}}
+{{!-- Import ZONE --}}
+{{!-- ----------- --}}
+<!-- Filepond stylesheet -->
+<link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+<link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+<link rel="stylesheet" href="/views/assets/css/filepond-custom.css" type="text/css">
+<link rel="stylesheet" href="/views/assets/css/quilljs-custom.css" type="text/css">
+
+<style>
+  #editor .ql-editor p {
+    max-width: 100%;
+  }
+
+  .form-control {
+    font-size: 15px;
+  }
+</style>
+
+{{/section}}
+
+{{#section 'js'}}
+
+{{!-- ----------- --}}
+{{!-- Import ZONE --}}
+{{!-- ----------- --}}
+<!-- Load FilePond library -->
+<script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
+<script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-validate-size/dist/filepond-plugin-image-validate-size.js">
+</script>
+<script src="https://unpkg.com/filepond-plugin-file-rename/dist/filepond-plugin-file-rename.js"></script>
+<script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+<script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+<!-- Load sweet alert and jQuery ajax-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<!-- Turn all file input elements into ponds -->
+<script>
+  // Register the plugin with FilePond
+  FilePond.registerPlugin(
+    FilePondPluginImagePreview,
+    FilePondPluginFileValidateSize,
+    FilePondPluginFileValidateType,
+    FilePondPluginImageValidateSize,
+    FilePondPluginFileRename
+  );
+  FilePond.setOptions({
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+
+        //console.log(file);
+        //console.log(file.name);
+
+        // fieldName is the name of the input field
+        // file is the actual file object to send
+        var func = (fieldName, file, callback) => {
+          console.log("Send Data");
+          const formData = new FormData();
+          const request = new XMLHttpRequest();
+          formData.append(fieldName, file, file.name);
+          request.open('POST', '/lecturer/upload');
+          request.upload.onprogress = (e) => {
+            console.log("On Progress");
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+          request.upload.onloadend = (e) => {
+            console.log("On Load End");
+            callback();
+          };
+          request.onload = function () {
+            console.log("On load");
+            if (request.status >= 200 && request.status < 300) {
+              // the load method accepts either a string (id) or an object
+              load(request.responseText);
+            } else {
+              error('oh no');
+            }
+          };
+          request.send(formData);
+
+        };
+        let key = 0;
+        if (file.type === "video/mp4") {
+          key = parseInt(file.name.replace(".mp4", ""));
+          file.name = `${key}.mp4`;
+        }
+        const data = {
+          callbackSubmit: func,
+          fieldName: fieldName,
+          file: file
+        }
+        if (fieldName === "mainVideo") {
+          AddMainVideo(key, data);
+        } else if (fieldName === "previewVideo") {
+          AddPreviewVideo(key, data);
+        } else {
+          console.log("Add Image " + key);
+          pondImageCover = data;
+        }
+        return {
+          abort: () => {
+            console.log("Cancel");
+            abort();
+            if (key === 0) {
+              return pondImageCover = null;
+            }
+            return fieldName === "mainVideo" ? DeleteMainnVideo(key) : DeletePreviewVideo(key);
+          }
+        };
+      }
+
+    }
+  });
+
+  // Get a reference to the file input element
+  const inputElementPondCoverImage = document.querySelector('input[type="file"]#main-information-cover-img');
+
+  // Create the FilePond instance
+  const pondCoverImage = FilePond.create(inputElementPondCoverImage, {
+    maxFileSize: '10MB',
+    imagePreviewHeight: 500,
+    acceptedFileTypes: ['image/*'],
+    fileRenameFunction: (file) => {
+      return `cover${file.extension}`;
+    },
+    imageValidateSizeMinWidth: 600,
+    imageValidateSizeMinHeight: 400
+  });
+
+  function InitPond(element, number) {
+
+    const index = 1;
+    const inputElementPondCourseVideo = document.querySelectorAll('input[type="file"]#main-information-course-video')[
+      index];
+    const inputElementPondPreviewVideo = document.querySelectorAll('input[type="file"]#main-information-preview-video')[
+      index];
+    const pondCourseVideo = FilePond.create(inputElementPondCourseVideo, {
+      acceptedFileTypes: ['video/*'],
+      fileRenameFunction: (file) => {
+        console.log("Change name " + `${number}${file.extension}`);
+        return `${number}${file.extension}`;
+      }
+    });
+    const pondPreviewVideo = FilePond.create(inputElementPondPreviewVideo, {
+      acceptedFileTypes: ['video/*'],
+      fileRenameFunction: (file) => {
+        console.log("Change name " + `${number}${file.extension}`);
+        return `${number}${file.extension}`;
+      }
+    });
+
+    return {
+      element: element,
+      courseVideo: pondCourseVideo,
+      previewVideo: pondPreviewVideo
+    }
+  }
+  // Initialize Quill editor
+  var toolbarOptions = [
+    ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+    ['blockquote', 'code-block'],
+    [{
+      'header': 1
+    }, {
+      'header': 2
+    }], // custom button values
+    [{
+      'list': 'ordered'
+    }, {
+      'list': 'bullet'
+    }],
+    [{
+      'script': 'sub'
+    }, {
+      'script': 'super'
+    }], // superscript/subscript
+    [{
+      'indent': '-1'
+    }, {
+      'indent': '+1'
+    }], // outdent/indent
+    [{
+      'direction': 'rtl'
+    }], // text direction
+    [{
+      'size': ['small', false, 'large', 'huge']
+    }], // custom dropdown
+    [{
+      'header': [1, 2, 3, 4, 5, 6, false]
+    }],
+    [{
+      'color': []
+    }, {
+      'background': []
+    }], // dropdown with defaults from theme
+    [{
+      'font': []
+    }],
+    [{
+      'align': []
+    }],
+    ['clean'] // remove formatting button
+  ];
+  var quill = new Quill('#editor', {
+    modules: {
+      toolbar: toolbarOptions
+    },
+    theme: 'snow'
+  });
+</script>
+
+<script>
+  var mainContent = jQuery("#main-information-content");
+  var pondImageCover = null;
+  var numOfTaskDone = 0;
+  var infoCourse = null;
+
+  function DisplayError(message) {
+    swal(message, {
+      icon: "error",
+      buttons: "OK",
+    });
+  }
+
+  function CheckValidInput(cName, shortDesc, desc, price) {
+    if (cName.length === 0) {
+      DisplayError("Course name is empty!");
+      return false;
+    }
+    if (shortDesc.length === 0) {
+      DisplayError("Short description is empty!");
+      return false;
+    }
+    if (desc.length === 0) {
+      DisplayError("Description is empty!");
+      return false;
+    }
+    if (price.length === 0) {
+      DisplayError("Price is empty!");
+      return false;
+    }
+    if (!pondImageCover) {
+      DisplayError("Course image is empty!");
+      return false;
+    }
+    return true;
+  }
+
+  function AddNewCourseSubmit() {
+    const courseName = jQuery('#main-information-name').val();
+    const field = jQuery('#main-information-field').val();
+    const subField = jQuery('#main-information-subfield').val();
+    const shortDescription = jQuery('#main-information-sdesc').val();
+    const description = jQuery('#editor').children(".ql-editor")[0].innerHTML;
+    const price = jQuery('#main-information-fee').val();
+    const status = jQuery('#main-information-status').val();
+
+    if (CheckValidInput(courseName, shortDescription, description, price)) {
+      infoCourse = {
+        courseName: courseName,
+        field: field,
+        subField: subField,
+        shortDescription: shortDescription,
+        description: description,
+        price: price,
+        status: status,
+        lectureId: "{{authUser.id}}"
+      }
+
+      swal({
+        title: "Are you sure?",
+        text: "Please confirm your choice!",
+        icon: "info",
+        buttons: true,
+      }).then((value) => {
+        if (value) {
+          pondImageCover.callbackSubmit(pondImageCover.fieldName, pondImageCover.file, OnTaskDone);
+        }
+      });
+    }
+  }
+
+  function OnTaskDone() {
+    return $.post('/lecturer/addCourse', infoCourse, function (err, status) {
+        if (err===null) {
+          swal("Add to watch list successfully!", {
+            icon: "success",
+            text: "Add course successfully",
+            buttons: true,
+          }).then((value) => {
+            location.reload();
+          });
+        } else {
+          DisplayError(err);
+        }
+    });
+  }
+
+  function OnFieldChange(sel) {
+    document.querySelectorAll("#main-information-subfield option").forEach((ele, index) => {
+      if (ele.getAttribute("id") === sel.value) {
+        ele.removeAttribute("hidden");
+        ele.parentNode.value = ele.value;
+      } else {
+        ele.setAttribute("hidden", null);
+      }
+    });
+  }
+</script>
+
+{{/section}}
+
+<div class="container-fluid" style="margin: 25px 0px;">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">
+          Features
+        </div>
+
+        <div class="list-group">
+          <a href="#" class="list-group-item list-group-item-actio active">Add course</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-9">
+      <div class="card">
+        <div class="card-header" style="position: relative;">
+          Add course
+          <button class="btn btn-success" style="position: absolute; right: 1%; font-size: 10px;" onclick="AddNewCourseSubmit()">Add</button>
+        </div>
+
+        <div id="main-information-container" class="container-fluid" style="padding: 10px 35px 20px 35px;">
+          <form method="POST">
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-name">Course name</label>
+                  <input name="courseName" id="main-information-name" type="text" class="form-control" maxlength="70">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-field">Field</label>
+                  <input name="courseName" id="main-information-field" type="text" class="form-control" maxlength="70">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-subfield">Sub field</label>
+                  <input name="courseName" id="main-information-subfield" type="text" class="form-control" maxlength="70">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-fee">Price</label>
+                  <input name="fee" id="main-information-fee" type="text" class="form-control"
+                    onkeypress="return /[0-9]/i.test(event.key)" maxlength="10">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label id="main-label" for="main-information-status">Status</label>
+                  <select id="main-information-status" name="status" class="form-control">
+                    <option value="Done">Incomplete</option>
+                    <option value="Not yet">Complete</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-sdesc">Brief Description</label>
+                  <input name="shortDescription" id="main-information-sdesc" type="text" class="form-control"
+                    maxlength="100">
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-desc">Full Description</label>
+                  <div id="editor" name="description"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="container-fluid">
+                <div class="form-group">
+                  <label for="main-information-cover-img">
+                    Image
+                  </label>
+                  <input name="coverImage" type="file" id="main-information-cover-img">
+                </div>
+              </div>
+            </div>
+
+          </form>
+        </div>
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

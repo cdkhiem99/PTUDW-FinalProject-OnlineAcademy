@@ -144,7 +144,7 @@
           {{#if (eq authUser.role 'lecturer')}}
             <a href="#currentPage" class="sign_up_container sign_up" align="center">Hi, {{authUser.name}}!</a>
             <a href="/lecturer" class="sign_up_container sign_up"> Profile </a>
-            <a href="#currentPage" class="sign_up_container sign_up"> My Course </a>
+            <a href="/lecturer/mycourse" class="sign_up_container sign_up"> My Course </a>
             <form method="POST" action="/account/logout">
                 <button class="sign_up_container sign_up"> Log out </button>
             </form>

@@ -143,6 +143,27 @@ module.exports = {
     return rows[0];
   },
 
+  async getCountC(){
+    const sql = `select count(*) as count
+                  from course`;
+    const [rows, fields] = await db.load(sql);
+    if(rows.length===0)
+      return null;
+
+    return rows[0].count;
+  },
+
+  async getSubIDbyName(name){
+    const sql = `select id from subField where name=?`
+    const condition = [name];
+
+    const [rows, fields] = await db.load(sql, condition);
+    if(rows.length===0)
+      return null;
+
+    return rows[0];
+  },
+
   async getCourseByID(courseID) {
     const sql = `select c.*, c.id as CourseID, c.title as CourseName, c.imagePath as imagePath, c.briefDescription as BriefDes, c.description as fullDes,
                 TIMESTAMPDIFF(day, c.date, CURRENT_TIME()) as lastUpdate,
