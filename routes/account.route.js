@@ -130,7 +130,7 @@ router.post("/login", async function (req, res) {
     }
   }
 
-  if (user === null) {
+  if (user === null || bcrypt.compareSync(req.body.password, user.password)===false) {
     return res.render("vwAccount/login", {
       layout: false,
       err_message: "Wrong username or password!",
