@@ -403,6 +403,7 @@ for (let i = 0; i < starWrappers.length; ++i) {
                           {{#unless ../isFisnish}}
 
                             {{#unless ../isEnrolled}}
+                            {{log "[sidebar btn] isEnrolled =" ../isEnrolled}}
                             <div
                               class="buy-box--buy-box-item--1Qbkl buy-box--add-to-cart-button--u5kCJ"
                             >
@@ -420,6 +421,7 @@ for (let i = 0; i < starWrappers.length; ++i) {
                             </div>
                             {{/unless}}
                             {{#unless ../isInWatchList}}
+                            {{log "[sidebar btn] isInWatchList =" ../isInWatchList}}
                             <div
                               class="udlite-clp-buy-button buy-box--buy-box-item--1Qbkl buy-box--buy-button--1mpz_"
                             >
@@ -1023,7 +1025,7 @@ for (let i = 0; i < starWrappers.length; ++i) {
                             {{section_.Title}}
                           </span>
 
-                          {{log "(section) auth:" ../../auth}}
+                          {{log "(section) auth =" ../../auth}}
                           {{#if ../../auth}}
                             {{#if ../../isEnrolled}}
                               {{#unless section_.isComplete}}
